@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="REV party" company="" webLink="http://" view-date="2021-10-25" view-index="0" gantt-divider-location="437" resource-divider-location="416" version="3.1.3103" locale="fr_FR">
+    <description>
+        <![CDATA[Auteur : CHARRIÈRE Lélio, L2 DIFS TPA11, lelio.charriere@univ-tlse3.fr
+UE : EDINF3G1, REV party, année civile 2021
+Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
+    </description>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="228" order="0"/>
+        <field id="tpd4" name="Date de début" width="103" order="1"/>
+        <field id="tpd5" name="Date de fin" width="102" order="2"/>
+        <option id="color.recent">
+            <![CDATA[#00cc66 #cc00cc #ff0000 #cccc00 #0099ff #339900 #00ff00]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="268" order="0"/>
+        <field id="1" name="Rôle par défaut" width="144" order="1"/>
+    </view>
+    <!-- -->
+    <calendars base-id="Aucun">
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="true"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+        <date year="2021" month="12" date="24" type="HOLIDAY"/>
+        <date year="2021" month="12" date="25" type="HOLIDAY"/>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="160" name="Makefile" color="#cc00cc" meeting="false" start="2021-11-07" duration="6" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <depend id="0" type="2" difference="0" hardness="Strong"/>
+            <depend id="151" type="2" difference="0" hardness="Strong"/>
+            <depend id="152" type="2" difference="43" hardness="Strong"/>
+            <task id="162" name="Apprendre Makefile" color="#8cb6ce" meeting="false" start="2021-11-07" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <depend id="163" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="163" name="Créer script makefile" color="#8cb6ce" meeting="false" start="2021-11-10" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="0" name="utils_sd" color="#8cb6ce" meeting="false" start="2021-11-13" duration="3" complete="0" thirdDate="2021-11-03" thirdDate-constraint="0" expand="true">
+            <depend id="6" type="2" difference="0" hardness="Strong"/>
+            <depend id="13" type="2" difference="3" hardness="Strong"/>
+            <depend id="39" type="2" difference="6" hardness="Strong"/>
+            <depend id="55" type="2" difference="0" hardness="Strong"/>
+            <depend id="100" type="2" difference="16" hardness="Strong"/>
+            <depend id="113" type="2" difference="0" hardness="Strong"/>
+            <depend id="114" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="6" name="liste" color="#8cb6ce" meeting="false" start="2021-11-16" duration="3" complete="0" thirdDate="2021-11-03" thirdDate-constraint="0" expand="true">
+            <depend id="55" type="2" difference="10" hardness="Strong"/>
+            <depend id="106" type="2" difference="20" hardness="Strong"/>
+            <depend id="126" type="2" difference="0" hardness="Strong"/>
+            <depend id="127" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="13" name="lecture_csv" color="#339900" meeting="false" start="2021-11-19" duration="3" complete="0" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true"/>
+        <task id="38" name="traitements_sd" color="#00cc66" meeting="false" start="2021-11-22" duration="10" complete="0" thirdDate="2021-11-26" thirdDate-constraint="0" expand="true">
+            <task id="39" name="creer_mat_duels" color="#8cb6ce" meeting="false" start="2021-11-22" duration="7" complete="0" thirdDate="2021-11-17" thirdDate-constraint="0" expand="true"/>
+            <task id="55" name="creer_liste_arcs" color="#0099ff" meeting="false" start="2021-11-29" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="98" name="utils_scrutins" color="#8cb6ce" meeting="false" start="2021-12-02" duration="14" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="100" name="vainqueur_uninominale" color="#8cb6ce" meeting="false" start="2021-12-02" duration="7" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <depend id="113" type="2" difference="7" hardness="Strong"/>
+                <depend id="114" type="2" difference="7" hardness="Strong"/>
+            </task>
+            <task id="106" name="vainqueurs_condorcet" color="#8cb6ce" meeting="false" start="2021-12-09" duration="7" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <depend id="126" type="2" difference="0" hardness="Strong"/>
+                <depend id="127" type="2" difference="3" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="85" name="uninominales" color="#cccc00" meeting="false" start="2021-12-16" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <depend id="153" type="2" difference="0" hardness="Strong"/>
+            <task id="113" name="uninominale_un_tour" color="#8cb6ce" meeting="false" start="2021-12-16" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+            <task id="114" name="uninominale_deux_tours" color="#8cb6ce" meeting="false" start="2021-12-16" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="125" name="condorcets" color="#ff0000" meeting="false" start="2021-12-16" duration="10" complete="0" thirdDate="2021-12-07" thirdDate-constraint="0" expand="true">
+            <depend id="153" type="2" difference="0" hardness="Strong"/>
+            <task id="126" name="condorcet_minimax" color="#8cb6ce" meeting="false" start="2021-12-16" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+            <task id="127" name="condorcet_shulze" color="#8cb6ce" meeting="false" start="2021-12-19" duration="7" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="151" name="main" color="#000000" meeting="false" start="2021-12-28" duration="13" complete="0" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
+            <task id="152" name="Traitement des arguments" color="#8cb6ce" meeting="false" start="2021-12-28" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <depend id="153" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="153" name="Programme principal" color="#8cb6ce" meeting="false" start="2021-12-31" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <depend id="158" type="2" difference="0" hardness="Strong"/>
+                <depend id="210" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="210" name="Affichage arcs Python" color="#8cb6ce" meeting="false" start="2022-01-03" duration="7" complete="0" thirdDate="2021-10-25" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="158" name="verifier_mon_vote" color="#8cb6ce" meeting="false" start="2022-01-03" duration="7" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="CHARRIÈRE Lélio" function="SoftwareDevelopment:2" contacts="lelio.charriere@univ-tlse3.fr" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="0" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="13" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="39" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="55" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="106" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="100" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="113" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="114" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="126" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="127" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="152" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="158" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="151" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+    </allocations>
+    <vacations>
+        <vacation start="2021-12-24" end="2022-01-02" resourceid="0"/>
+    </vacations>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
