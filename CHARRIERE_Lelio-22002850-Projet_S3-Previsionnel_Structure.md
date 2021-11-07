@@ -46,3 +46,32 @@ Voici une liste de ces fonctions triées par leur module :
 - `void creer_t_mat_int_dyn(t_mat_int_dyn *tab, int dim)` initialise la structure pour le matrice carrée d'entiers dynamique passé en paramètre avec la dimension demandée
 - `void creer_t_tab_char_star_dyn(t_tab_char_star_dyn *tab, int dim)` initialise la structure pour le tableau de chaînes de caractères dynamique passé en paramètre avec la dimension demandée
 - `void creer_t_mat_char_star_dyn(t_tab_char_star_dyn *tab, int dim)` initialise la structure pour le matrice carrée de chaines de caractères dynamique passé en paramètre avec la dimension demandée
+
+### liste
+
+Les déclarations des fonctions de ce module ont été fournies par Moodle.
+
+- `int nbEltList(liste lst)` retourne le nombre d'éléments contenus dans la liste donnée
+- `void createList(liste *p)` initialise la liste donnée en paramètre comme vide
+- `void addFrontList(liste *p, ElementListe e)` ajoute l'élément donné en paramètre au début de la liste donnée
+- `void addTailList(liste *p, ElementListe e)` ajoute l'élément donné à la fin de la liste
+- `void delTailList(liste *p)` supprime un élément à la fin de la liste donnée
+- `void delFrontList(liste *p)` supprime un élément au début de la liste donnée
+- `void headList(liste p, Elemenliste *e)` affecte au pointeur l'adresse de l'élément au début de la liste
+- `void tailList(liste p, Elemenliste *e)` affecte au pointeur l'adresse de l'élément à la fin de la liste
+- `bool emptyList(liste p)` renvoie un booléen indiquant si la liste est vide
+- `bool fullList(liste p)` renvoie un booléen indiquant si la liste est pleine
+- `void dumpList(liste p, FILE *fp)` affiche le contenu de la liste dans le flix de sortie donnée en paramètre
+- `void swapEltList(Elementliste *a, Elementliste *b)` échange les éléments aux adresses données de place dans leur liste
+- `void bubbleSortList(liste *p)` trie la liste par ordre décroissant en utilisant l'algorithme du tri à bulle
+- `void pickEltList(liste l, Elementliste *e,int index)` affecte l'adresse de l'élément ayant l'index donné au pointeur donné en paramètre
+- `bool belongEltList(liste p,Elementliste e)` renvoie un booléen indiquant si l'élément donné est présent dans la liste
+
+### elementliste
+
+Les déclarations des fonctions de ce module ont été fournies par Moodle.
+
+- `void saisie_element(Elementliste *e)` affiche un message de prompt et lis les informations sur l'entrée standard afin de construire un nouvel élément de liste : un arc
+- `void copie_element(Elementliste *cible, Elementliste source)` copie les données de l'élément source dans l'élément cible. *Ne modifie pas l'élément source*
+- `void afficher_element(Elementliste e, FILE *fp)` affiche les informations sur l'élément dans le flux de sortie donné en paramètre
+- `bool cmp_elements(Elementliste e1, Elementliste e2)` renvoie un booléen indiquant si les arcs représentés par les deux éléments donnés en paramètre sont identiques
