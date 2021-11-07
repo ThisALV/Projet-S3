@@ -6,3 +6,17 @@
 
 - `s_tab_int_dyn` un tableau d'entiers à taille dynamique. Il représente une ligne contenue dans une matrice d'entiers à taille dynanique (`s_mat_int_dyn`)
 - `s_mat_int_dyn` une matrice d'entiers à taille dynamique. Elle représente une matrice des duels, c'est-à-dire un tableau bidimensionnel des du score qu'à eu un candidat contre un autre candidat.
+- `s_tab_char_star_dyn` un tableau de strings (`char*`) à taille dynamique. Il représente une ligne contenue dans une matrice de strings à taille dynamique (`s_mat_char_star_dyn`)
+- `s_mat_char_star_dyn` une matrice de strings à taille dynamique. Elle représente les différentes valeurs (les mots) d'un fichier csv lu : chaque ligne représente une ligne du fichier csv et chaque colonne représente une valeur séparée par une séparateur donné (ici, `\t`)
+- `s_arc_p` un arc pondéré, c-est-à-dire une origine, une destination et un poids. L'origine est le point du candidat perdant, la destination le point du candidat gagnant et le poids le score du gagnant face au perdant. Cette structure a pour type associé `Elementliste` car c'est pour contenir plusieurs arcs que `liste` est utilisée.
+- `liste` une liste statique circulaire pouvant être utilisée comme une pile ou comme une file. Elle est utilisée pour contenir les arcs dans un graphe représentant le résultat d'un scrutin.
+
+## Fichiers d'en-tête
+
+La structure initiale du projet voudrait utiliser `global.h` pour déclarer toutes les fonctions et structures de données dedans, mais il est préférable d'utiliser des fichiers d'en-tête séparés pour chaque module.
+
+Ainsi, il est possible pour un utilisateur d'un module de n'inclure que celui-ci  (exemple : `utils_sd.h`) et d'éviter de polluer son environnement de travail (autocomplétion, etc.) avec les déclarations utiles pour les autres modules.
+
+- `global.h` contient un include vers tous les fichiers d'en-têtes du projet. En effet, certains programmes de tests fournis par Moodle utilisent toujours ce fichier, donc on s'assure de rester compatible avec eux.
+- `utils_sd.h` contient les déclarations des structures de données génériques, c'est-à-dire matrices et tableaux dynamiques d'entiers et de strings, ainsi que des fonctions utilitaires permettant leur création.
+- `liste.h` et `elementliste.h` en-têtes non modifiables fournies par Moodle, contiennent respectivement les définitions du type `liste`, des fonctions pour utiliser ce type (`liste.h`) et le type des données stockées dans cette liste ainsi que des fonctions permettant de manipuler ces éléments (`elementliste.h`).
