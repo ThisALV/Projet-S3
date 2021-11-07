@@ -28,3 +28,21 @@ Ainsi, il est possible pour un utilisateur d'un module de n'inclure que celui-ci
 - `condorcet.h` contient les fonctions pour les scrutins de condorcet avec les méthodes de résolution de paradoxe que sont Minimax et Shulze.
 
 *`main.c` et le programme `verifier_mon_vote` étant des scripts principaux utilisant les modules précédents sans en créer de nouveaux, ils ne possèdent pas d'en-tête.*
+
+## Fonctions
+
+Les déclarations des fonctions sont réparties dans les différents fichiers headers décrits [ci-dessus](#fichiers-den-tête).
+
+Voici une liste de ces fonctions triées par leur module :
+
+### utils_sd
+
+- `int* creer_tab_int(int dim)` retourne un tableau d'entiers à taille dynamique avec la dimension demandée
+- `int** creer_mat_int(int dim)` retourne une matrice **carrée** d'entiers dynamique à la dimension demandée
+- `char** creer_tab_char_star(int dim)` retourne un tableau de chaîne de caractères à taille dynamique avec la dimension demandée
+- `char*** creer_mat_char_star(int dim)` retourne une matrice **carrée** de chaînes de caractères à la dimension demandée
+
+- `void creer_t_tab_int_dyn(t_tab_int_dyn *tab, int dim)` initialise la structure pour le tableau d'entiers dynamique passé en paramètre avec la dimension demandée
+- `void creer_t_mat_int_dyn(t_mat_int_dyn *tab, int dim)` initialise la structure pour le matrice carrée d'entiers dynamique passé en paramètre avec la dimension demandée
+- `void creer_t_tab_char_star_dyn(t_tab_char_star_dyn *tab, int dim)` initialise la structure pour le tableau de chaînes de caractères dynamique passé en paramètre avec la dimension demandée
+- `void creer_t_mat_char_star_dyn(t_tab_char_star_dyn *tab, int dim)` initialise la structure pour le matrice carrée de chaines de caractères dynamique passé en paramètre avec la dimension demandée
