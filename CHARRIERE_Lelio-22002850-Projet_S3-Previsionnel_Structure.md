@@ -75,3 +75,12 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 - `void copie_element(Elementliste *cible, Elementliste source)` copie les données de l'élément source dans l'élément cible. *Ne modifie pas l'élément source*
 - `void afficher_element(Elementliste e, FILE *fp)` affiche les informations sur l'élément dans le flux de sortie donné en paramètre
 - `bool cmp_elements(Elementliste e1, Elementliste e2)` renvoie un booléen indiquant si les arcs représentés par les deux éléments donnés en paramètre sont identiques
+
+### lecture_csv
+
+- `void lire_fichier_vote(char* nom_fichier, char* separateur, t_mat_char_star_dyn *mots)` lis le fichier au chemin donné en format CSV et stocke les lignes et les mots séparés par le séparateur en paramètre dans la matrice dynamique en paramètre
+
+### traitements_sd
+
+- `void creer_mat_duels(t_mat_char_star_dyn ballots, t_mat_int_dyn *duels)` interpète la matrice de mots au format "ballots de vote" pour la stocker sans forme d'une matrice de duels
+- `void creer_liste_arcs(t_mat_int_dyn duels, liste* arcs)` créée un graphe des vainqueurs (ou liste des arcs) à partir d'une matrice de duels
