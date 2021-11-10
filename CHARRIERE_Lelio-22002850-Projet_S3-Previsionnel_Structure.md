@@ -89,3 +89,13 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 - `void obtenir_candidats_duels(t_mat_char_star_dyn duels, t_tab_char_star_dyn *candidats)` obtient la liste des noms des candidats depuis une matrice de duels et la stocke dans le tableau dynamique en paramètre
 - `void creer_mat_duels(t_mat_char_star_dyn ballots, t_mat_int_dyn *duels)` interpète la matrice de mots au format "ballots de vote" pour la stocker sans forme d'une matrice de duels
 - `void creer_liste_arcs(t_mat_int_dyn duels, liste* arcs)` créée un graphe des vainqueurs (ou liste des arcs) à partir d'une matrice de duels
+
+### utils_scrutins
+
+- `int vainqueur_uninominale(t_mat_int_dyn duels)` retourne l'ID du candidat vainqueur selon la méthode de scrutin uninominale. En cas d'égalité, l'âge stocké dans une BDD l'intérieur du module est utilisé pour déterminé le gagnant
+- `void vainqueurs_condorcet(liste arcs, t_tab_int_dyn *vainqueurs)` stocke les IDs des vainqueurs dans le tableau dynamique passé en paramètre. Il peut y avoir plusieurs vainqueurs, dans ce cas c'est la fonction appelante qui déterminera le gagnant
+
+### uninominales
+
+- `int uninominale_un_tour(t_mat_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominal à un tour
+- `int uninominale_deux_tours(t_mat_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tours sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle.
