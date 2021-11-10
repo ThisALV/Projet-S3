@@ -11,6 +11,8 @@
 - `s_arc_p` un arc pondéré, c-est-à-dire une origine, une destination et un poids. L'origine est le point du candidat perdant, la destination le point du candidat gagnant et le poids le score du gagnant face au perdant. Cette structure a pour type associé `Elementliste` car c'est pour contenir plusieurs arcs que `liste` est utilisée.
 - `liste` une liste statique circulaire pouvant être utilisée comme une pile ou comme une file. Elle est utilisée pour contenir les arcs dans un graphe représentant le résultat d'un scrutin.
 - `parametres` les options recueillies dans `argv`, interprétées et valides, afin de savoir de quelle manière le script principal sera exécuté (logs, méthode de scrutin, type des données en entrée).
+- `candidat` contient le nom alloué dynamiquement (`char*`) d'un candidat lu dans la matrice de mots ainsi que son ID (`int`)
+- `candidats` contient un tableau dynamqiue de `candidat` ainsi que le nombre de candidats
 
 ## Fichiers d'en-tête
 
@@ -21,7 +23,7 @@ Ainsi, il est possible pour un utilisateur d'un module de n'inclure que celui-ci
 - `global.h` contient un include vers tous les fichiers d'en-têtes du projet. En effet, certains programmes de tests fournis par Moodle utilisent toujours ce fichier, donc on s'assure de rester compatible avec eux.
 - `utils_sd.h` contient les déclarations des structures de données génériques, c'est-à-dire matrices et tableaux dynamiques d'entiers et de strings, ainsi que des fonctions utilitaires permettant leur création.
 - `liste.h` et `elementliste.h` en-têtes non modifiables fournies par Moodle, contiennent respectivement les définitions du type `liste`, des fonctions pour utiliser ce type (`liste.h`) et le type des données stockées dans cette liste ainsi que des fonctions permettant de manipuler ces éléments (`elementliste.h`).
-- `lecture_csv.h` fonction de lecture d'un fichier csv permettant d'obtenir une matrice des valeurs du fichier.
+- `lecture_csv.h` fonction de lecture d'un fichier csv permettant d'obtenir une matrice des valeurs du fichier
 - `traitements_sd.h` contient les fonctions qui interprètent les valeurs csv lu avec le module `lecture_csv` pour en faire une matrice de duels entre les candidats, qui sera elle-même transformée en graphe des vainqueurs composé de plusieurs arcs pondérés.
 - `utils_scrutins.h` contient les fonctions utilitaires permettant d'implémenter les algorithmes communs aux diverses méthodes de scrutin. Dans notre cas, nous avons `vainqueur_uninominal` et `vainqueurs _condorcet` qui seront utilisé par les différentes méthodes de scrutin.
 - `uninominales.h` contient les fonctions pour les scrutins uninominaux à un et deux tours, en utilisant le module `uninominale` pour obtenir le gagnant.
@@ -78,9 +80,12 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 
 ### lecture_csv
 
-- `void lire_fichier_vote(char* nom_fichier, char* separateur, t_mat_char_star_dyn *mots)` lis le fichier au chemin donné en format CSV et stocke les lignes et les mots séparés par le séparateur en paramètre dans la matrice dynamique en paramètre
+- `void lire_fichier_votes(char* nom_fichier, char* separateur, t_mat_char_star_dyn *mots)` lis le fichier au chemin donné en format CSV et stocke les lignes et les mots séparés par le séparateur en paramètre dans la matrice dynamique en paramètre
 
 ### traitements_sd
 
+- `void convertir_mat_duels(t_mat_char_star_dyn duels_str, t_mat_int_dyn *duels)` convertit la matrice de duels lue directement dans le fichier CSV avec lire_fichier_votes()(#lecturecsv) en une matrice d'entiers exploitable par les algorithmes de scrutin
+- `void obtenir_candidats_ballots(t_mat_char_star_dyn ballots, t_tab_char_star_dyn *candidats)` obtient la liste des noms des candidats depuis une liste de ballots et la stocke dans le tableau dynamique en paramètre
+- `void obtenir_candidats_duels(t_mat_char_star_dyn duels, t_tab_char_star_dyn *candidats)` obtient la liste des noms des candidats depuis une matrice de duels et la stocke dans le tableau dynamique en paramètre
 - `void creer_mat_duels(t_mat_char_star_dyn ballots, t_mat_int_dyn *duels)` interpète la matrice de mots au format "ballots de vote" pour la stocker sans forme d'une matrice de duels
 - `void creer_liste_arcs(t_mat_int_dyn duels, liste* arcs)` créée un graphe des vainqueurs (ou liste des arcs) à partir d'une matrice de duels
