@@ -93,9 +93,10 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 ### utils_scrutins
 
 - `int vainqueur_uninominale(t_mat_int_dyn duels)` retourne l'ID du candidat vainqueur selon la méthode de scrutin uninominale. En cas d'égalité, l'âge stocké dans une BDD l'intérieur du module est utilisé pour déterminé le gagnant
-- `void vainqueurs_condorcet(liste arcs, t_tab_int_dyn *vainqueurs)` stocke les IDs des vainqueurs dans le tableau dynamique passé en paramètre. Il peut y avoir plusieurs vainqueurs, dans ce cas c'est la fonction appelante qui déterminera le gagnant
+- `int vainqueur_condorcet(t_mat_int_dyn duels, t_tab_int_dyn *vainqueurs)` retourne l'ID du vainqueur de condorcet s'il y en a un, `CONDORCET_EGALITE` sinon, ce sera alors à la fonction appelante de déterminer le vainqueur avec son propre algorithme.
+Algo : on vérifie pour chaque ligne (candidat) si tous les duels sont gagnés, si c'est le cas on a notre vainqueur de condorcet. Si aucune ligne ne remplie ce critère, alors il n'y a pas de vainqueur de condorcet.
 
 ### uninominales
 
 - `int uninominale_un_tour(t_mat_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominal à un tour
-- `int uninominale_deux_tours(t_mat_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tours sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle.
+- `int uninominale_deux_tours(t_mat_int_dyn duels_tour1, t_mat_int_dyn duels_tour2)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tour sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle, mais on laisse la fonction appelante donner la matrice des duels en paramètre pour faciliter la flexibilité du programme et les tests unitaires.
