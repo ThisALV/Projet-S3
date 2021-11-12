@@ -94,6 +94,7 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 
 ### traitements_sd
 
+- `void tetes_de_listes(t_mat_char_star_dyn ballots, t_tab_int_dyn *tetes)` stocke les IDs du premier candidat de chaque ballots dans `tetes`
 - `void convertir_mat_duels(t_mat_char_star_dyn duels_str, t_mat_int_dyn *duels)` convertit la matrice de duels lue directement dans le fichier CSV avec lire_fichier_votes()(#lecturecsv) en une matrice d'entiers exploitable par les algorithmes de scrutin
 - `void obtenir_candidats_ballots(t_mat_char_star_dyn ballots, t_tab_char_star_dyn *candidats)` obtient la liste des noms des candidats depuis une liste de ballots et la stocke dans le tableau dynamique en paramètre
 - `void obtenir_candidats_duels(t_mat_char_star_dyn duels, t_tab_char_star_dyn *candidats)` obtient la liste des noms des candidats depuis une matrice de duels et la stocke dans le tableau dynamique en paramètre
@@ -102,15 +103,15 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 
 ### utils_scrutins
 
-- `int vainqueur_uninominale(t_mat_int_dyn duels)` retourne l'ID du candidat vainqueur selon la méthode de scrutin uninominale. En cas d'égalité, l'âge stocké dans une BDD l'intérieur du module est utilisé pour déterminé le gagnant
+- `int vainqueur_uninominale(t_tab_int_dyn tetes_listes)` retourne l'ID du candidat vainqueur selon la méthode de scrutin uninominale. En cas d'égalité, l'âge stocké dans une BDD l'intérieur du module est utilisé pour déterminé le gagnant
 - `int vainqueur_condorcet(t_mat_int_dyn duels, t_tab_int_dyn *vainqueurs)` retourne l'ID du vainqueur de condorcet s'il y en a un, `CONDORCET_EGALITE` sinon, ce sera alors à la fonction appelante de déterminer le vainqueur avec son propre algorithme.
 Algo : on vérifie pour chaque ligne (candidat) si tous les duels sont gagnés, si c'est le cas on a notre vainqueur de condorcet. Si aucune ligne ne remplie ce critère, alors il n'y a pas de vainqueur de condorcet.
 
 ### uninominales
 
-- `int uninominale_un_tour(t_mat_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominal à un tour
-- `int uninominale_deux_tours(t_mat_int_dyn duels_tour1, t_mat_int_dyn duels_tour2)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tour sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle si la 2ème matrice est vide (taille 0*0), sinon utilise cette 2ème matrice de duels pour simuler le second tour.
-- `void votes_second_tour(int candidat1, int candidat2, int nb_votants, t_mat_int_dyn *duels)` lance une simulation de votes pour avoir une nouvelle matrice de duels avec la méthode `uninominale_deux_tours`. Cette fonction sera chargée de l'appel au programme externe `votation.py`, incluant la création et la lecture des fichiers temporaires nécessaire à son fonctionnement et à l'obtention des résultat.
+- `int uninominale_un_tour(t_tab_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominal à un tour
+- `int uninominale_deux_tours(t_tab_int_dyn tetes_tour1, t_tab_int_dyn tetes_tour2)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tour sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle si le 2ème bleau des premiers de ballots (ou tetes de listes) est vide (taille 0*0), sinon utilise ce 2ème tableau des premiers de ballots pour simuler le second tour.
+- `void votes_second_tour(int candidat1, int candidat2, int nb_votants, t_tab_int_dyn *tetes_liste)` lance une simulation de votes pour avoir une nouvelle matrice de duels avec la méthode `uninominale_deux_tours`. Cette fonction sera chargée de l'appel au programme externe `votation.py`, incluant la création et la lecture des fichiers temporaires nécessaire à son fonctionnement et à l'obtention des résultat.
 
 ### condorcet_minimax
 
@@ -131,6 +132,7 @@ Algo : pour chaque ligne, on détermine le minimum, et on teste ensuite si ce mi
     - créer une BDD des candidats avec leur âge ainsi que leur ID associés à leur nom
     - construit la liste des arcs à partir de la matrice des duels
     - affiche le graphe des duels à l'aide du script externe Python
+    - **Si nécessaire :** construit le tableau des têtes de liste pour les méthodes `uninominales`
     - appel la ou les méthodes de scrutin demandée(s), affichant à chaque fois le résultat sous un même format
 
 ### verifier_mon_vote (autre programme)
