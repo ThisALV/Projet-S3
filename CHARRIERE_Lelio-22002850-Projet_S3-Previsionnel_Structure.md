@@ -2,7 +2,7 @@
 
 ## Structures de données
 
-*Les structs ci-dessous possèdent toutes un `typedef` où le préfixe `s_` est remplacé par `t_`, on pourra par exemple écrire `t_tab_int_dyn` à la place de `struct s_tab_int_dyn`.*
+*Les structs ci-dessous ayant pour préfixe `_s` possèdent toutes un `typedef` où ce préfixe est remplacé par `t_`, on pourra par exemple écrire `t_tab_int_dyn` à la place de `struct s_tab_int_dyn`.*
 
 - `s_tab_int_dyn` un tableau d'entiers à taille dynamique. Il représente une ligne contenue dans une matrice d'entiers à taille dynanique (`s_mat_int_dyn`)
 - `s_mat_int_dyn` une matrice d'entiers à taille dynamique. Elle représente une matrice des duels, c'est-à-dire un tableau bidimensionnel des du score qu'à eu un candidat contre un autre candidat.
@@ -10,8 +10,8 @@
 - `s_mat_char_star_dyn` une matrice de strings à taille dynamique. Elle représente les différentes valeurs (les mots) d'un fichier csv lu : chaque ligne représente une ligne du fichier csv et chaque colonne représente une valeur séparée par une séparateur donné (ici, `\t`)
 - `s_arc_p` un arc pondéré, c-est-à-dire une origine, une destination et un poids. L'origine est le point du candidat gagnant, la destination le point du candidat perdant et le poids le score du gagnant face au perdant. Cette structure a pour type associé `Elementliste` car c'est pour contenir plusieurs arcs que `liste` est utilisée.
 - `liste` une liste statique circulaire pouvant être utilisée comme une pile ou comme une file. Elle est utilisée pour contenir les arcs dans un graphe représentant le résultat d'un scrutin.
-- `parametres` les options recueillies dans `argv`, interprétées et valides, afin de savoir de quelle manière le script principal sera exécuté (logs, méthode de scrutin, type des données en entrée).
-- `candidat` contient le nom alloué dynamiquement (`char*`) d'un candidat lu dans la matrice de mots ainsi que son ID (`int`)
+- `s_parametres` les options recueillies dans `argv`, interprétées et valides, afin de savoir de quelle manière le script principal sera exécuté (logs, méthode de scrutin, type des données en entrée).
+- `s_candidat` contient le nom alloué dynamiquement (`char*`) d'un candidat lu dans la matrice de mots ainsi que son ID (`int`)
 - `candidats` contient un tableau dynamqiue de `candidat` ainsi que le nombre de candidats
 
 ## Fichiers d'en-tête
@@ -99,10 +99,23 @@ Algo : on vérifie pour chaque ligne (candidat) si tous les duels sont gagnés, 
 ### uninominales
 
 - `int uninominale_un_tour(t_mat_int_dyn duels)` retourne l'ID du gagnant sur un scrutin uninominal à un tour
-- `int uninominale_deux_tours(t_mat_int_dyn duels_tour1, t_mat_int_dyn duels_tour2)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tour sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle, mais on laisse la fonction appelante donner la matrice des duels en paramètre pour faciliter la flexibilité du programme et les tests unitaires.
+- `int uninominale_deux_tours(t_mat_int_dyn duels_tour1, t_mat_int_dyn duels_tour2)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tour sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle si la 2ème matrice est vide (taille 0*0), sinon utilise cette 2ème matrice de duels pour simuler le second tour.
+- `void votes_second_tour(int candidat1, int candidat2, int nb_votants, t_mat_int_dyn *duels)` lance une simulation de votes pour avoir une nouvelle matrice de duels avec la méthode `uninominale_deux_tours`. Cette fonction sera chargée de l'appel au programme externe `votation.py`, incluant la création et la lecture des fichiers temporaires nécessaire à son fonctionnement et à l'obtention des résultat.
 
 ### condorcets
 
 - `int condorcet_minimax(t_mat_int_dyn duels)` retourne l'ID du gagnant selon la méthode de condorcet, déterminé à l'aide de la méthode des minimax s'il n'y a pas de vainqueur de condorcet.
 Algo : pour chaque ligne, on détermine le minimum, et on teste ensuite si ce minimum est plus grand que le minimax actuellement stocké. Si c'est le cas, alors on le désigne comme étant le nouveau minimax et on sauvegarde le candidat (ligne) actuel pour le désigner comme nouveau vainqueur.
-- `int condorcet_shculze(t_mat_int_dyn duels, liste arcs)` retourne l'ID du gagnant selon la méthode de condorcet, déterminé à l'aide de la méthode de Shulze
+- `int condorcet_schulze(t_mat_int_dyn duels, liste arcs)` retourne l'ID du gagnant selon la méthode de condorcet, déterminé à l'aide de la méthode de Shulze laquelle utilisera un graphe (liste d'arcs) s'il n'y a aucun vainqueur de condorcet. Algo : basé sur [cette page](http://images.math.cnrs.fr/Et-le-vainqueur-du-second-tour-est.html)
+
+### main
+
+- `void traiter_parametres(int argc, const char argv**, t_parametres *params)` traite les arguments donnés au programme et stocke les informations interprétées (fichier d'entrée, type du fichier d'entrée, méthode de scrutin à utiliser...) dans `params`
+- `void afficher_graphe(liste arcs)` fait appel à un script Python externe en lui passant en entrée la liste des arcs à afficher
+- `int main(int argc, const char argv**)` script principal :
+    - interprète les arguments
+    - construit la matrice des duels en fonction des données lues dans le fichier d'entrée CSV
+    - créer une BDD des candidats avec leur âge ainsi que leur ID associés à leur nom
+    - construit la liste des arcs à partir de la matrice des duels
+    - affiche le graphe des duels à l'aide du script externe Python
+    - appel la ou les méthodes de scrutin demandée(s), affichant à chaque fois le résultat sous un même format
