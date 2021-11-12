@@ -1,5 +1,7 @@
 # Structure du projet S3 *REV party*
 
+**Ce document est une liste des fonctionnalités/modules/fonctions à implémenter afin de faire fonctionner le programme, le diagramme de Gantt `CHARRIERE_Lelio-22002850-Projet_S3-Previsionnel_Gantt.gan` contient les informations relatives à la gestion du temps sur ce projet.**
+
 *CHARRIÈRE Lélio*, 22002850
 
 EDINF3G1, *REV party*, année civile 2021
