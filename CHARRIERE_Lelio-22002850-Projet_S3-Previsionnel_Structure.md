@@ -28,7 +28,8 @@ Ainsi, il est possible pour un utilisateur d'un module de n'inclure que celui-ci
 Contient également des fonctions permettant d'obtenir une liste de candidats avec nom et ID à partir des valeurs lues dans le CSV, et ce pour les deux formats de fichiers possibles (ballots ou matrice de duels).
 - `utils_scrutins.h` contient les fonctions utilitaires permettant d'implémenter les algorithmes communs aux diverses méthodes de scrutin. Dans notre cas, nous avons `vainqueur_uninominal` et `vainqueur_condorcet` qui seront utilisé par les différentes méthodes de scrutin.
 - `uninominales.h` contient les fonctions pour les scrutins uninominaux à un et deux tours, en utilisant le module `uninominale` pour obtenir le gagnant.
-- `condorcet.h` contient les fonctions pour les scrutins de condorcet avec les méthodes de résolution de paradoxe que sont Minimax et Shulze.
+- `condorcet_minimax.h` contient la fonction pour le scrutin cherchant un vainqueur de condorcet, avec pour méthode de résolution la méthode du minimax.
+- `condorcet_schulze.h` contient la fonction pour le scrutin cherchant un vainqueur de condorcet, avec pour méthode de résolution la méthode du Schulze.
 
 *`main.c` et le programme `verifier_mon_vote` étant des scripts principaux utilisant les modules précédents sans en créer de nouveaux, ils ne possèdent pas d'en-tête.*
 
@@ -103,10 +104,13 @@ Algo : on vérifie pour chaque ligne (candidat) si tous les duels sont gagnés, 
 - `int uninominale_deux_tours(t_mat_int_dyn duels_tour1, t_mat_int_dyn duels_tour2)` retourne l'ID du gagnant sur un scrutin uninominale à deux tours. Les votes du 2ème tour sont gérés à l'aide d'un appel à un script python externe fournie depuis Moodle si la 2ème matrice est vide (taille 0*0), sinon utilise cette 2ème matrice de duels pour simuler le second tour.
 - `void votes_second_tour(int candidat1, int candidat2, int nb_votants, t_mat_int_dyn *duels)` lance une simulation de votes pour avoir une nouvelle matrice de duels avec la méthode `uninominale_deux_tours`. Cette fonction sera chargée de l'appel au programme externe `votation.py`, incluant la création et la lecture des fichiers temporaires nécessaire à son fonctionnement et à l'obtention des résultat.
 
-### condorcets
+### condorcet_minimax
 
 - `int condorcet_minimax(t_mat_int_dyn duels)` retourne l'ID du gagnant selon la méthode de condorcet, déterminé à l'aide de la méthode des minimax s'il n'y a pas de vainqueur de condorcet.
 Algo : pour chaque ligne, on détermine le minimum, et on teste ensuite si ce minimum est plus grand que le minimax actuellement stocké. Si c'est le cas, alors on le désigne comme étant le nouveau minimax et on sauvegarde le candidat (ligne) actuel pour le désigner comme nouveau vainqueur.
+
+### condorcet_schulze
+
 - `int condorcet_schulze(t_mat_int_dyn duels, liste arcs)` retourne l'ID du gagnant selon la méthode de condorcet, déterminé à l'aide de la méthode de Shulze laquelle utilisera un graphe (liste d'arcs) s'il n'y a aucun vainqueur de condorcet. Algo : basé sur [cette page](http://images.math.cnrs.fr/Et-le-vainqueur-du-second-tour-est.html)
 
 ### main
