@@ -80,7 +80,7 @@ Les déclarations des fonctions de ce module ont été fournies par Moodle.
 
 ### lecture_csv
 
-- `void lire_fichier_votes(char* nom_fichier, char* separateur, t_mat_char_star_dyn *mots)` lis le fichier au chemin donné en format CSV et stocke les lignes et les mots séparés par le séparateur en paramètre dans la matrice dynamique en paramètre
+- `void lire_fichier_votes(FILE* fichier_csv, char* separateur, t_mat_char_star_dyn *mots)` lis le fichier au chemin donné en format CSV et stocke les lignes et les mots séparés par le séparateur en paramètre dans la matrice dynamique en paramètre
 
 ### traitements_sd
 
@@ -119,3 +119,16 @@ Algo : pour chaque ligne, on détermine le minimum, et on teste ensuite si ce mi
     - construit la liste des arcs à partir de la matrice des duels
     - affiche le graphe des duels à l'aide du script externe Python
     - appel la ou les méthodes de scrutin demandée(s), affichant à chaque fois le résultat sous un même format
+
+### verifier_mon_vote (autre programme)
+
+*Le hashage du nom du votant donné en paramètre du programme sera effectué par les fonctions de SHA256 fournies par Moodle dans le mpdule `sha256_utils`.*
+
+- `void convertir_binaire(char* hash_hex, unsigned char* hash_binaire)` alloue sur la mémoire heap un tableau contenant les données binaires de `hash_hex`. Par exemple : pour `"06ff"` on allouera ce tableau d'`unsigned char` `{ 0x06, 0xff }`
+- `void hash_electeur(char* nom_electeur, char* cle_privee, char* hash_hex)` concatène le nom de l'électeur ainsi que sa clé privée, calcule le hash de la chaîne concaténée et le stocke au format hexadécimal dans `hash_hex`
+- `void chercher_vote(FILE* fichier_ballots, unsigned char* hash_electeur, t_tab_char_star_dyn* noms_candidats)` retourne la liste de vote de l'électeur désigné par le hash donné représentée par un tableau de `char*` dynamique du module `utils_sd`
+- `int main(int argc, const char argv**)` script principal :
+    - Lit le nom de l'électeur, le nom du fichier ballots CSV et la clé secrète, dans les paramètres s'il y en a, sinon dans stdin
+    - Obtient le hash de `électeur + clé privée`
+    - Ouvre le fichier de ballots et cherche la liste de votes à l'intérieur
+    - Affiche cette liste de votes dans stdout
