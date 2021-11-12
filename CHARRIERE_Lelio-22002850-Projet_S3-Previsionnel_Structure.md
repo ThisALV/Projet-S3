@@ -1,5 +1,11 @@
 # Structure du projet S3 *REV party*
 
+*CHARRIÈRE Lélio*, 22002850
+
+EDINF3G1, *REV party*, année civile 2021
+
+Avec pour tuteur *DUGAT Vincent*, `vincent.dugat@univ-tlse3.fr`
+
 ## Structures de données
 
 *Les structs ci-dessous ayant pour préfixe `_s` possèdent toutes un `typedef` où ce préfixe est remplacé par `t_`, on pourra par exemple écrire `t_tab_int_dyn` à la place de `struct s_tab_int_dyn`.*
