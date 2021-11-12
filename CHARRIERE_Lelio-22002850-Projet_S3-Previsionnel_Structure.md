@@ -25,7 +25,8 @@ Ainsi, il est possible pour un utilisateur d'un module de n'inclure que celui-ci
 - `liste.h` et `elementliste.h` en-têtes non modifiables fournies par Moodle, contiennent respectivement les définitions du type `liste`, des fonctions pour utiliser ce type (`liste.h`) et le type des données stockées dans cette liste ainsi que des fonctions permettant de manipuler ces éléments (`elementliste.h`).
 - `lecture_csv.h` fonction de lecture d'un fichier csv permettant d'obtenir une matrice des valeurs du fichier
 - `traitements_sd.h` contient les fonctions qui interprètent les valeurs csv lu avec le module `lecture_csv` pour en faire une matrice de duels entre les candidats, qui sera elle-même transformée en graphe des vainqueurs composé de plusieurs arcs pondérés.
-- `utils_scrutins.h` contient les fonctions utilitaires permettant d'implémenter les algorithmes communs aux diverses méthodes de scrutin. Dans notre cas, nous avons `vainqueur_uninominal` et `vainqueurs _condorcet` qui seront utilisé par les différentes méthodes de scrutin.
+Contient également des fonctions permettant d'obtenir une liste de candidats avec nom et ID à partir des valeurs lues dans le CSV, et ce pour les deux formats de fichiers possibles (ballots ou matrice de duels).
+- `utils_scrutins.h` contient les fonctions utilitaires permettant d'implémenter les algorithmes communs aux diverses méthodes de scrutin. Dans notre cas, nous avons `vainqueur_uninominal` et `vainqueur_condorcet` qui seront utilisé par les différentes méthodes de scrutin.
 - `uninominales.h` contient les fonctions pour les scrutins uninominaux à un et deux tours, en utilisant le module `uninominale` pour obtenir le gagnant.
 - `condorcet.h` contient les fonctions pour les scrutins de condorcet avec les méthodes de résolution de paradoxe que sont Minimax et Shulze.
 
