@@ -52,7 +52,7 @@ Voici une liste de ces fonctions triées par leur module :
 - `int* creer_tab_int(int dim)` retourne un tableau d'entiers à taille dynamique avec la dimension demandée
 - `int** creer_mat_int(int dim)` retourne une matrice **carrée** d'entiers dynamique à la dimension demandée
 - `char** creer_tab_char_star(int dim)` retourne un tableau de chaîne de caractères à taille dynamique avec la dimension demandée
-- `char*** creer_mat_char_star(int dim)` retourne une matrice **carrée** de chaînes de caractères à la dimension demandée
+- `char*** creer_mat_char_star(int rows, int cols)` retourne une matrice de chaînes de caractères à la dimension demandée
 
 - `void creer_t_tab_int_dyn(t_tab_int_dyn *tab, int dim)` initialise la structure pour le tableau d'entiers dynamique passé en paramètre avec la dimension demandée
 - `void creer_t_mat_int_dyn(t_mat_int_dyn *tab, int dim)` initialise la structure pour le matrice carrée d'entiers dynamique passé en paramètre avec la dimension demandée
