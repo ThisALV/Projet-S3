@@ -178,6 +178,7 @@ De plus, les tests unitaires sans effets de bords sans séparées des tests d'in
 Afin de maximiser le clean code en rendant les différents modules les plus indépendants possibles, aucune variable véritablement globale, c'est-à-dire déclarée hors de toute fonction, ne sera utilisée.
 
 Cependant, des variables créées dans le main pourront être passées en paramètres aux fonctions d'autres modules :
+
 - `struct candidats registre_candidats`
 - `t_mat_char_star_dyn fichier_contenu` contenu du fichier CSV lu
 - `t_mat_int_dyn duels` matrice des duels utilisée pour certaines méthodes et pour créer le graphe
