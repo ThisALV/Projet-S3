@@ -172,3 +172,14 @@ Le Makefile possèdera en tout 5 targets :
 Grâce à ce mode d'organisation, la `lib` compilée pourra être utilisée dans chaque exécutable, qu'il s'agisse du programme principal, de la consulation de votes ou des tests.
     
 De plus, les tests unitaires sans effets de bords sans séparées des tests d'intégrations avec effets de bords, et les tests sont eux-mêmes séparés des programmes utilisateur `scrutin` et `verifier_mon_vote`.
+
+## Variables globales
+
+Afin de maximiser le clean code en rendant les différents modules les plus indépendants possibles, aucune variable véritablement globale, c'est-à-dire déclarée hors de toute fonction, ne sera utilisée.
+
+Cependant, des variables créées dans le main pourront être passées en paramètres aux fonctions d'autres modules :
+- `struct candidats registre_candidats`
+- `t_mat_char_star_dyn fichier_contenu` contenu du fichier CSV lu
+- `t_mat_int_dyn duels` matrice des duels utilisée pour certaines méthodes et pour créer le graphe
+- `liste arcs` pour représenter le graphe qui sera affiché et utilisé par certaines méthodes de scrutin
+- `t_tab_int_dyn tetes_listes` pour représenter un tableau des premiers candidats de chaque ballots de votes
