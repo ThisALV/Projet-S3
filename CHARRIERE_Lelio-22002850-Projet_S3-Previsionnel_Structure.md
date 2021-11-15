@@ -39,6 +39,11 @@ Contient également des fonctions permettant d'obtenir une liste de candidats av
 - `condorcet_minimax.h` contient la fonction pour le scrutin cherchant un vainqueur de condorcet, avec pour méthode de résolution la méthode du minimax.
 - `condorcet_schulze.h` contient la fonction pour le scrutin cherchant un vainqueur de condorcet, avec pour méthode de résolution la méthode du Schulze.
 
+Ces deux derniers modules supplémentaires sont créés séparement de `main` et `verifier_mon_vote` afin qu'ils puissent être compilés à part et testés par la suite :
+
+- `utils_main.h` contient les fonctions de traitement des arguments et d'affichage du graphe du scrutin
+- `utils_verifier_mon_vote.h` contient les fonctions de hashage et de recherche des votes électeur dans un fichier de ballots
+
 *`main.c` et le programme `verifier_mon_vote` étant des scripts principaux utilisant les modules précédents sans en créer de nouveaux, ils ne possèdent pas d'en-tête.*
 
 ## Fonctions
@@ -122,10 +127,13 @@ Algo : pour chaque ligne, on détermine le minimum, et on teste ensuite si ce mi
 
 - `int condorcet_schulze(t_mat_int_dyn duels, liste arcs)` retourne l'ID du gagnant selon la méthode de condorcet, déterminé à l'aide de la méthode de Shulze laquelle utilisera un graphe (liste d'arcs) s'il n'y a aucun vainqueur de condorcet. Algo : basé sur [cette page](http://images.math.cnrs.fr/Et-le-vainqueur-du-second-tour-est.html)
 
-### main
+### utils_main
 
 - `void traiter_parametres(int argc, const char argv**, t_parametres *params)` traite les arguments donnés au programme et stocke les informations interprétées (fichier d'entrée, type du fichier d'entrée, méthode de scrutin à utiliser...) dans `params`
 - `void afficher_graphe(liste arcs)` fait appel à un script Python externe en lui passant en entrée la liste des arcs à afficher
+
+### main
+
 - `int main(int argc, const char argv**)` script principal :
     - interprète les arguments
     - construit la matrice des duels en fonction des données lues dans le fichier d'entrée CSV
@@ -139,11 +147,28 @@ Algo : pour chaque ligne, on détermine le minimum, et on teste ensuite si ce mi
 
 *Le hashage du nom du votant donné en paramètre du programme sera effectué par les fonctions de SHA256 fournies par Moodle dans le mpdule `sha256_utils`.*
 
-- `void convertir_binaire(char* hash_hex, unsigned char* hash_binaire)` alloue sur la mémoire heap un tableau contenant les données binaires de `hash_hex`. Par exemple : pour `"06ff"` on allouera ce tableau d'`unsigned char` `{ 0x06, 0xff }`
-- `void hash_electeur(char* nom_electeur, char* cle_privee, char* hash_hex)` concatène le nom de l'électeur ainsi que sa clé privée, calcule le hash de la chaîne concaténée et le stocke au format hexadécimal dans `hash_hex`
-- `void chercher_vote(FILE* fichier_ballots, unsigned char* hash_electeur, t_tab_char_star_dyn* noms_candidats)` retourne la liste de vote de l'électeur désigné par le hash donné représentée par un tableau de `char*` dynamique du module `utils_sd`
 - `int main(int argc, const char argv**)` script principal :
     - Lit le nom de l'électeur, le nom du fichier ballots CSV et la clé secrète, dans les paramètres s'il y en a, sinon dans stdin
     - Obtient le hash de `électeur + clé privée`
     - Ouvre le fichier de ballots et cherche la liste de votes à l'intérieur
     - Affiche cette liste de votes dans stdout
+
+### utils_verifier_mon_vote
+
+- `void convertir_binaire(char* hash_hex, unsigned char* hash_binaire)` alloue sur la mémoire heap un tableau contenant les données binaires de `hash_hex`. Par exemple : pour `"06ff"` on allouera ce tableau d'`unsigned char` `{ 0x06, 0xff }`
+- `void hash_electeur(char* nom_electeur, char* cle_privee, char* hash_hex)` concatène le nom de l'électeur ainsi que sa clé privée, calcule le hash de la chaîne concaténée et le stocke au format hexadécimal dans `hash_hex`
+- `void chercher_vote(FILE* fichier_ballots, unsigned char* hash_electeur, t_tab_char_star_dyn* noms_candidats)` retourne la liste de vote de l'électeur désigné par le hash donné représentée par un tableau de `char*` dynamique du module `utils_sd`
+
+## Makefile
+
+Le Makefile possèdera en tout 5 targets :
+
+- `lib`, qui compilera tous les fichiers sources de chaque module, excepté pour les fichiers `main.c` et `verifier_mon_vote.c` qui contiennent les points d'entrée de nos exécutables
+- `scrutin` qui dépendra de `lib`, en compilant en plus `main.c` pour ensuite créer le programme principal avec l'éditeur de lien
+- `verifier_mon_vote` qui dépendra de `lib`, en compilant en plus `verifier_mon_vote.c` pour ensuite créer le programme de consulation de son vote avec l'éditeur de lien
+- `tests_unitaires` dépendant de `lib`, compilera tous les fichiers sources avec le suffixe `_unitaires.c` (par exemple `utils_main_unitaires.c`) et créera le programme principal de tests unitaires à l'aide du fichier `main_unitaires.c`
+- `tests_integration` dépendant de `lib`, compilera tous les fichiers sources avec le suffixe `_integration.c` (par exemple `utils_main_integration.c`) et créera le programme principal de tests d'intégration à l'aide du fichier `main_integration.c`
+
+Grâce à ce mode d'organisation, la `lib` compilée pourra être utilisée dans chaque exécutable, qu'il s'agisse du programme principal, de la consulation de votes ou des tests.
+    
+De plus, les tests unitaires sans effets de bords sans séparées des tests d'intégrations avec effets de bords, et les tests sont eux-mêmes séparés des programmes utilisateur `scrutin` et `verifier_mon_vote`.
