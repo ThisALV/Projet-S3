@@ -42,14 +42,17 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="160" name="Makefile" color="#cc00cc" meeting="false" start="2021-11-15" duration="4" complete="50" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="160" name="Makefile" color="#cc00cc" meeting="false" start="2021-11-15" duration="4" complete="75" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <depend id="0" type="2" difference="0" hardness="Strong"/>
             <task id="162" name="Apprendre Makefile" color="#8cb6ce" meeting="false" start="2021-11-15" duration="2" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <depend id="163" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="163" name="Créer script makefile" color="#8cb6ce" meeting="false" start="2021-11-17" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="163" name="Créer script makefile" color="#8cb6ce" meeting="false" start="2021-11-17" duration="2" complete="50" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[- Les fichiers de test seront au format {module}.c dans les sous-répertoires tests/unitaires/ et tests/integration/ afin d'éviter de polluer le répertoire src/
+- La target lib avec la librairie statique lib.a ne sera pas créée car il n'y a pas d'automatisme dans Makefile pour créer des .a à partir des .o ni pour créer des exécutables à partir de .a
+- Création d'une target clean pour nettoyer les fichiers objects et les exécutables générés
+- Il faut rajouter une en-tête pour chaque fichier de tests de sorte que le script principal de test main_unitaires.c ou main_integration.c puisse appeller les fonctions de tests
 ]]>
                 </notes>
             </task>
