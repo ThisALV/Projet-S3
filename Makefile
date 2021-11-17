@@ -24,9 +24,9 @@ REP_BINAIRES_UNITS := $(REP_BINAIRES)/unitaires
 REP_BINAIRES_INTE := $(REP_BINAIRES)/integration
 
 # Les fichiers sources .c des tests unitaires sont dans "tests/unitaires"
-REP_UNITAIRES = tests/unitaires
+REP_UNITAIRES := tests/unitaires
 # Les fichiers sources .c des tests integration sont dans "tests/integration"
-REP_INTEGRATION = tests/integration
+REP_INTEGRATION := tests/integration
 
 # Fichiers sources .c contenant un "int main(...)" servant de script principal à
 # un exécutable du projet
