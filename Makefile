@@ -8,10 +8,10 @@ $(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $^ -o $(REP_BINAIRES)/$@
 @echo "Exécutable $@ généré dans le répertoire $(REP_BINAIRES) !"
 endef
 
-# Fonction appelée pour compiler le fichier .c de la target courante, en ignorant
-# les autres dépendances qui ne sont pas des fichiers sources
+# Fonction appelée pour compiler le fichier .c de la target courante
 define generer_objet
-$(CC) -c $(CPPFLAGS) $(CFLAGS) $(filter %.c, $^) -o $@
+@mkdir -p $(dir $@)
+$(CC) -c $(CPPFLAGS) $(CFLAGS) $^ -o $@
 endef
 
 # Les fichiers sources .c sont rangés dans le répertoire "src"
@@ -47,6 +47,7 @@ sources_integration := $(wildcard $(REP_INTEGRATION)/*.c)
 TESTS_UNITAIRES := $(patsubst $(REP_UNITAIRES)/%.c, $(REP_BINAIRES_UNITS)/%.o, $(sources_unitaires))
 TESTS_INTEGRATION := $(patsubst $(REP_INTEGRATION)/%.c, $(REP_BINAIRES_INTE)/%.o, $(sources_integration))
 
+
 # Programme principal : script main.c utilisant les modules
 scrutin: $(REP_SOURCES)/main.c $(MODULES)
 	$(generer_executable)
@@ -64,29 +65,18 @@ tests_integration: tests/main_integration.c $(TESTS_INTEGRATION) $(MODULES)
 	$(generer_executable)
 
 # Fichiers objets des modules compilés séparément dans "build" depuis "src"
-$(MODULES): $(REP_BINAIRES)/%.o: $(REP_SOURCES)/%.c $(REP_BINAIRES)
+$(MODULES): $(REP_BINAIRES)/%.o: $(REP_SOURCES)/%.c
 	$(generer_objet)
 # Fichiers objets des tests unitaires des modules compilés séparément dans
 # "build/unitaires" depuis "tests/unitaires"
-$(TESTS_UNITAIRES): $(REP_BINAIRES_UNITS)/%.o: $(REP_UNITAIRES)/%.c $(REP_BINAIRES) $(REP_BINAIRES_UNITS)
+$(TESTS_UNITAIRES): $(REP_BINAIRES_UNITS)/%.o: $(REP_UNITAIRES)/%.c
 	$(generer_objet)
 # Fichiers objets des tests d'intégration des modules compilés séparément dans
 # "build/integration" depuis "tests/integration"
-$(TESTS_INTEGRATION): $(REP_BINAIRES_INTE)/%.o: $(REP_INTEGRATION)/%.c $(REP_BINAIRES) $(REP_BINAIRES_INTE)
+$(TESTS_INTEGRATION): $(REP_BINAIRES_INTE)/%.o: $(REP_INTEGRATION)/%.c
 	mkdir -p $(REP_BINAIRES_INTE)
 	$(generer_objet)
 
-# Cette target est requise avant de générer n'importe quel fichier binaire,
-# elle s'assure que le dossier de sortie "build" existe
-# -p créer le répertoire uniquement s'il n'existe pas déjà
-$(REP_BINAIRES):
-	mkdir -p $(REP_BINAIRES)
-# Même principe pour le dossier de sortie des objets des tests unitaires
-$(REP_BINAIRES_UNITS):
-	mkdir -p $(REP_BINAIRES_UNITS)
-# Même principe pour le dossier de sortie des objets des tests d'intégration
-$(REP_BINAIRES_INTE):
-	mkdir -p $(REP_BINAIRES_INTE)
 
 # Nettoyer les binaires générés (.o et exécutables)
 clean:
