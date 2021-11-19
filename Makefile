@@ -93,3 +93,15 @@ clean:
 # clean est une tâche à effectuer de nouveau à chaque fois que l'utilisateur le
 # demande
 .PHONY: clean
+
+# Affiche un message d'aide quant à l'utilisateur de ce Makefile
+help:
+	@echo "Makefile du projet REV-party par Lélio CHARRIÈRE"
+	@echo "Targets disponibles :"
+	@echo "  scrutin           : Programme principale, exécution de scrutins"
+	@echo "  verifier_mon_vote : Programme pour regarder la liste de votes d'un utilisateur"
+	@echo "  tests_unitaires   : Tests unitaires pour les fonctions couvertes"
+	@echo "  tests_integration : Tests d'intégration pour les fonctions qui le nécessitent"
+# Comme pour clean, c'est une tâche de Makefile et aucun fichier n'est créé : il
+# faut la réexécuter à chaque fois
+.PHONY: help
