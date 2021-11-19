@@ -4,7 +4,7 @@ CFLAGS := -Iinclude/
 # Fonction appelée pour compiler l'exécutable de la target courante et afficher
 # un message à l'utilisateur
 define generer_executable
-$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $^ -o $(REP_BINAIRES)/$@
+$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $^ -o $@
 @echo "Exécutable $@ généré dans le répertoire $(REP_BINAIRES) !"
 endef
 
@@ -47,21 +47,30 @@ sources_integration := $(wildcard $(REP_INTEGRATION)/*.c)
 TESTS_UNITAIRES := $(patsubst $(REP_UNITAIRES)/%.c, $(REP_BINAIRES_UNITS)/%.o, $(sources_unitaires))
 TESTS_INTEGRATION := $(patsubst $(REP_INTEGRATION)/%.c, $(REP_BINAIRES_INTE)/%.o, $(sources_integration))
 
+# Noms des targets/exécutables que l'utilisateur de Make peut générer
+executables := scrutin verifier_mon_vote tests_unitaires tests_integration
+# Pour chacun de ses exécutables, on redirige vers la target préfixée de "build/",
+# qui est la target de fichier et qui se charger de la compilation et du linkage
+# si nécessaire
+$(executables): %: $(REP_BINAIRES)/%
+# Les targets ne commençant pas par "build/" ne sont pas les vrais chemins des
+# exécutables mais plutôt des raccourcis pour que l'utilisateur puisse les créer
+.PHONY: $(executables)
 
 # Programme principal : script main.c utilisant les modules
-scrutin: $(REP_SOURCES)/main.c $(MODULES)
+$(REP_BINAIRES)/scrutin: $(REP_SOURCES)/main.c $(MODULES)
 	$(generer_executable)
 # Consulation de son ballot de vote : script verifier_mon_vote.c qui utilise
 # des fonctions déjà codées dans les modules programmés
-verifier_mon_vote: $(REP_SOURCES)/verifier_mon_vote.c $(MODULES)
+$(REP_BINAIRES)/verifier_mon_vote: $(REP_SOURCES)/verifier_mon_vote.c $(MODULES)
 	$(generer_executable)
 # Tests unitaires : testent le comportement isolé des fonctions dans les différents
 # modules
-tests_unitaires: tests/main_unitaires.c $(TESTS_UNITAIRES) $(MODULES)
+$(REP_BINAIRES)/tests_unitaires: tests/main_unitaires.c $(TESTS_UNITAIRES) $(MODULES)
 	$(generer_executable)
 # Tests d'intégration : testent le comportement sur le système et sur le reste du
 # programme des fonctions dans les différents modules
-tests_integration: tests/main_integration.c $(TESTS_INTEGRATION) $(MODULES)
+$(REP_BINAIRES)/tests_integration: tests/main_integration.c $(TESTS_INTEGRATION) $(MODULES)
 	$(generer_executable)
 
 # Fichiers objets des modules compilés séparément dans "build" depuis "src"
@@ -81,3 +90,6 @@ $(TESTS_INTEGRATION): $(REP_BINAIRES_INTE)/%.o: $(REP_INTEGRATION)/%.c
 # Nettoyer les binaires générés (.o et exécutables)
 clean:
 	rm -rf build/
+# clean est une tâche à effectuer de nouveau à chaque fois que l'utilisateur le
+# demande
+.PHONY: clean
