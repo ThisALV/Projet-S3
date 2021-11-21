@@ -5,6 +5,8 @@
 #ifndef UTILS_SD_H
 #define UTILS_SD_H
 
+#include <stdbool.h>
+
 
 /// \struct Tableau d'entiers a taille dynamique
 struct s_tab_int_dyn {
@@ -53,45 +55,49 @@ struct s_arc_p {
 
 /// \fn Creer un tableau d'eniers dynamique
 /// \param[in] dim Taille du tableau cree
-/// \return Pointeur vers un tableau dynamique a la dimension dim
+/// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
 int* creer_tab_int(int dim);
 
 /// \fn Creer une matrice carree d'entiers dynamique
 /// \param[in] dim Longueur et hauteur de la matrice
-/// \return Pointeur vers une matrice dynamqiue a la dimension dim*dim
+/// \return Pointeur vers une matrice dynamqiue a la dimension dim*dim ou NULL en cas d'erreur
 int** creer_mat_int(int dim);
 
 /// \fn Creer un tableau de chaines de caracteres dynamique
 /// \param[in] dim Taille du tableau cree
-/// \return Pointeur vers un tableau dynamique a la dimension dim
+/// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
 char** creer_tab_char_star(int dim);
 
 /// \fn Creer une matrice de chaines de caracteres dynamique
 /// \param[in] lignes Hauteur de la matrice
 /// \param[in] colonnes Longueur d'une ligne de la matrice
-/// \return Pointeur vers une matrice dynamqiue a la dimension lignes*colonnes
+/// \return Pointeur vers une matrice dynamqiue a la dimension lignes*colonnes ou NULL en cas d'erreur
 char*** creer_mat_char_star(int lignes, int colonnes);
 
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
 /// \param[in] dim Taille du tableau
-void creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
+/// \return `true` si le tableau a bien ete initialise
+bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
 
 /// \fn Creer une matrice carree d'entiers dynamique
 /// \param[out] mat Matrice a initialiser
 /// \param[in] dim Longueur et hauteur de la matrice
-void creer_t_mat_int(t_mat_int_dyn* mat, int dim);
+/// \return `true` si la matrice a bien ete initialisee
+bool creer_t_mat_int(t_mat_int_dyn* mat, int dim);
 
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
 /// \param[in] dim Taille du tableau
-void creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
+/// \return `true` si le tableau a bien ete initialise
+bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
 
 /// \fn Creer une matrice de chaines de caracteres dynamique
 /// \param[out] mat Matrice a initialiser
 /// \param[in] lignes Hauteur de la matrice
 /// \param[in] colonnes Longueur d'une ligne de la matrice
-void creer_t_char_star_int(t_mat_char_star_dyn* mat, int lignes, int colonnes);
+/// \return `true` si la matrice a bien ete initialisee
+bool creer_t_char_star_int(t_mat_char_star_dyn* mat, int lignes, int colonnes);
 
 
 #endif // UTILS_SD_H
