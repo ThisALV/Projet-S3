@@ -15,7 +15,7 @@ void creer_tab_int_dim_negative();
 
 // creer_mat_int
 void creer_mat_int_dim_ok();
-void creer_tab_int_dim_negative();
+void creer_mat_int_dim_negative();
 
 // creer_tab_char_star
 void creer_tab_char_star_dim_ok();
@@ -30,16 +30,22 @@ void creer_mat_char_star_colonnes_negatif();
 void creer_t_tab_int_dyn_dim_ok();
 void creer_t_tab_int_dyn_dim_negative();
 
+// detruire_t_tab_int_dyn
+void detruire_t_tab_int_dyn();
+
 // creer_t_mat_int_dyn
 void creer_t_mat_int_dyn_dim_ok();
 void creer_t_mat_int_dyn_dim_negative();
 
-// detruire_t_int_star_dyn
+// detruire_t_mat_int_dyn
 void detruire_t_mat_int_dyn();
 
 // creer_t_tab_char_star
 void creer_t_tab_char_star_dim_ok();
 void creer_t_tab_char_star_dim_negative();
+
+// detruire_t_tab_char_star_dyn
+void detruire_t_tab_char_star_dyn();
 
 // creer_t_mat_char_star
 void creer_t_mat_char_star_dim_ok();
