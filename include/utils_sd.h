@@ -63,6 +63,11 @@ int* creer_tab_int(int dim);
 /// \return Pointeur vers une matrice dynamqiue a la dimension dim*dim ou NULL en cas d'erreur
 int** creer_mat_int(int dim);
 
+/// \fn Desalloue une matrice carree d'entiers dynamique
+/// \param[inout] mat Memoire a desallouer
+/// \param[in] dim Dimension de la matrice carree
+void detruire_mat_int(int** mat, int dim);
+
 /// \fn Creer un tableau de chaines de caracteres dynamique
 /// \param[in] dim Taille du tableau cree
 /// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
@@ -73,6 +78,11 @@ char** creer_tab_char_star(int dim);
 /// \param[in] colonnes Longueur d'une ligne de la matrice
 /// \return Pointeur vers une matrice dynamqiue a la dimension lignes*colonnes ou NULL en cas d'erreur
 char*** creer_mat_char_star(int lignes, int colonnes);
+
+/// \fn Desalloue une matrice de chaines de caracteres dynamique
+/// \param[inout] mat Memoire a desallouer
+/// \param[in] lignes Haute de la matrice
+void detruire_mat_char_star(char*** mat, int lignes);
 
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
