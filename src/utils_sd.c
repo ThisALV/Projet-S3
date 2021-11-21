@@ -79,6 +79,18 @@ bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim) {
     return mat->elems != NULL;
 }
 
+void detruire_t_mat_int_dyn(t_mat_int_dyn* mat) {
+    for (int i = 0; i < mat->dim; i++) {
+        // On desalloue chaque ligne
+        free(mat->elems[i]);
+    }
+
+    // Puis on desalloue le tableau des lignes
+    free(mat->elems);
+    // La matrice est dorenavant nulle
+    mat->dim = 0;
+}
+
 bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim) {
     tab->elems = creer_tab_char_star(dim);
     tab->taille = dim;
@@ -92,4 +104,17 @@ bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonne
     mat->colonnes = colonnes;
 
     return mat->elems != NULL;
+}
+
+void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat) {
+    for (int i = 0; i < mat->lignes; i++) {
+        // On desalloue chaque ligne
+        free(mat->elems[i]);
+    }
+
+    // Puis on desalloue le tableau des lignes
+    free(mat->elems);
+    // La matrice est dorenavant nulle
+    mat->lignes = 0;
+    mat->colonnes = 0;
 }

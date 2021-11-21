@@ -84,7 +84,11 @@ bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
 /// \param[out] mat Matrice a initialiser
 /// \param[in] dim Longueur et hauteur de la matrice
 /// \return `true` si la matrice a bien ete initialisee
-bool creer_t_mat_int(t_mat_int_dyn* mat, int dim);
+bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim);
+
+/// \fn Detruit proprement la matrice d'entiers dynamique en desallouant sa memoire
+/// \param[inout] mat Matrice a desallouee, la dimension sera mise a 0
+void detruire_t_mat_int_dyn(t_mat_int_dyn* mat);
 
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
@@ -98,6 +102,10 @@ bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
 /// \param[in] colonnes Longueur d'une ligne de la matrice
 /// \return `true` si la matrice a bien ete initialisee
 bool creer_t_char_star_int(t_mat_char_star_dyn* mat, int lignes, int colonnes);
+
+/// \fn Detruit proprement la matrice de chaines de caracteres dynamique en desallouant sa memoire
+/// \param[inout] mat Matrice a desallouee, les dimensions seront mises a 0
+void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat);
 
 
 #endif // UTILS_SD_H
