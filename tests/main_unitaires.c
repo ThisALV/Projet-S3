@@ -3,7 +3,9 @@
 
 
 int main() {
-    printf("Tests unitaires...\n");
+    printf("Tests unitaires pour utils_sd...\n");
+    tests_unitaires_utils_sd();
+    printf("Module OK !\n");
 
     return 0;
 }
