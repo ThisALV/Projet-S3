@@ -1,0 +1,97 @@
+/// \file Fonctions utilitaires pour utiliser les structures de donnees basiques
+/// \author CHARRIERE Lelio
+/// \date 21/11/2021
+
+#ifndef UTILS_SD_H
+#define UTILS_SD_H
+
+
+/// \struct Tableau d'entiers a taille dynamique
+struct s_tab_int_dyn {
+    /// Pointeur vers le tableau alloue en memoire
+    int* elems;
+    /// Taille du tableau
+    int taille;
+} typedef t_tab_int_dyn;
+
+/// \struct Matrice carree d'entiers a dimension dynamique
+struct s_mat_int_dyn {
+    /// Pointeur vers la matrice allouee en memoire
+    int** elems;
+    /// Longueur et hauteur de la matrice
+    int dim;
+} typedef t_mat_int_dyn;
+
+/// \struct Tableau de chaines de caracteres a taille dynamique
+struct s_tab_char_star_dyn {
+    /// Pointeur vers le tableau alloue en memoire
+    char** elems;
+    /// Taille du tableau
+    int taille;
+} typedef t_tab_char_star_dyn;
+
+/// \struct Matrice de chaines de caracteres a dimension dynamique
+struct s_mat_int_dyn {
+    /// Pointeur vers la matrice allouee en memoire
+    char*** elems;
+    /// Hauteur de la matrice
+    int lignes;
+    /// Longueur d'une ligne de la matrice
+    int colonnes;
+} typedef t_mat_char_star_dyn;
+
+/// \struct Arc pondere, defini par sa source, sa destination et son poids
+struct s_arc_p {
+    /// Source : ID du candidat ayant gagne le duel
+    int orig;
+    /// Destination : ID du candidant ayant perdu le duel
+    int dest;
+    /// Poids : nombre de voix pour le gagnant
+    int poids;
+} typedef t_arc_p;
+
+
+/// \fn Creer un tableau d'eniers dynamique
+/// \param[in] dim Taille du tableau cree
+/// \return Pointeur vers un tableau dynamique a la dimension dim
+int* creer_tab_int(int dim);
+
+/// \fn Creer une matrice carree d'entiers dynamique
+/// \param[in] dim Longueur et hauteur de la matrice
+/// \return Pointeur vers une matrice dynamqiue a la dimension dim*dim
+int** creer_mat_int(int dim);
+
+/// \fn Creer un tableau de chaines de caracteres dynamique
+/// \param[in] dim Taille du tableau cree
+/// \return Pointeur vers un tableau dynamique a la dimension dim
+char** creer_tab_char_star(int dim);
+
+/// \fn Creer une matrice de chaines de caracteres dynamique
+/// \param[in] lignes Hauteur de la matrice
+/// \param[in] colonnes Longueur d'une ligne de la matrice
+/// \return Pointeur vers une matrice dynamqiue a la dimension lignes*colonnes
+char*** creer_mat_char_star(int lignes, int colonnes);
+
+/// \fn Creer un tableau d'entiers dynamique
+/// \param[out] tab Tableau a initialiser
+/// \param[in] dim Taille du tableau
+void creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
+
+/// \fn Creer une matrice carree d'entiers dynamique
+/// \param[out] mat Matrice a initialiser
+/// \param[in] dim Longueur et hauteur de la matrice
+void creer_t_mat_int(t_mat_int_dyn* mat, int dim);
+
+/// \fn Creer un tableau d'entiers dynamique
+/// \param[out] tab Tableau a initialiser
+/// \param[in] dim Taille du tableau
+void creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
+
+/// \fn Creer une matrice de chaines de caracteres dynamique
+/// \param[out] mat Matrice a initialiser
+/// \param[in] lignes Hauteur de la matrice
+/// \param[in] colonnes Longueur d'une ligne de la matrice
+void creer_t_char_star_int(t_mat_char_star_dyn* mat, int lignes, int colonnes);
+
+
+#endif // UTILS_SD_H
