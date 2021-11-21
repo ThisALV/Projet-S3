@@ -119,7 +119,7 @@ void detruite_t_tab_char_star_dyn(t_tab_char_star_dyn* tab);
 /// \param[in] lignes Hauteur de la matrice
 /// \param[in] colonnes Longueur d'une ligne de la matrice
 /// \return `true` si la matrice a bien ete initialisee
-bool creer_t_char_star_int(t_mat_char_star_dyn* mat, int lignes, int colonnes);
+bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonnes);
 
 /// \fn Detruit proprement la matrice de chaines de caracteres dynamique en desallouant sa memoire
 /// \param[inout] mat Matrice a desallouee, les dimensions seront mises a 0
