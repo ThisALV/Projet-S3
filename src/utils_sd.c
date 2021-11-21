@@ -92,6 +92,13 @@ bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
     return tab->elems != NULL;
 }
 
+void detruite_t_tab_int_dyn(t_tab_int_dyn* tab) {
+    // On desalloue la memoire du tableau
+    free(tab->elems);
+    // Le tableau est dorenavant vide
+    tab->taille = 0;
+}
+
 bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim) {
     mat->elems = creer_mat_int(dim);
     mat->dim = dim;
@@ -111,6 +118,13 @@ bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim) {
     tab->taille = dim;
 
     return tab->elems != NULL;
+}
+
+void detruite_t_tab_char_star_dyn(t_tab_char_star_dyn* tab) {
+    // On desalloue la memoire du tableau
+    free(tab->elems);
+    // Le tableau est dorenavant vide
+    tab->taille = 0;
 }
 
 bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonnes) {
