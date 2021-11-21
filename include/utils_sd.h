@@ -92,7 +92,7 @@ bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
 
 /// \fn Detruit proprement le tableau d'entiers dynamique en desallouant sa memoire
 /// \param[inout] tab Tableau a desalloue, la dimension sera mise a 0
-void detruite_t_tab_int_dyn(t_tab_int_dyn* tab);
+void detruire_t_tab_int_dyn(t_tab_int_dyn* tab);
 
 /// \fn Creer une matrice carree d'entiers dynamique
 /// \param[out] mat Matrice a initialiser
@@ -112,7 +112,7 @@ bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
 
 /// \fn Detruit proprement le tableau de chaines de caracteres dynamique en desallouant sa memoire
 /// \param[inout] tab Tableau a desalloue, la dimension sera mise a 0
-void detruite_t_tab_char_star_dyn(t_tab_char_star_dyn* tab);
+void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab);
 
 /// \fn Creer une matrice de chaines de caracteres dynamique
 /// \param[out] mat Matrice a initialiser

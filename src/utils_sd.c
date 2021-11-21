@@ -92,7 +92,7 @@ bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
     return tab->elems != NULL;
 }
 
-void detruite_t_tab_int_dyn(t_tab_int_dyn* tab) {
+void detruire_t_tab_int_dyn(t_tab_int_dyn* tab) {
     // On desalloue la memoire du tableau
     free(tab->elems);
     // Le tableau est dorenavant vide
@@ -120,7 +120,7 @@ bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim) {
     return tab->elems != NULL;
 }
 
-void detruite_t_tab_char_star_dyn(t_tab_char_star_dyn* tab) {
+void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab) {
     // On desalloue la memoire du tableau
     free(tab->elems);
     // Le tableau est dorenavant vide

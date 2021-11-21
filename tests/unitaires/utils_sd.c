@@ -103,12 +103,12 @@ void creer_mat_char_star_dim_ok() {
 }
 
 // Avec une hauteur negative
-void creer_mat_char_star_lignes_negative() {
+void creer_mat_char_star_lignes_negatif() {
     assert(creer_mat_char_star(TAILLE_INVALIDE, TAILLE_VALIDE) == NULL);
 }
 
 // Avec une largeur negative
-void creer_mat_char_star_colonnes_negative() {
+void creer_mat_char_star_colonnes_negatif() {
     assert(creer_mat_char_star(TAILLE_VALIDE, TAILLE_INVALIDE) == NULL);
 }
 
@@ -149,7 +149,7 @@ void creer_t_tab_int_dyn_dim_negative() {
 // detruire_t_tab_int_dyn
 //
 
-void detruire_t_tab_int_dyn() {
+void detruire_t_tab_int_dyn_test() {
     t_tab_int_dyn tab;
 
     // Si l'initialisation du tableau echoue, alors le reste du test ne
@@ -208,7 +208,7 @@ void creer_t_mat_int_dyn_dim_negative() {
 // detruire_t_mat_int_dyn
 //
 
-void detruire_t_mat_int_dyn() {
+void detruire_t_mat_int_dyn_test() {
     t_mat_int_dyn mat;
 
     // Si l'initialisation de la matrice echoue, alors le reste du test ne
@@ -256,7 +256,7 @@ void creer_t_tab_char_star_dyn_dim_negative() {
 // detruire_t_tab_char_star_dyn
 //
 
-void detruire_t_tab_char_star_dyn() {
+void detruire_t_tab_char_star_dyn_test() {
     t_tab_char_star_dyn tab;
 
     // Si l'initialisation du tableau echoue, alors le reste du test ne
@@ -300,7 +300,7 @@ void creer_t_mat_char_star_dyn_dim_ok() {
 }
 
 // Avec une hauteur negative
-void creer_t_mat_char_star_dyn_lignes_negative() {
+void creer_t_mat_char_star_dyn_lignes_negatif() {
     t_mat_char_star_dyn mat;
 
     // On s'assure que l'initialisation a plantee
@@ -308,7 +308,7 @@ void creer_t_mat_char_star_dyn_lignes_negative() {
 }
 
 // Avec une largeur negative
-void creer_t_mat_char_star_dyn_colonnes_negative() {
+void creer_t_mat_char_star_dyn_colonnes_negatif() {
     t_mat_char_star_dyn mat;
 
     // On s'assure que l'initialisation a plantee
@@ -320,7 +320,7 @@ void creer_t_mat_char_star_dyn_colonnes_negative() {
 // detruire_t_mat_char_star_dyn
 //
 
-void detruire_t_mat_char_star_dyn() {
+void detruire_t_mat_char_star_dyn_test() {
     t_mat_char_star_dyn mat;
 
     // Si l'initialisation de la matrice echoue, alors le reste du test ne
@@ -355,13 +355,21 @@ void tests_unitaires_utils_sd() {
     creer_t_tab_int_dyn_dim_ok();
     creer_t_tab_int_dyn_dim_negative();
 
+    detruire_t_tab_int_dyn_test();
+
     creer_t_mat_int_dyn_dim_ok();
     creer_t_mat_int_dyn_dim_negative();
 
-    creer_t_tab_char_star_dim_ok();
-    creer_t_tab_char_star_dim_negative();
+    detruire_t_tab_char_star_dyn_test();
 
-    creer_t_mat_char_star_dim_ok();
-    creer_t_mat_char_star_lignes_negatif();
-    creer_t_mat_char_star_colonnes_negatif();
+    creer_t_tab_char_star_dyn_dim_ok();
+    creer_t_tab_char_star_dyn_dim_negative();
+
+    detruire_t_tab_char_star_dyn_test();
+
+    creer_t_mat_char_star_dyn_dim_ok();
+    creer_t_mat_char_star_dyn_lignes_negatif();
+    creer_t_mat_char_star_dyn_colonnes_negatif();
+
+    detruire_t_mat_char_star_dyn_test();
 }

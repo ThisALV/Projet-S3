@@ -31,29 +31,29 @@ void creer_t_tab_int_dyn_dim_ok();
 void creer_t_tab_int_dyn_dim_negative();
 
 // detruire_t_tab_int_dyn
-void detruire_t_tab_int_dyn();
+void detruire_t_tab_int_dyn_test();
 
 // creer_t_mat_int_dyn
 void creer_t_mat_int_dyn_dim_ok();
 void creer_t_mat_int_dyn_dim_negative();
 
 // detruire_t_mat_int_dyn
-void detruire_t_mat_int_dyn();
+void detruire_t_mat_int_dyn_test();
 
 // creer_t_tab_char_star
-void creer_t_tab_char_star_dim_ok();
-void creer_t_tab_char_star_dim_negative();
+void creer_t_tab_char_star_dyn_dim_ok();
+void creer_t_tab_char_star_dyn_dim_negative();
 
 // detruire_t_tab_char_star_dyn
-void detruire_t_tab_char_star_dyn();
+void detruire_t_tab_char_star_dyn_test();
 
 // creer_t_mat_char_star
-void creer_t_mat_char_star_dim_ok();
-void creer_t_mat_char_star_lignes_negatif();
-void creer_t_mat_char_star_colonnes_negatif();
+void creer_t_mat_char_star_dyn_dim_ok();
+void creer_t_mat_char_star_dyn_lignes_negatif();
+void creer_t_mat_char_star_dyn_colonnes_negatif();
 
 // detruire_t_char_star_star_dyn
-void detruire_t_mat_char_star_dyn();
+void detruire_t_mat_char_star_dyn_test();
 
 /// \fn Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_sd();
