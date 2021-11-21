@@ -33,7 +33,7 @@ struct s_tab_char_star_dyn {
 } typedef t_tab_char_star_dyn;
 
 /// \struct Matrice de chaines de caracteres a dimension dynamique
-struct s_mat_int_dyn {
+struct s_mat_char_star_dyn {
     /// Pointeur vers la matrice allouee en memoire
     char*** elems;
     /// Hauteur de la matrice
