@@ -42,7 +42,7 @@ void creer_tab_int_dim_negative() {
 
 // Avec une dimension strictement positive
 void creer_mat_int_dim_ok() {
-    int* mat = creer_mat_int(TAILLE_VALIDE);
+    int** mat = creer_mat_int(TAILLE_VALIDE);
 
     assert(mat != NULL); // Verifie que la memoire est allouee pour les lignes
     for (int i = 0; i < TAILLE_VALIDE; i++) {
@@ -89,11 +89,11 @@ void creer_tab_char_star_dim_negative() {
 
 // Avec une dimension strictement positive
 void creer_mat_char_star_dim_ok() {
-    int* mat = creer_mat_char_star(TAILLE_VALIDE, 10);
+    char*** mat = creer_mat_char_star(TAILLE_VALIDE, 10);
 
     assert(mat != NULL); // Verifie que la memoire est allouee pour les lignes
     for (int i = 0; i < TAILLE_VALIDE; i++) {
-        int* tab = mat[i];
+        char** tab = mat[i];
 
         // Verifie que la memoire est allouee pour les colonnes de cette ligne
         assert(tab != NULL);
@@ -291,7 +291,7 @@ void creer_t_mat_char_star_dyn_dim_ok() {
 
     // On verifie que chaque ligne est allouee en memoire
     for (int i = 0; i < TAILLE_VALIDE; i++) {
-        char* ligne = mat.elems[i];
+        char** ligne = mat.elems[i];
 
         assert(ligne != NULL);
     }
