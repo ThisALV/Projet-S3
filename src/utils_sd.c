@@ -95,6 +95,9 @@ bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
 void detruire_t_tab_int_dyn(t_tab_int_dyn* tab) {
     // On desalloue la memoire du tableau
     free(tab->elems);
+
+    // Il n'y a plus de memoire pour cette structure de donnees
+    tab->elems = NULL;
     // Le tableau est dorenavant vide
     tab->taille = 0;
 }
@@ -109,6 +112,9 @@ bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim) {
 void detruire_t_mat_int_dyn(t_mat_int_dyn* mat) {
     // On desalloue la memoire de la matrice
     detruire_mat_int(mat->elems, mat->dim);
+
+    // Il n'y a plus de memoire pour cette structure de donnees
+    mat->elems = NULL;
     // La matrice est dorenavant nulle
     mat->dim = 0;
 }
@@ -123,6 +129,8 @@ bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim) {
 void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab) {
     // On desalloue la memoire du tableau
     free(tab->elems);
+
+    tab->elems = NULL;
     // Le tableau est dorenavant vide
     tab->taille = 0;
 }
@@ -138,6 +146,9 @@ bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonne
 void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat) {
     // On desalloue la memoire de la matrice
     detruire_mat_char_star(mat->elems, mat->lignes);
+
+    // Il n'y a plus de memoire pour cette structure de donnees
+    mat->elems = NULL;
     // La matrice est dorenavant nulle
     mat->lignes = 0;
     mat->colonnes = 0;
