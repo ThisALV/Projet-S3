@@ -3,7 +3,9 @@
 
 
 int main() {
-    printf("Tests d'integration...\n");
+    printf("Tests d'integration pour lecture_csv...\n");
+    tests_integration_lecture_csv();
+    printf("Module OK !\n");
 
     return 0;
 }
