@@ -67,6 +67,9 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
 
             // Et on copie le mot dans la matrice
             strcpy(ligne_mat[colonne_i], mot);
+
+            // Enfin, passe au mot suivant
+            mot = strtok(NULL, separateurs);
         }
     }
 }
