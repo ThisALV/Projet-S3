@@ -71,5 +71,10 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
             // Enfin, passe au mot suivant
             mot = strtok(NULL, separateurs);
         }
+
+        char* dernier_mot = mots->elems[ligne_i][mots->colonnes - 1];
+        // On remplace supprime le saut de ligne \n en avancant la fin de la chaine
+        // de caracteres
+        dernier_mot[strlen(dernier_mot) - 1] = '\0';
     }
 }
