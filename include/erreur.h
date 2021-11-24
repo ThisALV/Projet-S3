@@ -6,6 +6,9 @@
 #ifndef ERREUR_H
 #define ERREUR_H
 
+/// \def Code retourne par le processus lorsqu'une erreur interne se produit
+#define ERR_INTERNE 2
+
 /// \fn Verifie qu'une allocation memoire s'est bien deroulee, sinon signale une erreur fatale
 /// \param[in] mem Memoire retournee par malloc/realloc/calloc
 /// \param[in] message Message a afficher en cas d'erreur d'allocation

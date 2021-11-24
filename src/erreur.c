@@ -6,7 +6,7 @@
 
 void verifier_alloc(void* mem, char* message) {
     if (mem == NULL) // Le code 2 signale une erreur interne au processus
-        erreur_fatale(2, message);
+        erreur_fatale(ERR_INTERNE, message);
 }
 
 void erreur_fatale(int code, char* message) {
