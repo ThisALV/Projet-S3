@@ -1,4 +1,4 @@
-/// \file Fonction pour lire un fichier CSV depuis le systeme de fichiers et en extraire les valeurs separees
+/// \file Fonctions pour lire le fichier CSV et l'interpreter en initialisant les SDD contenant les votes
 /// \author CHARRIERE Lelio
 /// \date 22/11/2021
 
