@@ -1,11 +1,10 @@
 #include <utils_sd.h>
 
 #include <stdlib.h>
+#include <erreur.h>
 
 // Utilisee sur les dimensions des SDD pour verifier leur validite
 #define VERIFIER_DIM(dim) if (dim < 1) return NULL
-// Utilisee sur les pointeurs pour verifier que de la memoire a ete allouee
-#define VERIFIER_MEM(ptr) if (ptr == NULL) return NULL
 
 
 // Les appels a calloc() plutot qu'a malloc permettent d'avoir tous les
@@ -23,13 +22,13 @@ int** creer_mat_int(int dim) {
     // Chaque ligne est un pointeur vers un tableau dynamique d'entiers
     int** lignes = (int**) malloc(sizeof(int*) * dim);
     // Avant d'ecrire dans ce tableau, on verifie qu'il a bien ete alloue
-    VERIFIER_MEM(lignes);
+    verifier_alloc(lignes, "Allocation matrice entiers");
 
     // On initialise chacune de ces lignes avec un tableau de taille dim
     for (int i = 0; i < dim; i++) {
         int* ligne =  creer_tab_int(dim);
         // On verifie que chaque ligne soit allouee correctement
-        VERIFIER_MEM(ligne);
+        verifier_alloc(ligne, "Allocation ligne entiers");
 
         lignes[i] = ligne;
     }
@@ -60,12 +59,13 @@ char*** creer_mat_char_star(int lignes, int colonnes) {
 
     // Chaque ligne est un pointeur vers un tableau dynamique de chaines de caracteres
     char*** hauteur = (char***) malloc(sizeof(char**) * lignes);
+    verifier_alloc(hauteur, "Allocation matrice char*");
 
     // On initialise chacune de ces lignes avec un tableau de taille colonnes
     for (int i = 0; i < lignes; i++) {
         char** ligne = creer_tab_char_star(colonnes);
         // On verifie que chaque ligne soit allouee correctement
-        VERIFIER_MEM(ligne);
+        verifier_alloc(ligne, "Allocation ligne char*");
 
         hauteur[i] = ligne;
     }

@@ -2,22 +2,11 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <erreur.h>
 
 // Selon les exemples fournis par Moodle, aucun CSV n'aura une lignes
 // de plus de 1024 colonnes
 #define LIGNE_MAX_TAILLE 1024
-
-// Utilisee apres chaque appel a realloc/malloc pour verifier si la memoire a
-// bien ete allouee et, si ce n'est pas le cas, mettre la matrice de char* en mode
-// erreur
-#define VERIFIER_ALLOC(ptr, mots)\
-    if (ptr == NULL) {\
-        mots->lignes = -1;\
-        mots->colonnes = -1;\
-        mots->elems = NULL;\
-        \
-        return;\
-    }
 
 
 void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dyn* mots) {
@@ -37,7 +26,7 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
         // On alloue une nouvelle case dans le tableau des lignes
         // pour contenir le pointeur vers la memoire de la nouvelle ligne
         mots->elems = (char***) realloc(mots->elems, mots->lignes * sizeof(char**));
-        VERIFIER_ALLOC(mots->elems, mots);
+        verifier_alloc(mots->elems, "Allocation matrice CSV");
 
         // On met la memoire de la nouvelle ligne a NULL, comme
         // ca au premier realloc qui devra lui donner de la memoire
@@ -58,12 +47,12 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
             // On alloue la memoire pour une nouvelle colonne de cette ligne
             mots->elems[ligne_i] = (char**) realloc(mots->elems[ligne_i], mots->colonnes * sizeof(char*));
             char** ligne_mat = mots->elems[ligne_i];
-            VERIFIER_ALLOC(ligne_mat, mots);
+            verifier_alloc(ligne_mat, "Allocation ligne CSV");
 
             // On alloue dans cette dans colonne un tableau de caracteres suffisament grand
             // pour contenir le prochainn mot de la ligne
             ligne_mat[colonne_i] = (char*) malloc(strlen(mot) * sizeof(char));
-            VERIFIER_ALLOC(ligne_mat[colonne_i], mots);
+            verifier_alloc(ligne_mat[colonne_i], "Allocation mot CSV");
 
             // Et on copie le mot dans la matrice
             strcpy(ligne_mat[colonne_i], mot);
