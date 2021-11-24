@@ -16,5 +16,10 @@
 /// \param[out] mots Matrice qui contiendra dans chaque ligne les mots lues dans le fichier
 void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dyn* mots);
 
+/// \fn Convertit la matrice de mots CSV en une matrice de duels entre les candidats
+/// \param[in] mots_csv Duels au format CSV brut lus dans le fichier
+/// \param[out] duels Matrice de duels contenant des entiers representant les scores en %. Vaudra NULL en cas d'erreur recuperable.
+void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels);
+
 
 #endif // LECTURE_CSV_H

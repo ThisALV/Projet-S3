@@ -67,3 +67,34 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
         dernier_mot[strlen(dernier_mot) - 1] = '\0';
     }
 }
+
+void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
+    // En excluant l'en-tete, la matrice doit etre carree
+    if (mots_csv.lignes != (mots_csv.colonnes + 1)) {
+        duels = NULL;
+        return;
+    }
+
+    // On creer la matrice carree de meme taille sans l'en-tete que celle des mots CSV
+    if (!creer_t_mat_int_dyn(duels, mots_csv.lignes)) {
+        // On traite l'erreur en cas de dim invalide pour la matrice d'entiers
+        duels = NULL;
+        return;
+    }
+
+    // Pour chaque ligne, en commencant par l'indince 1 pour ignorer l'en-tete
+    for (int i = 1; i < mots_csv.lignes; i++) {
+        for (int j = 0; j < mots_csv.colonnes; j++) {
+            int score = atoi(mots_csv.elems[i][j]);
+
+            // Si on a une valeur 0 qui n'est pas sur la diagonale, alors la matrice
+            // est mal formee ou une case n'a pas pu etre lue
+            if (score == 0 && j != (i - 1)) {
+                // Une alloc a deja ete faite, c'est donc une erreur fatale
+                erreur_fatale(ERR_INTERNE, "Matrice duels malformee");
+            }
+
+            duels->elems[i][j] = score; // On enregistre le score numerique dans les duels
+        }
+    }
+}

@@ -63,7 +63,7 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
         <task id="0" name="utils_sd" color="#993300" meeting="false" start="2021-11-19" duration="1" complete="100" thirdDate="2021-11-03" thirdDate-constraint="0" expand="true">
             <depend id="13" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="13" name="lecture_csv" color="#339900" meeting="false" start="2021-11-20" duration="12" complete="23" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
+        <task id="13" name="lecture_csv" color="#339900" meeting="false" start="2021-11-20" duration="12" complete="26" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[- Le module traitements_sd n'existant pas dans le CdC fourni par Moodle, ses fonctions ont été déplacées dans lecture_csv]]>
             </notes>
@@ -73,7 +73,7 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
                 <depend id="460" type="2" difference="0" hardness="Strong"/>
                 <depend id="461" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="459" name="convertir_mat_duels" color="#8cb6ce" meeting="false" start="2021-11-23" duration="1" complete="0" thirdDate="2021-11-24" thirdDate-constraint="0" expand="true"/>
+            <task id="459" name="convertir_mat_duels" color="#8cb6ce" meeting="false" start="2021-11-23" duration="1" complete="50" thirdDate="2021-11-24" thirdDate-constraint="0" expand="true"/>
             <task id="460" name="obtenir_candidats_duels" color="#8cb6ce" meeting="true" start="2021-11-23" duration="0" complete="0" thirdDate="2021-11-15" thirdDate-constraint="0" expand="true"/>
             <task id="461" name="obtenir_candidats_ballots" color="#8cb6ce" meeting="false" start="2021-11-23" duration="1" complete="0" thirdDate="2021-11-15" thirdDate-constraint="0" expand="true">
                 <depend id="462" type="2" difference="0" hardness="Strong"/>
