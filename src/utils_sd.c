@@ -83,6 +83,12 @@ void detruire_mat_char_star(char*** mat, int lignes) {
     free(mat);
 }
 
+t_candidat* creer_tab_candidats(int dim) {
+    VERIFIER_DIM(dim);
+
+    return (t_candidat*) malloc(sizeof(t_candidat) * dim);
+}
+
 bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
     tab->elems = creer_tab_int(dim);
     tab->taille = dim;
@@ -152,4 +158,22 @@ void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat) {
     // La matrice est dorenavant nulle
     mat->lignes = 0;
     mat->colonnes = 0;
+}
+
+bool creer_t_candidats_dyn(t_candidats* tab, int dim) {
+    // On procede comme pour la creation des autres tableaux dynamiques
+    
+    tab->elems = creer_tab_candidats(dim);
+    tab->nb = dim;
+
+    return tab->elems != NULL;
+}
+
+void detruire_t_candidats_dyn(t_candidats* tab) {
+    // On procede comme pour la destruction des autres tableaux dynamiques
+    
+    free(tab->elems);
+
+    tab->elems = NULL;
+    tab->nb = 0;
 }

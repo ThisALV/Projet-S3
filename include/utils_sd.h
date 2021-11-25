@@ -52,8 +52,24 @@ struct s_arc_p {
     int poids;
 } typedef t_arc_p;
 
+/// \struct Candidat pour lequel un electeur peut voter
+struct s_candidat {
+    /// Nom dynamiquement alloue
+    char* nom;
+    /// Identifiant qui est utilise dans les algorithmes
+    int id;
+} typedef t_candidat;
 
-/// \fn Creer un tableau d'eniers dynamique
+/// \struct Liste des candidats participant a une election
+struct s_candidats {
+    /// Tableau dynamique des candidats
+    t_candidat* elems;
+    /// Nombre de candidats participant a l'election
+    int nb;
+} typedef t_candidats;
+
+
+/// \fn Creer un tableau d'entiers dynamique
 /// \param[in] dim Taille du tableau cree
 /// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
 int* creer_tab_int(int dim);
@@ -85,13 +101,18 @@ char*** creer_mat_char_star(int lignes, int colonnes);
 void detruire_mat_char_star(char*** mat, int lignes);
 
 /// \fn Creer un tableau d'entiers dynamique
+/// \param[in] dim Taille du tableau cree
+/// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
+t_candidat* creer_tab_candidats(int dim);
+
+/// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
 /// \param[in] dim Taille du tableau
 /// \return `true` si le tableau a bien ete initialise
 bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
 
 /// \fn Detruit proprement le tableau d'entiers dynamique en desallouant sa memoire
-/// \param[inout] tab Tableau a desalloue, la dimension sera mise a 0 et le pointeur ira vers NULL
+/// \param[inout] tab Tableau a desallour, la dimension sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_tab_int_dyn(t_tab_int_dyn* tab);
 
 /// \fn Creer une matrice carree d'entiers dynamique
@@ -101,7 +122,7 @@ void detruire_t_tab_int_dyn(t_tab_int_dyn* tab);
 bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim);
 
 /// \fn Detruit proprement la matrice d'entiers dynamique en desallouant sa memoire
-/// \param[inout] mat Matrice a desallouee, la dimension sera mise a 0 et le pointeur ira vers NULL
+/// \param[inout] mat Matrice a desallouer, la dimension sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_mat_int_dyn(t_mat_int_dyn* mat);
 
 /// \fn Creer un tableau d'entiers dynamique
@@ -111,7 +132,7 @@ void detruire_t_mat_int_dyn(t_mat_int_dyn* mat);
 bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
 
 /// \fn Detruit proprement le tableau de chaines de caracteres dynamique en desallouant sa memoire
-/// \param[inout] tab Tableau a desalloue, la dimension sera mise a 0 et le pointeur ira vers NULL
+/// \param[inout] tab Tableau a desallouer, la dimension sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab);
 
 /// \fn Creer une matrice de chaines de caracteres dynamique
@@ -122,8 +143,18 @@ void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab);
 bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonnes);
 
 /// \fn Detruit proprement la matrice de chaines de caracteres dynamique en desallouant sa memoire
-/// \param[inout] mat Matrice a desallouee, les dimensions seront mises a 0 et le pointeur ira vers NULL
+/// \param[inout] mat Matrice a desallouer, les dimensions seront mises a 0 et le pointeur ira vers NULL
 void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat);
+
+/// \fn Creer un tableau de candidats dynamique
+/// \param[in] dim Nombre de candidats, la taille du tableau
+/// \param[out] tab Tableau a initialiser
+/// \return `true` si le tableau a bien ete initialise
+bool creer_t_candidats_dyn(t_candidats* tab, int dim);
+
+/// \fn Detruit proprement le tableau de candidats en desallouant sa memoire
+/// \param[inout] tab Tableau a desallouer, la taille sera mise a 0 et le pointeur ira vers NULL
+void detruire_t_candidats_dyn(t_candidats* tab);
 
 
 #endif // UTILS_SD_H
