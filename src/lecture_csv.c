@@ -104,14 +104,18 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
 void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     // En excluant l'en-tete, la matrice doit etre carree
     if (mots_csv.lignes != (mots_csv.colonnes + 1)) {
-        duels = NULL;
+        duels->elems = NULL;
+        duels->dim = -1;
+
         return;
     }
 
     // On creer la matrice carree de meme taille sans l'en-tete que celle des mots CSV
     if (!creer_t_mat_int_dyn(duels, mots_csv.lignes)) {
-        // On traite l'erreur en cas de dim invalide pour la matrice d'entiers
-        duels = NULL;
+        // On traite l'erreur en cas de dimension invalide pour la matrice d'entiers
+        duels->elems = NULL;
+        duels->dim = -1;
+
         return;
     }
 
