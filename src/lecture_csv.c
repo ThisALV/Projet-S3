@@ -111,7 +111,7 @@ void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     }
 
     // On creer la matrice carree de meme taille sans l'en-tete que celle des mots CSV
-    if (!creer_t_mat_int_dyn(duels, mots_csv.lignes)) {
+    if (!creer_t_mat_int_dyn(duels, mots_csv.lignes - 1)) {
         // On traite l'erreur en cas de dimension invalide pour la matrice d'entiers
         duels->elems = NULL;
         duels->dim = -1;
