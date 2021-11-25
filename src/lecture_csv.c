@@ -7,6 +7,39 @@
 // Selon les exemples fournis par Moodle, aucun CSV n'aura une lignes
 // de plus de 1024 colonnes
 #define LIGNE_MAX_TAILLE 1024
+// Nombre de colonnes prefixes avec les colonnes des candidats dans un fichier CSV au
+// format ballots de votes
+#define BALLOTS_COLS_PREFIXE 4
+
+
+// Fonction privee utilitaire permettant d'obtenir une copie de chaine de caractere
+// allouee a la bonne taille en memoire
+char* allouer_copie_char_star(char* source, char* message_si_erreur) {
+    // On evalue la taille de la chaine pour allouer la place necessaire en memoire
+    int taille_nom = strlen(source);
+    char* copie = (char*) malloc(sizeof(char) * taille_nom);
+    verifier_alloc(copie, message_si_erreur);
+
+    // On effectue la copie puis on renvoie le resultat
+    strcpy(copie, source);
+    return copie;
+}
+
+// FOnction privee qui verifie la presence d'au moins une ligne dans une matrice CSV.
+// S'il n'y a aucune ligne alors le tableau de candidats passe en mode erreur.
+// `true` est retourne si une en-tete etait bien presente
+bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
+    bool entete_presente = mots_csv.lignes > 0; // La premiere ligne est l'en-tete
+
+    // S'il n'y en a pas, on passe le tableau des candidats en mode erreur
+    if (!entete_presente) {
+        candidats->elems = NULL;
+        candidats->nb = -1;
+    }
+
+    // On informe l'appelant si l'en-tete etait bien presente
+    return entete_presente;
+}
 
 
 void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dyn* mots) {
@@ -101,12 +134,8 @@ void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
 
 void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
     // On verifie qu'il y ait au moins une en-tete dans le CSV
-    if (mots_csv.lignes < 1) { // Sinon on traite l'erreur et on arrete le traitement
-        candidats->elems = NULL;
-        candidats->nb = -1;
-
+    if (!verifier_entete(mots_csv, candidats))
         return;
-    }
 
     // On creer le tableau des candidats, sachant qu'il y a 1 candidant par colonne CSV
     if (!creer_t_candidats_dyn(candidats, mots_csv.colonnes)) {
@@ -121,14 +150,37 @@ void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidat
     // unique chez chaque candidat
     for (int id = 0; id < mots_csv.colonnes; id++) {
         t_candidat* c_courant = (candidats->elems) + id;
-        char* nom = mots_csv.elems[0][id];
 
-        // On alloue la memoire necessaire pour copier le nom
-        int taille_nom = strlen(nom);
-        c_courant->nom = (char*) malloc(sizeof(char) * taille_nom);
-
-        // On effectue la copie du nom et on affecte l'ID
-        strcpy(c_courant->nom, nom);
+        // On alloue la memoire necessaire puis on copie le nom
+        c_courant->nom = allouer_copie_char_star(mots_csv.elems[0][id], "Allocation nom candidat");
         c_courant->id = id;
+    }
+}
+
+void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
+    // On verifie qu'il y ait au moins une en-tete dans le CSV
+    if (!verifier_entete(mots_csv, candidats))
+        return;
+
+    // On creer le tableau des candidats, sachant que les 4 premieres colonnes ne contiennent
+    // pas un candidat
+    int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
+    if (!creer_t_candidats_dyn(candidats, nb_candidats)) {
+        // Si nb candidat n'est pas strictement positif, on a pas assez de colonnes, donc
+        // la creation du tableau echoue
+        candidats->elems = NULL;
+        candidats->nb = -1;
+
+        return;
+    }
+
+    for (int col = 0; col < nb_candidats; col++) {
+        t_candidat* c_courant = (candidats->elems) + col;
+        
+        // On copie l'en-tete a la colonne courante en ignorant les 4 premiers colonnes
+        // Ce numero de colonne courante sera l'ID du candidat
+        c_courant->nom = allouer_copie_char_star(
+            mots_csv.elems[0][BALLOTS_COLS_PREFIXE + col], "Allocation nom candidat");
+        c_courant->id = col;
     }
 }

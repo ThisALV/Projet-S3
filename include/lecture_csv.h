@@ -26,5 +26,10 @@ void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels);
 /// \param[out] candidats Liste des candidats participant a l'election contenue dans le fichier CSV. Pointeur NULL et taille -1 en cas d'erreur recuperable
 void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidats);
 
+/// \fn Obitent la liste des candidats depuis une matrice de ballots CSV
+/// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
+/// \param[out] candidats Liste des candidats participant a l'election contenue dans le fichier CSV. Pointeur NULL et taille -1 en cas d'erreur recuperable
+void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candidats);
+
 
 #endif // LECTURE_CSV_H
