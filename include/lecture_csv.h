@@ -21,5 +21,10 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
 /// \param[out] duels Matrice de duels contenant des entiers representant les scores en %. Vaudra NULL en cas d'erreur recuperable.
 void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels);
 
+/// \fn Obtient la liste des candidats 
+/// \param[in] mots_csv Duels au format CSV brut lus dans le fichier
+/// \param[out] candidats Liste des candidats participant a l'election contenue dans le fichier CSV. Pointeur NULL et taille -1 en cas d'erreur recuperable
+void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidats);
+
 
 #endif // LECTURE_CSV_H

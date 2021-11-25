@@ -98,3 +98,37 @@ void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
         }
     }
 }
+
+void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
+    // On verifie qu'il y ait au moins une en-tete dans le CSV
+    if (mots_csv.lignes < 1) { // Sinon on traite l'erreur et on arrete le traitement
+        candidats->elems = NULL;
+        candidats->nb = -1;
+
+        return;
+    }
+
+    // On creer le tableau des candidats, sachant qu'il y a 1 candidant par colonne CSV
+    if (!creer_t_candidats_dyn(candidats, mots_csv.colonnes)) {
+        candidats->elems = NULL;
+        candidats->nb = -1;
+
+        return;
+    }
+
+    // Pour chaque colonne, dans l'en-tete, on copie le contenu de la case pour placer
+    // le nom dans le tableau, et on affecte l'ID qu'on incremente de 1 pour qu'il soit
+    // unique chez chaque candidat
+    for (int id = 0; id < mots_csv.colonnes; id++) {
+        t_candidat* c_courant = (candidats->elems) + id;
+        char* nom = mots_csv.elems[0][id];
+
+        // On alloue la memoire necessaire pour copier le nom
+        int taille_nom = strlen(nom);
+        c_courant->nom = (char*) malloc(sizeof(char) * taille_nom);
+
+        // On effectue la copie du nom et on affecte l'ID
+        strcpy(c_courant->nom, nom);
+        c_courant->id = id;
+    }
+}
