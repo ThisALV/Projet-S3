@@ -121,6 +121,8 @@ void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
 
     // Pour chaque ligne, en commencant par l'indince 1 pour ignorer l'en-tete
     for (int i = 1; i < mots_csv.lignes; i++) {
+        int ligne_duels = i - 1; // Decalage de 1 ligne a cause de l'en-tete
+
         for (int j = 0; j < mots_csv.colonnes; j++) {
             int score = atoi(mots_csv.elems[i][j]);
 
@@ -131,7 +133,7 @@ void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
                 erreur_fatale(ERR_INTERNE, "Matrice duels malformee");
             }
 
-            duels->elems[i][j] = score; // On enregistre le score numerique dans les duels
+            duels->elems[ligne_duels][j] = score; // On enregistre le score numerique dans les duels
         }
     }
 }
