@@ -198,7 +198,7 @@ void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
     // On calcul le nombre de colonnes reservees aux candidats
     int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
 
-    for (int electeur_i = 0; electeur_i < nb_electeurs; electeur_i++) {
+    for (int electeur_i = 0; electeur_i < *nb_electeurs; electeur_i++) {
         // On travaille en bas de la diagonale
         for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
             // Ainsi on evite d'evaluer 2 fois les memes duels ou d'evaluer les duels
@@ -257,7 +257,7 @@ void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
 
     int nb_electeurs; // Nb d'electeurs trouves a l'analyse de la matrice CSV
     // On lit les ballots de vote
-    creer_mat_duels_absolue(mots_csv, &duels, &nb_electeurs);
+    creer_mat_duels_absolue(mots_csv, duels, &nb_electeurs);
     // On calcul l'integralite des pourcentages de voix
-    completer_mat_duels(&duels, nb_electeurs);
+    completer_mat_duels(duels, nb_electeurs);
 }
