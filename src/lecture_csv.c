@@ -201,17 +201,22 @@ void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
     for (int electeur_i = 0; electeur_i < *nb_electeurs; electeur_i++) {
         // On travaille en bas de la diagonale
         for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
+            int rang_candidat1 = atoi(
+                mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat1_id]);
+
+            // Si un score dans un ballot de vote n'est pas > 0, c'est soit qu'il n'a
+            // pas pu etre lu, soit qu'il est invalide
+            if (rang_candidat1 <= 0)
+                continue;
+
             // Ainsi on evite d'evaluer 2 fois les memes duels ou d'evaluer les duels
             // entre un seul candidat (diagonale)
             for (int candidat2_id = 0; candidat2_id < candidat1_id; candidat2_id++) {
-                int rang_candidat1 = atoi(
-                    mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat1_id]);
                 int rang_candidat2 = atoi(
                     mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat2_id]);
 
-                // Si un score dans un ballot de vote n'est pas > 0, c'est soit qu'il n'a
-                // pas pu etre lu, soit qu'il est invalide
-                if (rang_candidat1 > 0 || rang_candidat2 > 0) {
+                // Meme verification que pour rang_candidat1
+                if (rang_candidat2 > 0) {
                     // Le candidat ayant le plus gros rang (le candidat prefere a l'autre)
                     // voit son compteur de votes etre incremente dans la matrice des duels
                     if (rang_candidat1 > rang_candidat2)
