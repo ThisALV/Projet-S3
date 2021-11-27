@@ -25,7 +25,7 @@ char* allouer_copie_char_star(char* source, char* message_si_erreur) {
     return copie;
 }
 
-// FOnction privee qui verifie la presence d'au moins une ligne dans une matrice CSV.
+// Fonction privee qui verifie la presence d'au moins une ligne dans une matrice CSV.
 // S'il n'y a aucune ligne alors le tableau de candidats passe en mode erreur.
 // `true` est retourne si une en-tete etait bien presente
 bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
@@ -189,4 +189,83 @@ void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candid
             mots_csv.elems[0][BALLOTS_COLS_PREFIXE + col], "Allocation nom candidat");
         c_courant->id = col;
     }
+}
+
+bool creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs) {
+    // On calcul le nombre d'electeur pour savoir quand s'arreter pour calculer
+    // les % de voix plus tard
+    *nb_electeurs = mots_csv.lignes - 1;
+    // On calcul le nombre de colonnes reservees aux candidats
+    int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
+
+    bool erreurs = false; // Passe a true si au moins une erreur non fatale est signalee
+    for (int electeur_i = 0; electeur_i < nb_electeurs; electeur_i++) {
+        // On travaille en bas de la diagonale
+        for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
+            // Ainsi on evite d'evaluer 2 fois les memes duels ou d'evaluer les duels
+            // entre un seul candidat (diagonale)
+            for (int candidat2_id = 0; candidat2_id < candidat1_id; candidat2_id++) {
+                int rang_candidat1 = atoi(
+                    mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat1_id]);
+                int rang_candidat2 = atoi(
+                    mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat2_id]);
+
+                // Si un score dans un ballot de vote n'est pas > 0, c'est soit qu'il n'a
+                // pas pu etre lu, soit qu'il est invalide
+                if (rang_candidat1 <= 0 || rang_candidat2 <= 0) {
+                    erreurs = true; // Au moins une erreur a donc eu lieu
+                } else {
+                    // Le candidat ayant le plus gros rang (le candidat prefere a l'autre)
+                    // voit son compteur de votes etre incremente dans la matrice des duels
+                    if (rang_candidat1 > rang_candidat2)
+                        duels->elems[candidat1_id][candidat2_id]++;
+                }
+            }
+        }
+    }
+
+    return !erreurs;
+}
+
+void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs) {
+    // Il y a autant de ligne/colonne que de candidats
+    int nb_candidats = duels->dim;
+
+    for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
+        for (int candidat2_id = 0; candidat2_id < candidat1_id; candidat2_id++) {
+            int pourcentage_voix = duels->elems[candidat1_id][candidat2_id] / nb_electeurs;
+
+            duels->elems[candidat1_id][candidat2_id] = pourcentage_voix;
+            duels->elems[candidat2_id][candidat1_id] = 100 - pourcentage_voix;
+        }
+    }
+}
+
+bool creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
+    // On verifie qu'il y ait au moins une en-tete et un electeur
+    if (mots_csv.lignes < 2) {
+        duels->elems = NULL;
+        duels->dim = -1;
+
+        return;
+    }
+
+    // On calcul le nombre de colonnes reservees aux candidats
+    int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
+    // On peut donc allouer une matrice de duels a la bonne dimension
+    if (!creer_t_mat_int_dyn(duels, nb_candidats)) {
+        duels->elems = NULL;
+        duels->dim = -1;
+
+        return;
+    }
+
+    int nb_electeurs; // Nb d'electeurs trouves a l'analyse de la matrice CSV
+    // On lit les ballots de vote
+    bool ballots_sans_erreur = creer_mat_duels_absolue(mots_csv, &duels, &nb_electeurs);
+    // On calcul l'integralite des pourcentages de voix
+    completer_mat_duels(&duels, nb_electeurs);
+
+    // On indique a l'appelant si certains scores des ballots etait illisibles
+    return ballots_sans_erreur;
 }
