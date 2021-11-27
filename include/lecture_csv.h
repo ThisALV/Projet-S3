@@ -35,8 +35,7 @@ void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candid
 /// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
 /// \param[out] duels Matrice de duels contenant des entiers representant les scores en nb de voix
 /// \param[out] nb_electeurs Nombre d'electeurs analyses dans la matrice CSV
-/// \return `false` si au moins une valeur d'un ballot de vote CSV n'a pas pu etre evaluee (exemple : n'etait pas un entier)
-bool creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs);
+void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs);
 
 /// \fn Pour chaque duel deja evalue, on passe le score final en % de voix, et on assigne au duel oppose, lui en haut de la diagonale, le % approprie. Exemple : ScoreDe(B vs A) = 100 - ScoreDe(A vs B)
 /// \param[inout] duels Matrice de duels contenant les scores absolus, contiendra les scores relatifs en % apres l'appel
@@ -46,8 +45,7 @@ void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs);
 /// \fn Obtient une matrice de duels depuis une matrice de ballots CSV (ou liste de ballots)
 /// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
 /// \param[out] duels Matrice de duels contenant des entiers representant les scores en %. Pointeur NULL et dimension -1 en cas d'erreur recuperable
-/// \return `false` si certains ballots de vote contiennent des erreurs
-bool creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels);
+void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels);
 
 
 #endif // LECTURE_CSV_H

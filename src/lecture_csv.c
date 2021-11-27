@@ -191,14 +191,13 @@ void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candid
     }
 }
 
-bool creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs) {
+void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs) {
     // On calcul le nombre d'electeur pour savoir quand s'arreter pour calculer
     // les % de voix plus tard
     *nb_electeurs = mots_csv.lignes - 1;
     // On calcul le nombre de colonnes reservees aux candidats
     int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
 
-    bool erreurs = false; // Passe a true si au moins une erreur non fatale est signalee
     for (int electeur_i = 0; electeur_i < nb_electeurs; electeur_i++) {
         // On travaille en bas de la diagonale
         for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
@@ -212,9 +211,7 @@ bool creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
 
                 // Si un score dans un ballot de vote n'est pas > 0, c'est soit qu'il n'a
                 // pas pu etre lu, soit qu'il est invalide
-                if (rang_candidat1 <= 0 || rang_candidat2 <= 0) {
-                    erreurs = true; // Au moins une erreur a donc eu lieu
-                } else {
+                if (rang_candidat1 > 0 || rang_candidat2 > 0) {
                     // Le candidat ayant le plus gros rang (le candidat prefere a l'autre)
                     // voit son compteur de votes etre incremente dans la matrice des duels
                     if (rang_candidat1 > rang_candidat2)
@@ -223,8 +220,6 @@ bool creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
             }
         }
     }
-
-    return !erreurs;
 }
 
 void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs) {
@@ -241,7 +236,7 @@ void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs) {
     }
 }
 
-bool creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
+void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     // On verifie qu'il y ait au moins une en-tete et un electeur
     if (mots_csv.lignes < 2) {
         duels->elems = NULL;
@@ -262,10 +257,7 @@ bool creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
 
     int nb_electeurs; // Nb d'electeurs trouves a l'analyse de la matrice CSV
     // On lit les ballots de vote
-    bool ballots_sans_erreur = creer_mat_duels_absolue(mots_csv, &duels, &nb_electeurs);
+    creer_mat_duels_absolue(mots_csv, &duels, &nb_electeurs);
     // On calcul l'integralite des pourcentages de voix
     completer_mat_duels(&duels, nb_electeurs);
-
-    // On indique a l'appelant si certains scores des ballots etait illisibles
-    return ballots_sans_erreur;
 }
