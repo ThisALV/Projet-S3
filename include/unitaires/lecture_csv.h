@@ -17,6 +17,10 @@ void obtenir_candidats_ballots_csv_vide();
 void obtenir_candidats_ballots_nb_colonnes_invalide();
 void obtenir_candidats_ballots_ok();
 
+// creer_mat_duels_absolue
+void creer_mat_duels_absolue_erreurs_ballots();
+void creer_mat_duels_absolue_csv_bon();
+
 /// \fn Execute les tests unitaires pour le module lecture_csv
 void tests_unitaires_lecture_csv();
 

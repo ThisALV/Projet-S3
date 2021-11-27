@@ -266,6 +266,81 @@ void obtenir_candidats_ballots_ok() {
 }
 
 
+//
+// creer_mat_duels_absolue
+//
+
+// Fonction privee utilitaire pour tester creer_mat_duels_absolue, en
+// lui fournissant une matrice de duels attendu et un fichier CSV lu en
+// memoire
+static void tester_creer_mat_duels_absolue(
+    char* contenu_csv[5][4 + NB_CANDIDATS_TEST],
+    int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST])
+{
+    t_mat_char_star_dyn mots;
+    convertir_mat_compatible(5, 4 + NB_CANDIDATS_TEST, contenu_csv, &mots);
+
+    // La fonction ne s'occupe pas de l'initialisation de la matrice
+    t_mat_int_dyn duels;
+    creer_t_mat_int_dyn(&duels, NB_CANDIDATS_TEST);
+
+    int nb_electeurs;
+    creer_mat_duels_absolue(mots, &duels, &nb_electeurs);
+
+    // On verifie qu'on a bien obtenu la matrice intermediaire attendu
+    for (int i = 0; i < NB_CANDIDATS_TEST; i++)
+        for (int j = 0; j < NB_CANDIDATS_TEST; j++)
+            assert(duels_attendu[i][j] == duels.elems[i][j]);
+
+    // Liberation des ressources du test
+    detruire_t_mat_char_star_dyn(&mots);
+    detruire_t_mat_int_dyn(&duels);
+}
+
+// Avec des valeurs CSV qui ne sont pas interpretables comme des entiers
+// > 0 dans certains scores dans les ballots de vote
+void creer_mat_duels_absolue_erreurs_ballots() {
+    // On s'attend a obtenir cette matrice de duels intermediaire
+    int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
+        { 0, 0, 0 },
+        { 1, 0, 0 },
+        { 2, 2, 0 }
+    };
+
+    // On simule avoir lu ce fichier CSV
+    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+        { "", "", "", "abcd", "A", "B", "C"  }, // En-tete
+        { "", "", "", "efgh", "1", "",  "2"  }, // Valeur CSV vide : atoi erreur
+        { "", "", "", "ijkl", "3", "2", "-1" }, // Score negatif : erreur
+        { "", "", "", "mnop", "1", "2", "3"  },
+        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+    };
+    
+    tester_creer_mat_duels_absolue(contenu_csv, duels_attendu);
+}
+
+// Avec une des ballots CSV ne comportant aucun score illisible
+void creer_mat_duels_absolue_csv_bon() {
+    // On s'attend a obtenir cette matrice de duels intermediaire
+    int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
+        { 0, 0, 0 },
+        { 1, 0, 0 },
+        { 2, 2, 0 },
+    };
+
+    // On simule avoir lu ce fichier CSV
+    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+        { "", "", "", "abcd", "A", "B", "C"  }, // En-tete
+        { "", "", "", "efgh", "1", "",  "2"  }, // Valeur CSV vide : atoi erreur
+        { "", "", "", "ijkl", "3", "2", "-1" }, // Score negatif : erreur
+        { "", "", "", "mnop", "1", "2", "3"  },
+        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+    };
+    
+    tester_creer_mat_duels_absolue(contenu_csv, duels_attendu);
+}
+
+
 // Script des tests appele depuis main_unitaires.c
 void tests_unitaires_lecture_csv() {
     convertir_mat_duels_non_carree();
@@ -279,4 +354,7 @@ void tests_unitaires_lecture_csv() {
     obtenir_candidats_ballots_csv_vide();
     obtenir_candidats_ballots_nb_colonnes_invalide();
     obtenir_candidats_ballots_ok();
+
+    creer_mat_duels_absolue_erreurs_ballots();
+    creer_mat_duels_absolue_csv_bon();
 }
