@@ -324,17 +324,17 @@ void creer_mat_duels_absolue_csv_bon() {
     // On s'attend a obtenir cette matrice de duels intermediaire
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
         { 0, 0, 0 },
-        { 1, 0, 0 },
-        { 2, 2, 0 },
+        { 2, 0, 0 },
+        { 3, 2, 0 }
     };
 
     // On simule avoir lu ce fichier CSV
     char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
-        { "", "", "", "abcd", "A", "B", "C"  }, // En-tete
-        { "", "", "", "efgh", "1", "",  "2"  }, // Valeur CSV vide : atoi erreur
-        { "", "", "", "ijkl", "3", "2", "-1" }, // Score negatif : erreur
-        { "", "", "", "mnop", "1", "2", "3"  },
-        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+        { "", "", "", "abcd", "A", "B", "C" },
+        { "", "", "", "efgh", "1", "3", "2" },
+        { "", "", "", "ijkl", "3", "2", "1" },
+        { "", "", "", "mnop", "1", "2", "3" },
+        { "", "", "", "qrst", "2", "1", "3" },
     };
     
     tester_creer_mat_duels_absolue(contenu_csv, duels_attendu);

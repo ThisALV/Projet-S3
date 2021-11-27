@@ -21,6 +21,9 @@ void obtenir_candidats_ballots_ok();
 void creer_mat_duels_absolue_erreurs_ballots();
 void creer_mat_duels_absolue_csv_bon();
 
+// completer_mat_duels
+void completer_mat_duels_test();
+
 /// \fn Execute les tests unitaires pour le module lecture_csv
 void tests_unitaires_lecture_csv();
 
