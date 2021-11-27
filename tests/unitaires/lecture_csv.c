@@ -341,6 +341,43 @@ void creer_mat_duels_absolue_csv_bon() {
 }
 
 
+//
+// completer_mat_duels
+//
+
+void completer_mat_duels_test() {
+    // C'est la matrice de duels intermediaire fournie a la fonction
+    int duels_absolus[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
+        { 0, 0, 0 },
+        { 2, 0, 0 },
+        { 3, 2, 0 }
+    };
+
+    // C'est la matrice de duels avec les pourcentages attendus
+    int duels_attendus[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
+        {  0, 50, 75 }, // Tout est passe en % pour 4 electeurs
+        { 50,  0, 50 },
+        { 75, 50,  0 }
+    };
+
+    t_mat_int_dyn duels; // La fonction n'initialise pas la matrice
+    creer_t_mat_int_dyn(&duels, NB_CANDIDATS_TEST);
+    // Maintenant on initialise son contenu d'entree...
+    for (int i = 0; i < NB_CANDIDATS_TEST; i++)
+        for (int j = 0; j < NB_CANDIDATS_TEST; j++)
+            duels.elems[i][j] = duels_absolus[i][j];
+
+    completer_mat_duels(&duels, 4); // 4 electeurs
+
+    // ...puis on verifie son contenu de sortie
+    for (int i = 0; i < NB_CANDIDATS_TEST; i++)
+        for (int j = 0; j < NB_CANDIDATS_TEST; j++)
+            assert(duels.elems[i][j] == duels_attendus[i][j]);
+
+    detruire_t_mat_int_dyn(&duels);
+}
+
+
 // Script des tests appele depuis main_unitaires.c
 void tests_unitaires_lecture_csv() {
     convertir_mat_duels_non_carree();
@@ -357,4 +394,6 @@ void tests_unitaires_lecture_csv() {
 
     creer_mat_duels_absolue_erreurs_ballots();
     creer_mat_duels_absolue_csv_bon();
+
+    completer_mat_duels_test();
 }
