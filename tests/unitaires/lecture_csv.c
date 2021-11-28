@@ -355,7 +355,7 @@ void completer_mat_duels_test() {
 
     // C'est la matrice de duels avec les pourcentages attendus
     int duels_attendus[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        {  0, 50, 75 }, // Tout est passe en % pour 4 electeurs
+        {  0, 50, 25 }, // Tout est passe en % pour 4 electeurs
         { 50,  0, 50 },
         { 75, 50,  0 }
     };
