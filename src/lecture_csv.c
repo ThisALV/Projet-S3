@@ -233,7 +233,9 @@ void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs) {
 
     for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
         for (int candidat2_id = 0; candidat2_id < candidat1_id; candidat2_id++) {
-            int pourcentage_voix = duels->elems[candidat1_id][candidat2_id] / nb_electeurs;
+            int pourcentage_voix =
+                ((double) duels->elems[candidat1_id][candidat2_id])
+                / ((double)nb_electeurs) * 100;
 
             duels->elems[candidat1_id][candidat2_id] = pourcentage_voix;
             duels->elems[candidat2_id][candidat1_id] = 100 - pourcentage_voix;
