@@ -378,6 +378,76 @@ void completer_mat_duels_test() {
 }
 
 
+//
+// creer_mat_duels
+//
+
+// Fonction privee pour tester si, avec le nb de lignes et de colonnes CSV
+// donnees, les dimensions sont invalides et donc si la matrice de sortie
+// est bien en mode erreur
+static void tester_creer_mat_duels_dims_invalides(int colonnes, int lignes) {
+    t_mat_char_star_dyn mots;
+    // On simule une matrice vide
+    mots.colonnes = colonnes;
+    mots.lignes = lignes;
+
+    t_mat_int_dyn duels;
+    creer_mat_duels(mots, &duels);
+
+    verifier_mat_erreur(duels);
+}
+
+// Avec un fichier CSV completement vide
+void creer_mat_duels_csv_vide() {
+    tester_creer_mat_duels_dims_invalides(0, 0);
+}
+
+// Avec un fichier CSV ne contennant qu'une en-tete
+void creer_mat_duels_aucun_electeur() {
+    tester_creer_mat_duels_dims_invalides(4 + NB_CANDIDATS_TEST, 1);
+}
+
+// Avec un nombre de colonnes insuffisant, donc 0 candidat
+void creer_mat_duels_nb_colonnes_invalide() {
+    tester_creer_mat_duels_dims_invalides(4, 11);
+}
+
+// Avec une matrice CSV contenant des ballots CSV valides, avec certains
+// scores illisbles et des egalites
+void creer_mat_duels_ok() {
+    // On s'attend a se resultat pour la matrice de duels
+    int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
+        {  0, 75, 75 },
+        { 25,  0, 50 },
+        { 25, 50,  0 }
+    };
+
+    // On simule avoir lu ce fichier CSV
+    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+        { "", "", "", "abcd", "A", "B", "C" }, // En-tete
+        { "", "", "", "efgh", "1", "",  "2" }, // Valeur CSV vide : atoi erreur
+        { "", "", "", "ijkl", "1", "2", "1" },
+        { "", "", "", "mnop", "3", "2", "3" },
+        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+    };
+    t_mat_char_star_dyn mots;
+    convertir_mat_compatible(5, 4 + NB_CANDIDATS_TEST, contenu_csv, &mots);
+
+    t_mat_int_dyn duels;
+    creer_mat_duels(mots, &duels);
+
+    // On verifie que notre matrice carree contient tous les candidats
+    assert(duels.dim == NB_CANDIDATS_TEST);
+    // Puis on verifie les resultats en % des duels
+    for (int i = 0; i < NB_CANDIDATS_TEST; i++)
+        for (int j = 0; j < NB_CANDIDATS_TEST; j++)
+            assert(duels.elems[i][j] == duels_attendu[i][j]);
+
+    detruire_t_mat_char_star_dyn(&mots);
+    detruire_t_mat_int_dyn(&duels);
+}
+
+
 // Script des tests appele depuis main_unitaires.c
 void tests_unitaires_lecture_csv() {
     convertir_mat_duels_non_carree();
@@ -396,4 +466,9 @@ void tests_unitaires_lecture_csv() {
     creer_mat_duels_absolue_csv_bon();
 
     completer_mat_duels_test();
+
+    creer_mat_duels_csv_vide();
+    creer_mat_duels_aucun_electeur();
+    creer_mat_duels_nb_colonnes_invalide();
+    creer_mat_duels_ok();
 }
