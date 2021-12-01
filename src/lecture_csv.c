@@ -268,3 +268,81 @@ void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     // On calcul l'integralite des pourcentages de voix
     completer_mat_duels(duels, nb_electeurs);
 }
+
+void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
+    // On commence avec notre 1er candidat en tete de liste
+    tetes->elems = (int*) malloc(sizeof(int)); // On alloue une col pour lui
+    tetes->elems[0] = 0; // On l'assigne a la colonne (l'id du premier candidat dans l'en-tete est forcement 0)
+    tetes->taille = 1;
+    int meilleur_rang = ballot.elems[0]; // On memorise son 
+
+    for (int id = 1; id < ballot.taille; id++) {
+        int rang_courant = ballot.elems[id]; // On recupere le rang du prochain candidat dans sa colonne
+
+        // Si un candidat a -1 en rang, c'est qu'il n'a pas pu etre lu donc on l'ignore
+        if (rang_courant == -1)
+            continue;
+
+        if (rang_courant == meilleur_rang) {
+            // Un autre candidat a fait un aussi bon rang dans ce ballot de votes
+            tetes->taille++; // Un candidat de plus
+            tetes->elems = (int*) realloc(tetes->elems, tetes->taille * sizeof(int)); // On lui alloue une colonne
+
+            tetes->elems[tetes->taille - 1] = id; // On assigne le candidat a la nouvelle col
+        } else if (rang_courant < meilleur_rang) {
+            // Tous les candidats precedents ont un moins bon rang, ils ne sont plus gagnants
+            // Ce candidat, en revenche, a le nouveau meilleur rang, il est gagnant
+            tetes->elems = (int*) realloc(tetes->elems, sizeof(int));
+            tetes->elems[0] = id;
+        }
+    }
+}
+
+void tetes_de_listes(t_mat_char_star_dyn mots_csv, t_tab_int_dyn* candidats_preferes) {
+    // On soustrait le nb de cols prefixes et on obtient le nb de cols pour les noms des candidats
+    int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
+    // On soustrait l'en-tete et les lignes restantes sont des ballots de votes
+    int nb_ballots = mots_csv.lignes - 1;
+
+    candidats_preferes = NULL; // Comme ca le premier realloc fera un malloc
+
+    // On verifie qu'il y ait au moins 1 candidat et un 1 electeur
+    if (nb_candidats < 1 || nb_ballots)
+        return; // En laissant les variables de retour a NULL et 0, on signale une erreur a l'appelant
+
+    // On parcours les ballots, cad les lignes une par une en sautant l'en-tete
+    for (int ballot_i = 0; ballot_i < nb_ballots; ballot_i++) {
+        // Un ballot contient un rang pour chaque participant
+        t_tab_int_dyn ballot;
+        creer_t_tab_int_dyn(&ballot, nb_candidats);
+
+        // On va chercher la ligne csv qui contient le ballot courant
+        // On se decale de 4 colonnes pour ignorer celles qui ne contient pas un rang de candidat
+        char** ballot_csv = mots_csv.elems[ballot_i + 1] + BALLOTS_COLS_PREFIXE;
+        for (int candidat_id = 0; candidat_id < nb_candidats; candidat_id++) {
+            // On traduit le rang depuis le fichier CSV
+            char* rang_csv = ballot_csv[candidat_id];
+            int rang_lu = atoi(rang_csv);
+
+            // Si le retour 0 mais la chaine ne vaut pas "0", alors ce 0 signifie qu'une erreur
+            // de conversion char* -> int s'est produite
+            bool erreur_lecture = rang_lu == 0 && (strcmp(rang_csv, "0") != 0);
+
+            // Si le rang est negatif ou une erreur de lecture s'est produite, on demande d'ignorer
+            // le rang de ce candidat dans ce ballot avec la valeur -1
+            if (rang_lu < 0 || erreur_lecture) {
+                ballot.elems[candidat_id] = -1;
+            } else { // Sinon on peut affecter le rang effectivement lu
+                ballot.elems[candidat_id] = rang_lu;
+            }
+        }
+
+        // On evalue les gagnants avec les rangs numeriques de chaque candidat
+        t_tab_int_dyn gagnants_ballot;
+        premiers_de_ballot(ballot, &gagnants_ballot);
+
+        // On ajoute une tableau de candidats gagnant pour ce ballot traite au tableau des ballots
+        candidats_preferes = (t_tab_int_dyn*) realloc(candidats_preferes, (ballot_i + 1) * sizeof(t_tab_int_dyn));
+        candidats_preferes[ballot_i] = gagnants_ballot;
+    }
+}

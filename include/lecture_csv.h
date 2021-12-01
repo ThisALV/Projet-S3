@@ -47,5 +47,17 @@ void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs);
 /// \param[out] duels Matrice de duels contenant des entiers representant les scores en %. Pointeur NULL et dimension -1 en cas d'erreur recuperable
 void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels);
 
+/// \fn Obtient le candidat prefere au sein de ce ballot de votes
+/// \param[in] ballot Tableau d'entier representant le rang de chaque candidat dans ce ballot, un rang -1 signifie qu'il n'a pas pu etre lu
+/// \param[out] tetes L'ID de chaque candidat prefere dans ce ballot, peut etre vide
+/// \pre Il doit y avoir AU MOINS 1 CANDIDAT
+void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes);
+
+/// \fn Obtient les candidats preferes de chaque ballot de vote
+/// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
+/// \param[out] candidats_preferes Tableau des candidats gagnants dans chaque ballots, chaque element du 1er tableau est un 2eme tableau contenant les IDs des candidats gagnants dans ce ballot. NULL si erreur CSV.
+/// La taille du tableau de sortie est `mots_csv.nb_colonnes - 4` pour ne pas compter les donnees prefixes aux rangs des candidats
+void tetes_de_listes(t_mat_char_star_dyn mots_csv, t_tab_int_dyn* candidats_preferes);
+
 
 #endif // LECTURE_CSV_H
