@@ -296,6 +296,9 @@ void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
             tetes->elems = (int*) realloc(tetes->elems, sizeof(int));
 
             tetes->elems[0] = id;
+
+            // On met a jour le meilleur rang du ballot
+            meilleur_rang = rang_courant;
         }
     }
 }
