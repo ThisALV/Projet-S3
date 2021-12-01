@@ -292,7 +292,9 @@ void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
         } else if (rang_courant < meilleur_rang) {
             // Tous les candidats precedents ont un moins bon rang, ils ne sont plus gagnants
             // Ce candidat, en revenche, a le nouveau meilleur rang, il est gagnant
+            tetes->taille = 1;
             tetes->elems = (int*) realloc(tetes->elems, sizeof(int));
+
             tetes->elems[0] = id;
         }
     }
