@@ -448,6 +448,73 @@ void creer_mat_duels_ok() {
 }
 
 
+//
+// premiers_de_ballots
+//
+
+// Fonction utilitaire privee qui teste si, avec le ballot donnee, on obtient
+// effectivement les IDs de gagnants attendus
+static void tester_premiers_de_ballot(int ballot_rangs[NB_CANDIDATS_TEST], int nb_gagnants, int gagnants_attendus[nb_gagnants]) {
+    // On creee le ballot de votes depuis le tableau des rangs en parametre
+    t_tab_int_dyn ballot = { ballot_rangs, NB_CANDIDATS_TEST }; // On evite un allocation inutile
+
+    t_tab_int_dyn gagnants;
+    premiers_de_ballot(ballot, &gagnants);
+
+    // On verifie le nb de gagnants dans le tableau
+    assert(gagnants.taille == nb_gagnants);
+    // On verifie rang par rang que le tableau est conforme a ce que l'on attend
+    for (int i = 0; i < nb_gagnants; i++)
+        assert(gagnants.elems[i] == gagnants_attendus[i]);
+
+    detruire_t_tab_int_dyn(&gagnants); // Liberation des ressources du test
+}
+
+// Avec un ballot ou tous les rangs ont pu etre lus
+void premiers_de_ballot_ok() {
+    int ballot_rangs[NB_CANDIDATS_TEST] = { 7, 0, 8 };
+    int gagnants_attendus[1] = { 1 }; // L'ID qui fait le rang 0 doit gagner
+
+    tester_premiers_de_ballot(ballot_rangs, 1, gagnants_attendus);
+}
+
+// Avec un ballot ou certains rangs sont egaux
+void premiers_de_ballot_egalites() {
+    int ballot_rangs[NB_CANDIDATS_TEST] = { 8, 7, 7 };
+    int gagnants_attendus[2] = { 1, 2 }; // Les 1 et 2 ont un rang de 7 < 8
+
+    tester_premiers_de_ballot(ballot_rangs, 2, gagnants_attendus);
+}
+
+// Avec un ballot ou certains rangs n'ont pas etes lus et valent -1
+void premiers_de_ballot_rangs_invalides() {
+    int ballot_rangs[NB_CANDIDATS_TEST] = { -1, 8, 9 };
+    int gagnants_attendus[1] = { 1 }; // L'ID qui fait le rang 8 < 9 doit gagner, l'ID 1 est ignore
+
+    tester_premiers_de_ballot(ballot_rangs, 1, gagnants_attendus);
+}
+
+// Avec tous les cas precedents dans 1 seul ballot
+void premiers_de_ballot_tous_les_cas() {
+    int ballot_rangs[7] = { -1, -1, 7, 7, 2, 8, 2 };
+    int gagnants_attendus[2] = { 4, 6 }; // Les ID ayant le score 2 gagnent
+
+    // On creee le ballot de votes depuis le tableau des rangs au debut
+    t_tab_int_dyn ballot = { ballot_rangs, 7 }; // On evite un allocation inutile
+
+    t_tab_int_dyn gagnants;
+    premiers_de_ballot(ballot, &gagnants);
+
+    // On verifie le nb de gagnants dans le tableau
+    assert(gagnants.taille == 2);
+    // On verifie rang par rang que le tableau est conforme a ce que l'on attend
+    for (int i = 0; i < 2; i++)
+        assert(gagnants.elems[i] == gagnants_attendus[i]);
+
+    detruire_t_tab_int_dyn(&gagnants); // Liberation des ressources du test
+}
+
+
 // Script des tests appele depuis main_unitaires.c
 void tests_unitaires_lecture_csv() {
     convertir_mat_duels_non_carree();
@@ -471,4 +538,9 @@ void tests_unitaires_lecture_csv() {
     creer_mat_duels_aucun_electeur();
     creer_mat_duels_nb_colonnes_invalide();
     creer_mat_duels_ok();
+
+    premiers_de_ballot_ok();
+    premiers_de_ballot_egalites();
+    premiers_de_ballot_rangs_invalides();
+    premiers_de_ballot_tous_les_cas();
 }

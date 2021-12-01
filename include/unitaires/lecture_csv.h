@@ -30,6 +30,12 @@ void creer_mat_duels_aucun_electeur();
 void creer_mat_duels_nb_colonnes_invalide();
 void creer_mat_duels_ok();
 
+// premiers_de_ballots
+void premiers_de_ballot_ok();
+void premiers_de_ballot_egalites();
+void premiers_de_ballot_rangs_invalides();
+void premiers_de_ballot_tous_les_cas();
+
 /// \fn Execute les tests unitaires pour le module lecture_csv
 void tests_unitaires_lecture_csv();
 
