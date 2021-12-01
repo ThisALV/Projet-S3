@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <erreur.h>
+#include <limits.h>
 
 // Selon les exemples fournis par Moodle, aucun CSV n'aura une lignes
 // de plus de 1024 colonnes
@@ -270,13 +271,14 @@ void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
 }
 
 void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
-    // On commence avec notre 1er candidat en tete de liste
-    tetes->elems = (int*) malloc(sizeof(int)); // On alloue une col pour lui
-    tetes->elems[0] = 0; // On l'assigne a la colonne (l'id du premier candidat dans l'en-tete est forcement 0)
-    tetes->taille = 1;
-    int meilleur_rang = ballot.elems[0]; // On memorise son 
+    // Un tableau de gagnants vide, comme ca le premier ajout avec realloc allouera une nouvelle zone memoire
+    tetes->elems = NULL;
+    tetes->taille = 0;
 
-    for (int id = 1; id < ballot.taille; id++) {
+    // N'importe quel candidat avec un rang valide aura forcement un rang <=
+    int meilleur_rang = INT_MAX;
+    
+    for (int id = 0; id < ballot.taille; id++) {
         int rang_courant = ballot.elems[id]; // On recupere le rang du prochain candidat dans sa colonne
 
         // Si un candidat a -1 en rang, c'est qu'il n'a pas pu etre lu donc on l'ignore
