@@ -4,6 +4,7 @@
 #include <utils_sd.h>
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 // Dimension pour la matrice des duels pour les tests de
 // convertir_mat_duels
@@ -11,6 +12,9 @@
 // Nombre de candidats pour les tests de obtenir_candidats_ballots et
 // obtenir_candidats_duels
 #define NB_CANDIDATS_TEST 3
+// Nombre d'electeurs (de ballots de votes) pour les tests des fonctions
+// de ce module
+#define NB_ELECTEURS_TEST 5
 
 
 // Fonction privee utilitaire qui verifie que la matrice de duels donnee
@@ -226,7 +230,7 @@ void obtenir_candidats_ballots_nb_colonnes_invalide() {
 void obtenir_candidats_ballots_ok() {
     // Matrice de mots apres la lecture d'un fichier CSV, avec 4 colonnes
     // prefixes puis NB_CANDIDATS_TEST colonnes de candidat
-    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+    char* contenu_csv[NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST] = {
         { "", "", "", "abcd", "A", "B", "C" }, // En-tete
         { "", "", "", "efgh", "1", "3", "2" },
         { "", "", "", "ijkl", "3", "2", "1" },
@@ -274,7 +278,7 @@ void obtenir_candidats_ballots_ok() {
 // lui fournissant une matrice de duels attendu et un fichier CSV lu en
 // memoire
 static void tester_creer_mat_duels_absolue(
-    char* contenu_csv[5][4 + NB_CANDIDATS_TEST],
+    char* contenu_csv[NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST],
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST])
 {
     t_mat_char_star_dyn mots;
@@ -308,7 +312,7 @@ void creer_mat_duels_absolue_erreurs_ballots() {
     };
 
     // On simule avoir lu ce fichier CSV
-    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+    char* contenu_csv[NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST] = {
         { "", "", "", "abcd", "A", "B", "C"  }, // En-tete
         { "", "", "", "efgh", "1", "",  "2"  }, // Valeur CSV vide : atoi erreur
         { "", "", "", "ijkl", "3", "2", "-1" }, // Score negatif : erreur
@@ -329,7 +333,7 @@ void creer_mat_duels_absolue_csv_bon() {
     };
 
     // On simule avoir lu ce fichier CSV
-    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+    char* contenu_csv[NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST] = {
         { "", "", "", "abcd", "A", "B", "C" },
         { "", "", "", "efgh", "1", "3", "2" },
         { "", "", "", "ijkl", "3", "2", "1" },
@@ -423,7 +427,7 @@ void creer_mat_duels_ok() {
     };
 
     // On simule avoir lu ce fichier CSV
-    char* contenu_csv[5][4 + NB_CANDIDATS_TEST] = {
+    char* contenu_csv[NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST] = {
         { "", "", "", "abcd", "A", "B", "C" }, // En-tete
         { "", "", "", "efgh", "1", "",  "2" }, // Valeur CSV vide : atoi erreur
         { "", "", "", "ijkl", "1", "2", "1" },
@@ -515,6 +519,122 @@ void premiers_de_ballot_tous_les_cas() {
 }
 
 
+//
+// tetes_de_listes
+//
+
+// Fonction utiliaire privee pour tester si, avec les dimensions CSV donnees,
+// on obtient bien une erreur en appelant tetes_de_listes()
+static void tester_tetes_de_listes_invalide(int lignes, int colonnes) {
+    // On se fiche du contenu du fichier, ce sont ses dimensions qui
+    // declenchent l'erreur
+    t_mat_char_star_dyn mots_csv = { NULL, lignes, colonnes };
+
+    t_tab_int_dyn* resultat =  tetes_de_listes(mots_csv);
+
+    // On verifie qu'il y a bien eu une erreur dans notre fonction
+    assert(resultat == NULL);
+}
+
+// Teste si, avec le contenu de fichier CSV donne, on obtient les gagnants
+// par ballot attendus
+static void tester_tetes_de_listes(char* contenu_csv[1 + NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST], t_tab_int_dyn* gagnants_attendus) {
+    // Initialisation de la matrice du fichier CSV
+    t_mat_char_star_dyn mots_csv;
+    convertir_mat_compatible(1 + NB_ELECTEURS_TEST, 4 + NB_CANDIDATS_TEST, contenu_csv, &mots_csv);
+
+    t_tab_int_dyn* resultats = tetes_de_listes(mots_csv);
+
+    // Pour chaque ballot, on test si on a le nb de gagnants attendus, et si
+    // les IDs de ces gagnants sont bien ceux que l'on s'attend a avoir
+    for (int ballot_i = 0; ballot_i < NB_ELECTEURS_TEST; ballot_i++) {
+        t_tab_int_dyn ballot_courant = resultats[ballot_i];
+        t_tab_int_dyn attendus = gagnants_attendus[ballot_i];
+
+        int nb_gagnants = ballot_courant.taille;
+
+        assert(nb_gagnants == attendus.taille);
+
+        for (int gagnant_i = 0; gagnant_i < nb_gagnants; gagnant_i++)
+            assert(ballot_courant.elems[gagnant_i] == attendus.elems[gagnant_i]);
+    }
+
+    // Liberation des ressources du test
+    detruire_t_mat_char_star_dyn(&mots_csv);
+    free(resultats); // Tab directement alloue par realloc, on desalloue en utilisant le ptr retourne
+}
+
+// Avec une matrice de mots CSV sans aucune erreure
+void tetes_de_listes_ok() {
+    // On simule avoir lu ce fichier CSV
+    char* contenu_csv[1 + NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST] = {
+        { "", "", "", "abcd", "C0", "C1", "C2" },
+        { "", "", "", "abcd", "7", "0", "8" },
+        { "", "", "", "abcd", "7", "7", "8" },
+        { "", "", "", "abcd", "1", "6", "5" },
+        { "", "", "", "abcd", "3", "2", "2" },
+        { "", "", "", "abcd", "1", "1", "1" },
+    };
+
+    // Chaque tableau de gagnants de ballot est different, car chaque ballot
+    // peut avoir un nombre different de gagnants a egalite
+    int gagnants1[] = { 1 };
+    int gagnants2[] = { 0, 1 };
+    int gagnants3[] = { 0 };
+    int gagnants4[] = { 1, 2 };
+    int gagnants5[] = { 0, 1, 2 };
+
+    t_tab_int_dyn gagnants_attendus[NB_ELECTEURS_TEST] = {
+        { gagnants1, 1 },
+        { gagnants2, 2 },
+        { gagnants3, 1 },
+        { gagnants4, 2 },
+        { gagnants5, 3 }
+    };
+
+    tester_tetes_de_listes(contenu_csv, gagnants_attendus);
+}
+
+// Avec une matrice de mots CSV comportant juste une en-tete
+void tetes_de_listes_aucun_electeur() {
+    tester_tetes_de_listes_invalide(1, 4 + NB_CANDIDATS_TEST);
+}
+
+// Avec une matrice de mots CSV ayant moins de 5 colonnes
+void tetes_de_listes_nb_colonnes_invalides() {
+    tester_tetes_de_listes_invalide(1 + NB_ELECTEURS_TEST, 2);
+}
+
+// Avec une matrice de mots CSV ou certains ballots de votes
+// contiennent des rangs illisibles
+void tetes_de_listes_rangs_invalides() {
+    char* contenu_csv[1 + NB_ELECTEURS_TEST][4 + NB_CANDIDATS_TEST] = {
+        { "", "", "", "abcd", "C0", "C1", "C2" },
+        { "", "", "", "abcd", "7", "0", "abcd" },
+        { "", "", "", "abcd", "7", "7", "8" },
+        { "", "", "", "abcd", "-1", "6", "5" },
+        { "", "", "", "abcd", "-1", "-1", "abcd" },
+        { "", "", "", "abcd", "1", "1", "1" },
+    };
+
+    int gagnants1[] = { 1 };
+    int gagnants2[] = { 0, 1 };
+    int gagnants3[] = { 2 };
+    int gagnants4[] = {};
+    int gagnants5[] = { 0, 1, 2 };
+
+    t_tab_int_dyn gagnants_attendus[NB_ELECTEURS_TEST] = {
+        { gagnants1, 1 },
+        { gagnants2, 2 },
+        { gagnants3, 1 },
+        { gagnants4, 0 },
+        { gagnants5, 3 }
+    };
+
+    tester_tetes_de_listes(contenu_csv, gagnants_attendus);
+}
+
+
 // Script des tests appele depuis main_unitaires.c
 void tests_unitaires_lecture_csv() {
     convertir_mat_duels_non_carree();
@@ -543,4 +663,9 @@ void tests_unitaires_lecture_csv() {
     premiers_de_ballot_egalites();
     premiers_de_ballot_rangs_invalides();
     premiers_de_ballot_tous_les_cas();
+
+    tetes_de_listes_ok();
+    tetes_de_listes_aucun_electeur();
+    tetes_de_listes_nb_colonnes_invalides();
+    tetes_de_listes_rangs_invalides();
 }
