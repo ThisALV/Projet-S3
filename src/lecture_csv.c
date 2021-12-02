@@ -315,7 +315,7 @@ void tetes_de_listes(t_mat_char_star_dyn mots_csv, t_tab_int_dyn* candidats_pref
 
     // On verifie qu'il y ait au moins 1 candidat et un 1 electeur
     if (nb_candidats < 1 || nb_ballots < 1)
-        return; // En laissant les variables de retour a NULL et 0, on signale une erreur a l'appelant
+        return; // En laissant la variable de retour a NULL, on signale une erreur a l'appelant
 
     // On parcours les ballots, cad les lignes une par une en sautant l'en-tete
     for (int ballot_i = 0; ballot_i < nb_ballots; ballot_i++) {
