@@ -55,9 +55,9 @@ void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes);
 
 /// \fn Obtient les candidats preferes de chaque ballot de vote
 /// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
-/// \param[out] candidats_preferes Tableau des candidats gagnants dans chaque ballots, chaque element du 1er tableau est un 2eme tableau contenant les IDs des candidats gagnants dans ce ballot. NULL si erreur CSV.
+/// \return Tableau des candidats gagnants dans chaque ballots, chaque element du 1er tableau est un 2eme tableau contenant les IDs des candidats gagnants dans ce ballot. NULL si erreur CSV.
 /// La taille du 1er tableau de sortie est le nb de lignes moins l'en-tete, cad le nb de ballots de votes.
-void tetes_de_listes(t_mat_char_star_dyn mots_csv, t_tab_int_dyn* candidats_preferes);
+t_tab_int_dyn* tetes_de_listes(t_mat_char_star_dyn mots_csv);
 
 
 #endif // LECTURE_CSV_H

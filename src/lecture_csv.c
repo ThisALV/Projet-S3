@@ -305,18 +305,17 @@ void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
     }
 }
 
-void tetes_de_listes(t_mat_char_star_dyn mots_csv, t_tab_int_dyn* candidats_preferes) {
+t_tab_int_dyn* tetes_de_listes(t_mat_char_star_dyn mots_csv) {
     // On soustrait le nb de cols prefixes et on obtient le nb de cols pour les noms des candidats
     int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
     // On soustrait l'en-tete et les lignes restantes sont des ballots de votes
     int nb_ballots = mots_csv.lignes - 1;
 
-    candidats_preferes = NULL; // Comme ca le premier realloc fera un malloc
-
     // On verifie qu'il y ait au moins 1 candidat et un 1 electeur
     if (nb_candidats < 1 || nb_ballots < 1)
-        return; // En laissant la variable de retour a NULL, on signale une erreur a l'appelant
+        return NULL; // En retournant NULL, on signale une erreur a l'appelant
 
+    t_tab_int_dyn* candidats_preferes = NULL; // Comme ca le premier realloc fera un malloc
     // On parcours les ballots, cad les lignes une par une en sautant l'en-tete
     for (int ballot_i = 0; ballot_i < nb_ballots; ballot_i++) {
         // Un ballot contient un rang pour chaque participant
@@ -352,4 +351,6 @@ void tetes_de_listes(t_mat_char_star_dyn mots_csv, t_tab_int_dyn* candidats_pref
         candidats_preferes = (t_tab_int_dyn*) realloc(candidats_preferes, (ballot_i + 1) * sizeof(t_tab_int_dyn));
         candidats_preferes[ballot_i] = gagnants_ballot;
     }
+
+    return candidats_preferes;
 }
