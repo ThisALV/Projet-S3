@@ -15,21 +15,21 @@
 
 // Fonction privee utilitaire qui verifie que la matrice de duels donnee
 // est passee en mode erreur
-void verifier_mat_erreur(t_mat_int_dyn duels) {
+static void verifier_mat_erreur(t_mat_int_dyn duels) {
     assert(duels.elems == NULL);
     assert(duels.dim == -1);
 }
 
 // Fonction privee utilitaire qui verifie que le tableau des candidats donne
 // est passe en mode erreur
-void verifier_tab_erreur(t_candidats candidats) {
+static void verifier_tab_erreur(t_candidats candidats) {
     assert(candidats.elems == NULL);
     assert(candidats.nb == -1);
 }
 
 // Fonction privee utilitaire qui transforme une matrice constante de la
 // forme char*[N][]M en matrice de la t_mat_char_star_dyn
-void convertir_mat_compatible(int lignes, int colonnes, char* src[lignes][colonnes], t_mat_char_star_dyn* dest) {
+static void convertir_mat_compatible(int lignes, int colonnes, char* src[lignes][colonnes], t_mat_char_star_dyn* dest) {
     // On creee une matrice aux dimensions similaires en s'assurant qu'elle
     // a bien ete initialisee avant de continuer le test
     assert(creer_t_mat_char_star_dyn(dest, lignes, colonnes));
