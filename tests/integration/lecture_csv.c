@@ -44,7 +44,9 @@ void lire_fichier_votes_test() {
         }
     }
 
-    fclose(test_csv); // On ferme les ressources utilisees par le test
+    // On libere les ressources utilisees par le test
+    detruire_t_mat_char_star_dyn(&mots);
+    fclose(test_csv);
 }
 
 
