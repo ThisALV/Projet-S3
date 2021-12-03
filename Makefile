@@ -83,7 +83,6 @@ $(TESTS_UNITAIRES): $(REP_BINAIRES_UNITS)/%.o: $(REP_UNITAIRES)/%.c
 # Fichiers objets des tests d'intégration des modules compilés séparément dans
 # "build/integration" depuis "tests/integration"
 $(TESTS_INTEGRATION): $(REP_BINAIRES_INTE)/%.o: $(REP_INTEGRATION)/%.c
-	mkdir -p $(REP_BINAIRES_INTE)
 	$(generer_objet)
 
 
