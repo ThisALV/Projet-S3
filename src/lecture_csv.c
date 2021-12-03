@@ -32,11 +32,8 @@ char* allouer_copie_char_star(char* source, char* message_si_erreur) {
 bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
     bool entete_presente = mots_csv.lignes > 0; // La premiere ligne est l'en-tete
 
-    // S'il n'y en a pas, on passe le tableau des candidats en mode erreur
-    if (!entete_presente) {
-        candidats->elems = NULL;
-        candidats->nb = -1;
-    }
+    if (!entete_presente)
+        mettre_t_candidats_erreur(candidats);
 
     // On informe l'appelant si l'en-tete etait bien presente
     return entete_presente;
@@ -105,18 +102,13 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
 void convertir_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     // En excluant l'en-tete, la matrice doit etre carree
     if (mots_csv.lignes != (mots_csv.colonnes + 1)) {
-        duels->elems = NULL;
-        duels->dim = -1;
-
+        mettre_t_mat_int_dyn_erreur(duels);
         return;
     }
 
     // On creer la matrice carree de meme taille sans l'en-tete que celle des mots CSV
     if (!creer_t_mat_int_dyn(duels, mots_csv.lignes - 1)) {
-        // On traite l'erreur en cas de dimension invalide pour la matrice d'entiers
-        duels->elems = NULL;
-        duels->dim = -1;
-
+        mettre_t_mat_int_dyn_erreur(duels);
         return;
     }
 
@@ -146,9 +138,7 @@ void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidat
 
     // On creer le tableau des candidats, sachant qu'il y a 1 candidant par colonne CSV
     if (!creer_t_candidats_dyn(candidats, mots_csv.colonnes)) {
-        candidats->elems = NULL;
-        candidats->nb = -1;
-
+        mettre_t_candidats_erreur(candidats);
         return;
     }
 
@@ -173,11 +163,7 @@ void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candid
     // pas un candidat
     int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
     if (!creer_t_candidats_dyn(candidats, nb_candidats)) {
-        // Si nb candidat n'est pas strictement positif, on a pas assez de colonnes, donc
-        // la creation du tableau echoue
-        candidats->elems = NULL;
-        candidats->nb = -1;
-
+        mettre_t_candidats_erreur(candidats);
         return;
     }
 
@@ -247,9 +233,7 @@ void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs) {
 void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     // On verifie qu'il y ait au moins une en-tete et un electeur
     if (mots_csv.lignes < 2) {
-        duels->elems = NULL;
-        duels->dim = -1;
-
+        mettre_t_mat_int_dyn_erreur(duels);
         return;
     }
 
@@ -257,9 +241,7 @@ void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
     // On peut donc allouer une matrice de duels a la bonne dimension
     if (!creer_t_mat_int_dyn(duels, nb_candidats)) {
-        duels->elems = NULL;
-        duels->dim = -1;
-
+        mettre_t_mat_int_dyn_erreur(duels);
         return;
     }
 

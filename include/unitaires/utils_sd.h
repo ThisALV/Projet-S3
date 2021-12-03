@@ -66,6 +66,17 @@ void creer_t_candidats_dyn_dim_negative();
 // detruire_t_candidats_dyn
 void detruire_t_candidats_dyn_test();
 
+// mettre_t_*_erreur
+void mettre_t_tab_int_dyn_erreur_test();
+void mettre_t_mat_int_dyn_erreur_test();
+void mettre_t_tab_char_star_dyn_erreur_test();
+void mettre_t_mat_char_star_dyn_erreur_test();
+void mettre_t_candidats_erreur_test();
+
+// est_t_*_erreur
+void est_t_tab_int_dyn_erreur_ok();
+void est_t_tab_int_dyn_erreur_erreur();
+
 /// \fn Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_sd();
 

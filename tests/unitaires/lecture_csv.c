@@ -17,20 +17,6 @@
 #define NB_ELECTEURS_TEST 5
 
 
-// Fonction privee utilitaire qui verifie que la matrice de duels donnee
-// est passee en mode erreur
-static void verifier_mat_erreur(t_mat_int_dyn duels) {
-    assert(duels.elems == NULL);
-    assert(duels.dim == -1);
-}
-
-// Fonction privee utilitaire qui verifie que le tableau des candidats donne
-// est passe en mode erreur
-static void verifier_tab_erreur(t_candidats candidats) {
-    assert(candidats.elems == NULL);
-    assert(candidats.nb == -1);
-}
-
 // Fonction privee utilitaire qui transforme une matrice constante de la
 // forme char*[N][]M en matrice de la t_mat_char_star_dyn
 static void convertir_mat_compatible(int lignes, int colonnes, char* src[lignes][colonnes], t_mat_char_star_dyn* dest) {
@@ -62,7 +48,7 @@ void convertir_mat_duels_non_carree() {
     convertir_mat_duels(mots, &duels);
 
     // On verifie que la mat des duels est en mode erreur
-    verifier_mat_erreur(duels);
+    assert(est_t_mat_int_dyn_erreur(duels));
 }
 
 // Avec une mat de mots CSV depourvue de colonnes, donc ne contentant aucun
@@ -77,7 +63,7 @@ void convertir_mat_duels_vide() {
     convertir_mat_duels(mots, &duels);
 
     // On verifie que la mat des duels est en mode erreur
-    verifier_mat_erreur(duels);
+    assert(est_t_mat_int_dyn_erreur(duels));
 }
 
 // Avec une mat de mots CSV valide, contenant des score de duels entre les
@@ -134,7 +120,7 @@ void obtenir_candidats_duels_csv_vide() {
     obtenir_candidats_duels(mots, &candidats);
 
     // On verifie que le tableau des candidats est en mode erreur
-    verifier_tab_erreur(candidats);
+    assert(est_t_candidats_erreur(candidats));
 }
 
 // Avec un nombre de colonnes insuffisant, càd 0 colonne donc 0 candidat
@@ -148,7 +134,7 @@ void obtenir_candidats_duels_nb_colonnes_invalide() {
     obtenir_candidats_duels(mots, &candidats);
 
     // On verifie que le tableau des candidats est en mode erreur
-    verifier_tab_erreur(candidats);
+    assert(est_t_candidats_erreur(candidats));
 }
 
 // Avec une matrice CSV valide, càd au moins 5 colonnes et plusieurs lignes
@@ -208,7 +194,7 @@ void obtenir_candidats_ballots_csv_vide() {
     obtenir_candidats_ballots(mots, &candidats);
 
     // On verifie que le tableau des candidats est en mode erreur
-    verifier_tab_erreur(candidats);
+    assert(est_t_candidats_erreur(candidats));
 }
 
 // Avec un nombre de colonnes insuffisant, càd 0 colonne donc 0 candidat
@@ -223,7 +209,7 @@ void obtenir_candidats_ballots_nb_colonnes_invalide() {
     obtenir_candidats_ballots(mots, &candidats);
 
     // On verifie que le tableau des candidats est en mode erreur
-    verifier_tab_erreur(candidats);
+    assert(est_t_candidats_erreur(candidats));
 }
 
 // Avec une matrice CSV valide, càd au moins 5 colonnes et plusieurs lignes
@@ -398,7 +384,7 @@ static void tester_creer_mat_duels_dims_invalides(int colonnes, int lignes) {
     t_mat_int_dyn duels;
     creer_mat_duels(mots, &duels);
 
-    verifier_mat_erreur(duels);
+    assert(est_t_mat_int_dyn_erreur(duels));
 }
 
 // Avec un fichier CSV completement vide
@@ -530,9 +516,8 @@ static void tester_tetes_de_listes_invalide(int lignes, int colonnes) {
     // declenchent l'erreur
     t_mat_char_star_dyn mots_csv = { NULL, lignes, colonnes };
 
-    t_tab_int_dyn* resultat =  tetes_de_listes(mots_csv);
+    t_tab_int_dyn* resultat = tetes_de_listes(mots_csv);
 
-    // On verifie qu'il y a bien eu une erreur dans notre fonction
     assert(resultat == NULL);
 }
 
