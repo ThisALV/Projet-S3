@@ -281,6 +281,7 @@ void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
             // Un autre candidat a fait un aussi bon rang dans ce ballot de votes
             tetes->taille++; // Un candidat de plus
             tetes->elems = (int*) realloc(tetes->elems, tetes->taille * sizeof(int)); // On lui alloue une colonne
+            verifier_alloc(tetes->elems, "Allocation gagants de ballot");
 
             tetes->elems[tetes->taille - 1] = id; // On assigne le candidat a la nouvelle col
         } else if (rang_courant < meilleur_rang) {
@@ -288,6 +289,7 @@ void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
             // Ce candidat, en revenche, a le nouveau meilleur rang, il est gagnant
             tetes->taille = 1;
             tetes->elems = (int*) realloc(tetes->elems, sizeof(int));
+            verifier_alloc(tetes->elems, "Allocation gagnants de ballot");
 
             tetes->elems[0] = id;
 
@@ -341,6 +343,7 @@ t_tab_int_dyn* tetes_de_listes(t_mat_char_star_dyn mots_csv) {
 
         // On ajoute une tableau de candidats gagnant pour ce ballot traite au tableau des ballots
         candidats_preferes = (t_tab_int_dyn*) realloc(candidats_preferes, (ballot_i + 1) * sizeof(t_tab_int_dyn));
+        verifier_alloc(candidats_preferes, "Allocation tetes de listes");
         candidats_preferes[ballot_i] = gagnants_ballot;
     }
 
