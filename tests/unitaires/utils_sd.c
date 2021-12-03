@@ -114,6 +114,25 @@ void creer_mat_char_star_colonnes_negatif() {
 
 
 //
+// creer_tab_candidats
+//
+
+// Avec une dimension strictement positive
+void creer_tab_candidats_dim_ok() {
+    t_candidat* tab = creer_tab_candidats(TAILLE_VALIDE);
+
+    assert(tab != NULL); // Verifie que la memoire est allouee
+
+    free(tab); // Nettoie les ressources utilisees pour le tests
+}
+
+// Avec une longueur negative
+void creer_tab_candidats_dim_negative() {
+    assert(creer_tab_candidats(TAILLE_INVALIDE) == NULL);
+}
+
+
+//
 // creer_t_tab_int_dyn
 //
 
@@ -337,6 +356,54 @@ void detruire_t_mat_char_star_dyn_test() {
 }
 
 
+//
+// creer_t_candidats_dyn
+//
+
+// Avec une longueur strictement positive
+void creer_t_candidats_dyn_dim_ok() {
+    t_candidats tab;
+
+    // On s'assure que l'initialisation s'est effectuee correctement
+    assert(creer_t_candidats_dyn(&tab, TAILLE_VALIDE));
+
+    // On verifie que la memoire a ete allouee
+    assert(tab.elems != NULL);
+    // Et que la taille a bien ete prise en compte
+    assert(tab.nb == TAILLE_VALIDE);
+
+    detruire_t_candidats_dyn(&tab); // Nettoie les ressources utilisees pour le test
+}
+
+// Avec une longueur negative
+void creer_t_candidats_dyn_dim_negative() {
+    t_candidats tab;
+
+    // On s'assure que l'initialisation a plantee
+    assert(!creer_t_candidats_dyn(&tab, TAILLE_INVALIDE));
+}
+
+
+//
+// detruire_t_candidats_dyn
+//
+
+void detruire_t_candidats_dyn_test() {
+    t_candidats tab;
+
+    // Si l'initialisation du tableau echoue, alors le reste du test ne
+    // fonctionnera pas
+    assert(creer_t_candidats_dyn(&tab, TAILLE_VALIDE));
+
+    detruire_t_candidats_dyn(&tab);
+
+    // On verifie que la memoire a ete desallouee
+    assert(tab.elems == NULL);
+    // On verifie que la taille a ete actualisee
+    assert(tab.nb == 0);
+}
+
+
 // Scripts des tests appelle par main_utilitaires.c
 void tests_unitaires_utils_sd() {
     creer_tab_int_dim_ok();
@@ -351,6 +418,9 @@ void tests_unitaires_utils_sd() {
     creer_mat_char_star_dim_ok();
     creer_mat_char_star_lignes_negatif();
     creer_mat_char_star_colonnes_negatif();
+
+    creer_tab_candidats_dim_ok();
+    creer_tab_candidats_dim_negative();
 
     creer_t_tab_int_dyn_dim_ok();
     creer_t_tab_int_dyn_dim_negative();
@@ -372,4 +442,9 @@ void tests_unitaires_utils_sd() {
     creer_t_mat_char_star_dyn_colonnes_negatif();
 
     detruire_t_mat_char_star_dyn_test();
+
+    creer_t_candidats_dyn_dim_ok();
+    creer_t_candidats_dyn_dim_negative();
+
+    detruire_t_candidats_dyn_test();
 }
