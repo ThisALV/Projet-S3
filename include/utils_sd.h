@@ -115,6 +115,15 @@ bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim);
 /// \param[inout] tab Tableau a desallour, la dimension sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_tab_int_dyn(t_tab_int_dyn* tab);
 
+/// \fn Met un tableau d'entiers non initalise en mode erreur
+/// \param[out] tab Tableau a mettre en mode erreur
+void mettre_t_tab_int_dyn_erreur(t_tab_int_dyn* tab);
+
+/// \fn Verifie si un tableau est en mode erreur
+/// \param[in] tab Tableau a verifier
+/// \return `true` si le tableau est en mode erreur
+bool est_t_tab_int_dyn_erreur(t_tab_int_dyn* tab);
+
 /// \fn Creer une matrice carree d'entiers dynamique
 /// \param[out] mat Matrice a initialiser
 /// \param[in] dim Longueur et hauteur de la matrice
@@ -125,6 +134,15 @@ bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim);
 /// \param[inout] mat Matrice a desallouer, la dimension sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_mat_int_dyn(t_mat_int_dyn* mat);
 
+/// \fn Met une matrice d'entiers non initalisee en mode erreur
+/// \param[out] mat Matrice a mettre en mode erreur
+void mettre_t_mat_int_dyn_erreur(t_mat_int_dyn* mat);
+
+/// \fn Verifie si une matrice est en mode erreur
+/// \param[in] mat Matrice a verifier
+/// \return `true` si le matrice est en mode erreur
+bool est_t_mat_int_dyn_erreur(t_mat_int_dyn* mat);
+
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
 /// \param[in] dim Taille du tableau
@@ -134,6 +152,15 @@ bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim);
 /// \fn Detruit proprement le tableau de chaines de caracteres dynamique en desallouant sa memoire
 /// \param[inout] tab Tableau a desallouer, la dimension sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab);
+
+/// \fn Met un tableau de chaines de caracteres non initalise en mode erreur
+/// \param[out] tab Tableau a mettre en mode erreur
+void mettre_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab);
+
+/// \fn Verifie si un tableau est en mode erreur
+/// \param[in] tab Tableau a verifier
+/// \return `true` si le tableau est en mode erreur
+bool est_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab);
 
 /// \fn Creer une matrice de chaines de caracteres dynamique
 /// \param[out] mat Matrice a initialiser
@@ -146,6 +173,15 @@ bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonne
 /// \param[inout] mat Matrice a desallouer, les dimensions seront mises a 0 et le pointeur ira vers NULL
 void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat);
 
+/// \fn Met une matrice de chaines de caracteres non initalisee en mode erreur
+/// \param[out] mat Matrice a mettre en mode erreur
+void mettre_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat);
+
+/// \fn Verifie si une matrice est en mode erreur
+/// \param[in] mat Matrice a verifier
+/// \return `true` si le matrice est en mode erreur
+bool est_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat);
+
 /// \fn Creer un tableau de candidats dynamique
 /// \param[in] dim Nombre de candidats, la taille du tableau
 /// \param[out] tab Tableau a initialiser
@@ -155,6 +191,15 @@ bool creer_t_candidats_dyn(t_candidats* tab, int dim);
 /// \fn Detruit proprement le tableau de candidats en desallouant sa memoire
 /// \param[inout] tab Tableau a desallouer, la taille sera mise a 0 et le pointeur ira vers NULL
 void detruire_t_candidats_dyn(t_candidats* tab);
+
+/// \fn Met un tableau de candidats non initalise en mode erreur
+/// \param[out] tab Tableau a mettre en mode erreur
+void mettre_t_candidats_erreur(t_candidats* tab);
+
+/// \fn Verifie si un tableau est en mode erreur
+/// \param[in] tab Tableau a verifier
+/// \return `true` si le tableau est en mode erreur
+bool est_t_candidats_erreur(t_candidats* tab);
 
 
 #endif // UTILS_SD_H

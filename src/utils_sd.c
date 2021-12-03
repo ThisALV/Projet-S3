@@ -108,6 +108,15 @@ void detruire_t_tab_int_dyn(t_tab_int_dyn* tab) {
     tab->taille = 0;
 }
 
+void mettre_t_tab_int_dyn_erreur(t_tab_int_dyn* tab) {
+    tab->elems = NULL;
+    tab->taille = -1;
+}
+
+bool est_t_tab_int_dyn_erreur(t_tab_int_dyn* tab) {
+    return tab->elems == NULL && tab->taille == -1;
+}
+
 bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim) {
     mat->elems = creer_mat_int(dim);
     mat->dim = dim;
@@ -125,6 +134,15 @@ void detruire_t_mat_int_dyn(t_mat_int_dyn* mat) {
     mat->dim = 0;
 }
 
+void mettre_t_mat_int_dyn_erreur(t_mat_int_dyn* mat) {
+    mat->elems = NULL;
+    mat->dim = -1;
+}
+
+bool est_t_mat_int_dyn_erreur(t_mat_int_dyn* mat) {
+    return mat->elems == NULL && mat->dim == -1;
+}
+
 bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim) {
     tab->elems = creer_tab_char_star(dim);
     tab->taille = dim;
@@ -139,6 +157,15 @@ void detruire_t_tab_char_star_dyn(t_tab_char_star_dyn* tab) {
     tab->elems = NULL;
     // Le tableau est dorenavant vide
     tab->taille = 0;
+}
+
+void mettre_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab) {
+    tab->elems = NULL;
+    tab->taille = -1;
+}
+
+bool est_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab) {
+    return tab->elems == NULL && tab->taille == -1;
 }
 
 bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonnes) {
@@ -160,6 +187,16 @@ void detruire_t_mat_char_star_dyn(t_mat_char_star_dyn* mat) {
     mat->colonnes = 0;
 }
 
+void mettre_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat) {
+    mat->elems = NULL;
+    mat->lignes = -1;
+    mat->colonnes = -1;
+}
+
+bool est_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat) {
+    return mat->elems == NULL && mat->lignes == -1 && mat->colonnes == -1;
+}
+
 bool creer_t_candidats_dyn(t_candidats* tab, int dim) {
     // On procede comme pour la creation des autres tableaux dynamiques
     
@@ -176,4 +213,13 @@ void detruire_t_candidats_dyn(t_candidats* tab) {
 
     tab->elems = NULL;
     tab->nb = 0;
+}
+
+void mettre_t_candidats_erreur(t_candidats* tab) {
+    tab->elems = NULL;
+    tab->nb = -1;
+}
+
+bool est_t_candidats_erreur(t_candidats* tab) {
+    return tab->elems == NULL && tab->nb == -1;
 }
