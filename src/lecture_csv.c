@@ -18,7 +18,8 @@
 char* allouer_copie_char_star(char* source, char* message_si_erreur) {
     // On evalue la taille de la chaine pour allouer la place necessaire en memoire
     int taille_nom = strlen(source);
-    char* copie = (char*) malloc(sizeof(char) * taille_nom);
+    // +1 pour le 0 de terminaison
+    char* copie = (char*) malloc(sizeof(char) * (taille_nom + 1));
     verifier_alloc(copie, message_si_erreur);
 
     // On effectue la copie puis on renvoie le resultat
