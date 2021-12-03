@@ -44,7 +44,7 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
     char ligne[LIGNE_MAX_TAILLE];
 
     mots->lignes = 0;
-    mots->colonnes = 0;
+    bool nb_colonnes_connu = false;
     // Vaut NULL au debut, donc le premier realloc fera un malloc
     mots->elems = NULL;
     // On lit ligne par ligne le fichier CSV en les stockant tour a tour
@@ -68,15 +68,15 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
         mot = strtok(mot, separateurs); // On la decoupe avec les separateurs
 
         // On initialise le compteur de colonnes de cette ligne
-        mots->colonnes = 0;
+        int colonnes = 0;
         // Pour chaque mot dans la ligne
         while (mot != NULL) {
             // On incremente le compteur de colonne et on retient l'indice de celle
             // sur laquelle on travaille
-            int colonne_i = mots->colonnes++;
+            int colonne_i = colonnes++;
 
             // On alloue la memoire pour une nouvelle colonne de cette ligne
-            mots->elems[ligne_i] = (char**) realloc(mots->elems[ligne_i], mots->colonnes * sizeof(char*));
+            mots->elems[ligne_i] = (char**) realloc(mots->elems[ligne_i], colonnes * sizeof(char*));
             char** ligne_mat = mots->elems[ligne_i];
             verifier_alloc(ligne_mat, "Allocation ligne CSV");
 
@@ -90,6 +90,15 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
 
             // Enfin, passe au mot suivant
             mot = strtok(NULL, separateurs);
+        }
+
+        if (nb_colonnes_connu) {
+            // On verifie qu'il y a le mm nb de colonnes dans chaque ligne
+            if (colonnes != mots->colonnes)
+                erreur_fatale(2, "Nombre de colonnes non persistent dans CSV");
+        } else { 
+            mots->colonnes = colonnes;
+            nb_colonnes_connu = true;
         }
 
         char* dernier_mot = mots->elems[ligne_i][mots->colonnes - 1];
