@@ -404,6 +404,75 @@ void detruire_t_candidats_dyn_test() {
 }
 
 
+//
+// mettre_t_*_erreur
+// Une sd en mode erreur possede un pointeur NULL et des dimensions -1
+//
+
+void mettre_t_tab_int_dyn_erreur_test() {
+    t_tab_int_dyn tab;
+    mettre_t_tab_int_dyn_erreur(&tab);
+    
+    assert(tab.elems == NULL);
+    assert(tab.taille == -1);
+}
+
+void mettre_t_mat_int_dyn_erreur_test() {
+    t_mat_int_dyn mat;
+    mettre_t_mat_int_dyn_erreur(&mat);
+    
+    assert(mat.elems == NULL);
+    assert(mat.dim == -1);
+}
+
+void mettre_t_tab_char_star_dyn_erreur_test() {
+    t_tab_char_star_dyn tab;
+    mettre_t_tab_char_star_dyn_erreur(&tab);
+    
+    assert(tab.elems == NULL);
+    assert(tab.taille == -1);
+}
+
+void mettre_t_mat_char_star_dyn_erreur_test() {
+    t_mat_char_star_dyn mat;
+    mettre_t_mat_char_star_dyn_erreur(&mat);
+    
+    assert(mat.elems == NULL);
+    assert(mat.lignes == -1);
+    assert(mat.colonnes == -1);
+}
+
+void mettre_t_candidats_erreur_test() {
+    t_candidats tab;
+    mettre_t_candidats_erreur(&tab);
+
+    assert(tab.elems == NULL);
+    assert(tab.nb == -1);
+}
+
+
+//
+// est_t_*_erreur
+// Lorsqu'une sd a un pointeur vers NULL et toutes ses dimensions a -1,
+// alors on considere qu'elle est en mode erreur
+//
+
+void est_t_tab_int_dyn_erreur_ok() {
+    // On creer un tableau tout a fait valide
+    t_tab_int_dyn tab;
+    creer_t_tab_int_dyn(&tab, 5);
+
+    assert(!est_t_tab_int_dyn_erreur(tab));
+}
+
+void est_t_tab_int_dyn_erreur_erreur() {
+    // On creer un tableau aves les proprietes du mode erreur
+    t_tab_int_dyn tab = { NULL, -1 };
+
+    assert(est_t_tab_int_dyn_erreur(tab));
+}
+
+
 // Scripts des tests appelle par main_utilitaires.c
 void tests_unitaires_utils_sd() {
     creer_tab_int_dim_ok();
@@ -445,6 +514,15 @@ void tests_unitaires_utils_sd() {
 
     creer_t_candidats_dyn_dim_ok();
     creer_t_candidats_dyn_dim_negative();
+
+    mettre_t_tab_int_dyn_erreur_test();
+    mettre_t_mat_int_dyn_erreur_test();
+    mettre_t_tab_char_star_dyn_erreur_test();
+    mettre_t_mat_char_star_dyn_erreur_test();
+    mettre_t_candidats_erreur_test();
+
+    est_t_tab_int_dyn_erreur_ok();
+    est_t_tab_int_dyn_erreur_erreur();
 
     detruire_t_candidats_dyn_test();
 }
