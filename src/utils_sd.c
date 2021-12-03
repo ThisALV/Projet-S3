@@ -113,8 +113,8 @@ void mettre_t_tab_int_dyn_erreur(t_tab_int_dyn* tab) {
     tab->taille = -1;
 }
 
-bool est_t_tab_int_dyn_erreur(t_tab_int_dyn* tab) {
-    return tab->elems == NULL && tab->taille == -1;
+bool est_t_tab_int_dyn_erreur(t_tab_int_dyn tab) {
+    return tab.elems == NULL && tab.taille == -1;
 }
 
 bool creer_t_mat_int_dyn(t_mat_int_dyn* mat, int dim) {
@@ -139,8 +139,8 @@ void mettre_t_mat_int_dyn_erreur(t_mat_int_dyn* mat) {
     mat->dim = -1;
 }
 
-bool est_t_mat_int_dyn_erreur(t_mat_int_dyn* mat) {
-    return mat->elems == NULL && mat->dim == -1;
+bool est_t_mat_int_dyn_erreur(t_mat_int_dyn mat) {
+    return mat.elems == NULL && mat.dim == -1;
 }
 
 bool creer_t_tab_char_star_dyn(t_tab_char_star_dyn* tab, int dim) {
@@ -164,8 +164,8 @@ void mettre_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab) {
     tab->taille = -1;
 }
 
-bool est_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab) {
-    return tab->elems == NULL && tab->taille == -1;
+bool est_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn tab) {
+    return tab.elems == NULL && tab.taille == -1;
 }
 
 bool creer_t_mat_char_star_dyn(t_mat_char_star_dyn* mat, int lignes, int colonnes) {
@@ -193,8 +193,8 @@ void mettre_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat) {
     mat->colonnes = -1;
 }
 
-bool est_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat) {
-    return mat->elems == NULL && mat->lignes == -1 && mat->colonnes == -1;
+bool est_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn mat) {
+    return mat.elems == NULL && mat.lignes == -1 && mat.colonnes == -1;
 }
 
 bool creer_t_candidats_dyn(t_candidats* tab, int dim) {
@@ -220,6 +220,6 @@ void mettre_t_candidats_erreur(t_candidats* tab) {
     tab->nb = -1;
 }
 
-bool est_t_candidats_erreur(t_candidats* tab) {
-    return tab->elems == NULL && tab->nb == -1;
+bool est_t_candidats_erreur(t_candidats tab) {
+    return tab.elems == NULL && tab.nb == -1;
 }

@@ -122,7 +122,7 @@ void mettre_t_tab_int_dyn_erreur(t_tab_int_dyn* tab);
 /// \fn Verifie si un tableau est en mode erreur
 /// \param[in] tab Tableau a verifier
 /// \return `true` si le tableau est en mode erreur
-bool est_t_tab_int_dyn_erreur(t_tab_int_dyn* tab);
+bool est_t_tab_int_dyn_erreur(t_tab_int_dyn tab);
 
 /// \fn Creer une matrice carree d'entiers dynamique
 /// \param[out] mat Matrice a initialiser
@@ -141,7 +141,7 @@ void mettre_t_mat_int_dyn_erreur(t_mat_int_dyn* mat);
 /// \fn Verifie si une matrice est en mode erreur
 /// \param[in] mat Matrice a verifier
 /// \return `true` si le matrice est en mode erreur
-bool est_t_mat_int_dyn_erreur(t_mat_int_dyn* mat);
+bool est_t_mat_int_dyn_erreur(t_mat_int_dyn mat);
 
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
@@ -160,7 +160,7 @@ void mettre_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab);
 /// \fn Verifie si un tableau est en mode erreur
 /// \param[in] tab Tableau a verifier
 /// \return `true` si le tableau est en mode erreur
-bool est_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn* tab);
+bool est_t_tab_char_star_dyn_erreur(t_tab_char_star_dyn tab);
 
 /// \fn Creer une matrice de chaines de caracteres dynamique
 /// \param[out] mat Matrice a initialiser
@@ -180,7 +180,7 @@ void mettre_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat);
 /// \fn Verifie si une matrice est en mode erreur
 /// \param[in] mat Matrice a verifier
 /// \return `true` si le matrice est en mode erreur
-bool est_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn* mat);
+bool est_t_mat_char_star_dyn_erreur(t_mat_char_star_dyn mat);
 
 /// \fn Creer un tableau de candidats dynamique
 /// \param[in] dim Nombre de candidats, la taille du tableau
@@ -199,7 +199,7 @@ void mettre_t_candidats_erreur(t_candidats* tab);
 /// \fn Verifie si un tableau est en mode erreur
 /// \param[in] tab Tableau a verifier
 /// \return `true` si le tableau est en mode erreur
-bool est_t_candidats_erreur(t_candidats* tab);
+bool est_t_candidats_erreur(t_candidats tab);
 
 
 #endif // UTILS_SD_H
