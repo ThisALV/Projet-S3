@@ -1,5 +1,5 @@
 # Les fichiers d'en-têtes .h sont rangés dans un répertoire à part "include"
-CFLAGS := -Iinclude/
+CFLAGS := -std=c99 -Wall -Wextra -Iinclude/
 
 # Fonction appelée pour compiler l'exécutable de la target courante et afficher
 # un message à l'utilisateur
