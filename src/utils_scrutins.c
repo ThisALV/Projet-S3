@@ -30,26 +30,60 @@ static void assigne_rang_candidat_si_trouve(int rang_courant, int* rang_c, char*
         *rang_c = rang_courant;
 }
 
-int departager_candidats(t_candidat c1, t_candidat c2) {
-    int rang_age_c1 = RANG_AGE_NON_TROUVE;
-    int rang_age_c2 = RANG_AGE_NON_TROUVE;
+// Verifie si tous les ages de tous les candidats sont connus
+// Retourne l'index du 1er candidat (0) si un des candidats n'a pas d'age
+// enregistre, sinon l'index du candidat avec le rang le plus bas
+static int verifier_ages_candidats(t_tab_int_dyn rangs)  {
+    // On commence par designe le premier candidat donne comme etant le +
+    // age
+    int plus_age_i = 0;
+
+    for (int candidat_i = 1; candidat_i < rangs.taille; candidat_i++) {
+        // On sauvegarde le rang du candidat courant
+        int rang_candidat_i = rangs.elems[candidat_i];
+
+        // Par defaut, on considere que c'est le 1er candidat donne en
+        // entree qui est vainqueur
+        if (rang_candidat_i == RANG_AGE_NON_TROUVE)
+            return 0;
+
+        if (rangs.elems[plus_age_i] > rangs.elems[candidat_i])
+            plus_age_i = candidat_i;
+    }
+
+    // Si l'age de tous les candidats etait connu, alors on retorune l'ID
+    // du plus age
+    return plus_age_i;
+}
+
+int departager_candidats(t_candidats candidats) {
+    // Un indice de ce tableau est l'indice d'un candidat dans le tableau
+    // fourni en entree, auquel est associ son rang dans le classement
+    // d'anciennetee
+    t_tab_int_dyn rangs_age;
+    creer_t_tab_int_dyn(&rangs_age, candidats.nb);
+
+    // Au debut, on ne connait le rang d'aucun candidat dans le classement
+    // par anciennetee
+    for (int rang_i = 0; rang_i < rangs_age.taille; rang_i++)
+        rangs_age.elems[rang_i] = RANG_AGE_NON_TROUVE;
 
     // On parcourt chaque rang dans le classement d'anciennetee
     for (int rang_age = 0; plus_au_moins_age[rang_age] != NULL; rang_age++) {
-        assigne_rang_candidat_si_trouve(rang_age, &rang_age_c1, c1.nom);
-        assigne_rang_candidat_si_trouve(rang_age, &rang_age_c2, c2.nom);
+        for (int candidat_i = 0; candidat_i < candidats.nb; candidat_i++) {
+            // Pointeur vers le rang du candidat sur lequel on travaille
+            int* rang_candidat_i = &(rangs_age.elems[candidat_i]);
+            // Nom du candidat sur lequel on travaille
+            char* nom_candidat_i = candidats.elems[candidat_i].nom;
+
+            assigne_rang_candidat_si_trouve(rang_age, rang_candidat_i, nom_candidat_i);
+        }
     }
 
-    // Si on connait l'age des 2 candidats
-    if (rang_age_c1 != RANG_AGE_NON_TROUVE && rang_age_c2 != RANG_AGE_NON_TROUVE) {
-        // On retourne l'ID du candidat le plus age
+    int vainqueur_i = verifier_ages_candidats(rangs_age);
+    // Liberation des ressources de l'algorithme
+    detruire_t_tab_int_dyn(&rangs_age);
 
-        if (rang_age_c1 < rang_age_c2)
-            return c1.id;
-
-        return c2.id;
-    }
-
-    // Sinon on retourne simplement le 1er candidat donne
-    return c1.id;
+    // Grace a l'indice obtenu, on accede a l'ID du candidat vainqueur
+    return candidats.elems[vainqueur_i].id;
 }

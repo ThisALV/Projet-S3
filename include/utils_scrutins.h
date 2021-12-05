@@ -9,11 +9,12 @@
 #include <utils_sd.h>
 
 
-/// \fn Departage 2 candidats a egalite dans un vote uninominal ou dans un duel pour une matrice
-/// \param[in] c1 1er candidat a egalite
-/// \param[in] c2 2eme candidat a egalite
-/// \return L'ID du candidat gagnant, cad du plus age si on connait l'age des 2 candidats, ou alors c1 si un des ages n'est pas connu
-int departager_candidats(t_candidat c1, t_candidat c2);
+/// \fn Departage plusieurs candidats a egalite dans un vote uninominal ou dans un duel pour une matrice
+/// \param[in] candidats Tableau des candidats a egalite
+/// \return L'ID du candidat gagnant, cad du plus age si on connait
+/// l'age de tous les candidats, ou alors l'ID du 1er candidat donne si
+/// un des ages est inconnu
+int departager_candidats(t_candidats candidats);
 
 
 #endif // UTILS_SCRUTINS_H
