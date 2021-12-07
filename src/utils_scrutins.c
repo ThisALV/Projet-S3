@@ -174,3 +174,36 @@ int vainqueur_uninominale(t_candidats candidats, t_tab_int_dyn* tetes_de_listes,
     compter_voix_ballots(&voix, candidats, tetes_de_listes, nb_ballots);
     return comparer_voix_ballots(voix, candidats);
 }
+
+// Verifie si un candidat a gagne contre un adversaire dans la matrice de duels donnee
+static bool a_gagne_contre(t_mat_int_dyn duels, int candidat_id, int adversaire_id) {
+    // Au moins 50 % des voix contre ce candidat pour respecter le critere de condorcet
+    return duels.elems[candidat_id][adversaire_id] >= 50;
+}
+
+int vainqueur_condorcet(t_mat_int_dyn duels) {
+    int nb_candidats = duels.dim;
+
+    for (int candidat_id = 0; candidat_id < nb_candidats; candidat_id++) {
+        bool critere_condorcet = true;
+
+        // Plus la peine de continuer si on sait deja que le critere de condorcet
+        // n'est pas respecte
+        for (int adversaire_id = 0; adversaire_id < nb_candidats && critere_condorcet; adversaire_id++) {
+            // On ignore les duels dans la diagonale de la matrice
+            if (adversaire_id == candidat_id)
+                continue;
+
+            // critere_condorcet est forcement true, sinon on aurait quitte la boucle
+            critere_condorcet = a_gagne_contre(duels, candidat_id, adversaire_id);
+        }
+
+        // Si ce candidat respecte le critere de condorcet, et que donc il vaut tjrs
+        // true meme apres la boucle, alors on peut le designer vainqueur de condorcet
+        if (critere_condorcet)
+            return candidat_id;
+    }
+
+    // Si aucun candidat n'a rempli le critere de condorcet, alors pas de vainqueur
+    return CONDORCET_AUCUN_VAINQUEUR;
+}

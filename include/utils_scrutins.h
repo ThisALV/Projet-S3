@@ -8,6 +8,9 @@
 
 #include <utils_sd.h>
 
+/// \def Valeur utilisee pour le gagnant d'un vote par condorcet sans aucun vainqueur
+#define CONDORCET_AUCUN_VAINQUEUR -1
+
 
 /// \fn Departage plusieurs candidats a egalite dans un vote uninominal ou dans un duel pour une matrice
 /// \param[in] candidats Tableau des candidats a egalite
@@ -40,6 +43,11 @@ int comparer_voix_ballots(t_tab_int_dyn voix, t_candidats candidats);
 /// \param[in] nb_ballots Nombre de tableaux des preferes dans `tetes_de_listes`
 /// \return L'ID du candidat designe vainqueur selon cette methode
 int vainqueur_uninominale(t_candidats candidats, t_tab_int_dyn* tetes_de_listes, int nb_ballots);
+
+/// \fn Calcule le vainqueur de condorcet d'un vote, donc selon la methode de Condorcet
+/// \param[in] duels Matrice des duels utilisee pour verifier qu'un candidat a gagne tous les siens
+/// \return L'ID du candidat designe vainqueur selon cette methode, `CONDORCET_AUCUN_VAINQUEUR` s'il n'y en a pas
+int vainqueur_condorcet(t_mat_int_dyn duels);
 
 
 #endif // UTILS_SCRUTINS_H
