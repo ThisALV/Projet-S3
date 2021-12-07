@@ -154,6 +154,11 @@ int comparer_voix_ballots(t_tab_int_dyn voix, t_candidats candidats) {
 
             // On n'oublie de detruire notre situation d'egalitee
             detruire_t_candidats_dyn(&egalite);
+        } else if (nb_voix_courant > nb_voix_vainqueur) {
+            // Si le candidat courant a juste plus de voix, c'est le nouveau
+            // vainqueur a depasser pour l'instant
+            vainqueur_id = candidat_id;
+            nb_voix_vainqueur = voix.elems[vainqueur_id];
         }
     }
 
