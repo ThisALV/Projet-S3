@@ -198,6 +198,55 @@ void vainqueur_uninominale_avec_egalites() {
 }
 
 
+//
+// vainqueur_condorcet
+//
+
+// Verifie si, pour une matrice de duels donnee, on obtient bien l'ID
+// gagnant attendu
+static void tester_vainqueur_condorcet(int duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS], int id_vainqueur_attendu) {
+    // On initialise notre matrice, non statiquement puisque int[][] ne
+    // cast pas en int**
+    t_mat_int_dyn duels_mat;
+    creer_t_mat_int_dyn(&duels_mat, NB_CANDIDATS_TESTS);
+    
+    // Donc on va ensuite copier les elements un a un
+    for (int l = 0; l < duels_mat.dim; l++)
+        for (int c = 0; c < duels_mat.dim; c++)
+            duels_mat.elems[l][c] = duels[l][c];
+
+    assert(vainqueur_condorcet(duels_mat) == id_vainqueur_attendu);
+
+    // Et on n'oublie pas de liberer les ressources
+    detruire_t_mat_int_dyn(&duels_mat);
+}
+
+// Un des candidats gagne tous ses duels
+void vainqueur_condorcet_gagnant() {
+    int duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
+        {  0, 20, 59, 42 },
+        { 80,  0, 50, 51 }, // Le 2eme candidat, avec ID=1, gagne tous ses duels
+        { 41, 50,  0, 33 },
+        { 58, 49, 67,  0 }
+    };
+
+    tester_vainqueur_condorcet(duels, 1);
+}
+
+// Aucun des candidats ne gagne tous ses duels
+void vainqueur_condorcet_aucun_gagnant() {
+    int duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
+        // Chaque candidat perd au moins 1 duel
+        {  0, 20, 59, 42 },
+        { 80,  0, 49, 51 },
+        { 41, 51,  0, 33 },
+        { 58, 49, 67,  0 }
+    };
+
+    tester_vainqueur_condorcet(duels, CONDORCET_AUCUN_VAINQUEUR);
+}
+
+
 // Script principal executant tous les tests de ce module
 void tests_unitaires_utils_scrutin() {
     departager_candidats_1er_plus_age();
@@ -212,4 +261,7 @@ void tests_unitaires_utils_scrutin() {
     comparer_voix_ballots_egalite();
 
     vainqueur_uninominale_avec_egalites();
+
+    vainqueur_condorcet_gagnant();
+    vainqueur_condorcet_aucun_gagnant();
 }
