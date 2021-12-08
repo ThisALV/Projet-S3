@@ -83,56 +83,62 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
             </task>
             <task id="488" name="tetes_de_listes" color="#8cb6ce" meeting="false" start="2021-11-27" duration="3" complete="100" thirdDate="2021-11-15" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="98" name="utils_scrutins" color="#8cb6ce" meeting="false" start="2021-11-30" duration="6" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
-            <depend id="85" type="2" difference="0" hardness="Strong"/>
-            <task id="489" name="creer_liste_arcs" color="#8cb6ce" meeting="false" start="2021-11-30" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="98" name="utils_scrutins" color="#8cb6ce" meeting="false" start="2021-11-30" duration="6" complete="50" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[- Doit implémenter les fonctions pour départager les joueurs entre eux en cas d'égalités dans les ballots, dans la matrice ou après avoir compté leurs voix. Retard de 5 jours pris sur le module suivant le temps d'implémenter cela.]]>
+            </notes>
+            <depend id="85" type="2" difference="5" hardness="Strong"/>
+            <task id="489" name="creer_liste_arcs" color="#8cb6ce" meeting="false" start="2021-11-30" duration="2" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- N'est plus d'actualité, la méthode qui l'utilisait a été retiré du sujet]]>
+                </notes>
                 <depend id="100" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="100" name="vainqueur_uninominale" color="#8cb6ce" meeting="false" start="2021-12-02" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="100" name="vainqueur_uninominale" color="#8cb6ce" meeting="false" start="2021-12-02" duration="1" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <depend id="106" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="106" name="vainqueur_condorcet" color="#8cb6ce" meeting="false" start="2021-12-03" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="85" name="uninominales" color="#cccc00" meeting="false" start="2021-12-06" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="85" name="uninominales" color="#cccc00" meeting="false" start="2021-12-11" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <depend id="126" type="2" difference="0" hardness="Strong"/>
-            <task id="113" name="uninominale_un_tour" color="#8cb6ce" meeting="false" start="2021-12-06" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="113" name="uninominale_un_tour" color="#8cb6ce" meeting="false" start="2021-12-11" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <depend id="114" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="114" name="uninominale_deux_tours" color="#8cb6ce" meeting="false" start="2021-12-07" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+            <task id="114" name="uninominale_deux_tours" color="#8cb6ce" meeting="false" start="2021-12-12" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="126" name="condorcet_minimax" color="#ffff00" meeting="false" start="2021-12-08" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="126" name="condorcet_minimax" color="#ffff00" meeting="false" start="2021-12-13" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <depend id="127" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="127" name="condorcet_shulze" color="#ffff00" meeting="false" start="2021-12-11" duration="7" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="127" name="condorcet_shulze" color="#ffff00" meeting="false" start="2021-12-16" duration="7" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <depend id="151" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="151" name="main" color="#000000" meeting="false" start="2021-12-18" duration="5" complete="0" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
+        <task id="151" name="main" color="#000000" meeting="false" start="2021-12-23" duration="5" complete="0" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
             <depend id="158" type="2" difference="0" hardness="Strong"/>
-            <task id="152" name="traiter_parametres" color="#8cb6ce" meeting="false" start="2021-12-18" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="152" name="traiter_parametres" color="#8cb6ce" meeting="false" start="2021-12-23" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <depend id="153" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="153" name="main (script principal)" color="#8cb6ce" meeting="false" start="2021-12-21" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+            <task id="153" name="main (script principal)" color="#8cb6ce" meeting="false" start="2021-12-28" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-23" duration="12" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
-            <task id="480" name="generer_cle_privee" color="#8cb6ce" meeting="false" start="2021-12-23" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+        <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-30" duration="12" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="480" name="generer_cle_privee" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="482" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="435" name="hash_electeur" color="#8cb6ce" meeting="false" start="2021-12-23" duration="2" complete="0" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
+            <task id="435" name="hash_electeur" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="0" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
                 <depend id="482" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="482" name="chiffrer_ballot_vote" color="#8cb6ce" meeting="false" start="2021-12-27" duration="1" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+            <task id="482" name="chiffrer_ballot_vote" color="#8cb6ce" meeting="false" start="2022-01-01" duration="1" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="483" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="483" name="ecrire_fichier_votes" color="#8cb6ce" meeting="false" start="2021-12-28" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+            <task id="483" name="ecrire_fichier_votes" color="#8cb6ce" meeting="false" start="2022-01-02" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="424" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="424" name="convertir_binaire" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="0" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
+            <task id="424" name="convertir_binaire" color="#8cb6ce" meeting="false" start="2022-01-04" duration="2" complete="0" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
                 <depend id="451" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="451" name="chercher_electeur" color="#8cb6ce" meeting="false" start="2022-01-01" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+            <task id="451" name="chercher_electeur" color="#8cb6ce" meeting="false" start="2022-01-06" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="457" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="457" name="main (Script principal)" color="#8cb6ce" meeting="false" start="2022-01-03" duration="3" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true"/>
+            <task id="457" name="main (Script principal)" color="#8cb6ce" meeting="false" start="2022-01-08" duration="3" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
     <resources>
