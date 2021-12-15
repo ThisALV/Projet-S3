@@ -3,7 +3,7 @@
 #include <utils_scrutins.h>
 
 
-int condorcet_minimax(t_mat_int_dyn duels) {
+int condorcet_minimax(t_mat_int_dyn duels, t_candidats candidats) {
     // On essaie de trouver un vainqueur de condorcet
     int vainqueur = vainqueur_condorcet(duels);
 
@@ -36,6 +36,25 @@ int condorcet_minimax(t_mat_int_dyn duels) {
         if (pire_score > candidat_pire_score) {
             pire_score = candidat_pire_score;
             pire_score_id = candidat_i;
+        // En cas d'egalite dans le pire score, on doit departager un gagnant
+        } else if (pire_score == candidat_pire_score) {
+            // On creer un tableau contenant les IDs des candidats qui ont le meme
+            // pire score
+            t_tab_int_dyn ids_egalite;
+            creer_t_tab_int_dyn(&ids_egalite, 2);
+            ids_egalite.elems[0] = pire_score_id;
+            ids_egalite.elems[1] = candidat_i;
+
+            // On recupere les infos de ces candidats depuis la BDD en utilisant
+            // ce tableau
+            t_candidats egalite;
+            recuperer_infos_pour(&egalite, candidats, ids_egalite);
+
+            // L'ID du nouveau candidat gagnant est assigne au gagnant departage
+            pire_score_id = departager_candidats(egalite);
+
+            detruire_t_candidats_dyn(&candidats);
+            detruire_t_tab_int_dyn(&ids_egalite);
         }
     }
 

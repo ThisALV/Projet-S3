@@ -12,8 +12,10 @@
 /// \param[in] duels Matrice des duels utilisee pour verifier s'il y a un
 /// vainqueur de condorcet et, si ce n'est pas le cas, quel est le candidat
 /// qui a la moins pire des pires defaites de chaque candidat
+/// \param[in] candidats BDD des candidats utilisee pour fournir les infos
+/// qui les departageront en cas de meme pire score
 /// \return L'ID du candidat vainqueur selon cette methode
-int condorcet_minimax(t_mat_int_dyn duels);
+int condorcet_minimax(t_mat_int_dyn duels, t_candidats candidats);
 
 
 #endif // CONDORCET_MINIMAX_H
