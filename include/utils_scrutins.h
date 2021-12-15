@@ -19,6 +19,14 @@
 /// un des ages est inconnu
 int departager_candidats(t_candidats candidats);
 
+/// \brief Pour chaque ID dans ids, retrouve les infos du candidat ayant cet ID dans
+/// candidats
+/// \param[out] filtres Candidats dont l'ID figure parmis `ids`
+/// \param[in] candidats BDD de tous les candidats pouvant etre selectionnes, doit etre
+/// conforme au programme, cad que l'indice de chaque candidat soit == a son ID
+/// \param[in] ids IDs des candidats a selectionner parmis la BDD
+void recuperer_infos_pour(t_candidats* filtres, t_candidats candidats, t_tab_int_dyn ids);
+
 /// \fn Compte le nb de voix pour chaque candidats en utilisant les candidats preferes
 /// de chaque ballot de votes
 /// \param[out] voix Decompte des voix pour chaque candidat, un indice du tab est un ID de candidat
