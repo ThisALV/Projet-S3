@@ -1,6 +1,7 @@
 #include <unitaires/utils_sd.h>
 #include <unitaires/lecture_csv.h>
 #include <unitaires/utils_scrutins.h>
+#include <unitaires/condorcet_minimax.h>
 #include <stdio.h>
 
 
@@ -14,6 +15,7 @@ int main() {
     test_unitaire_module("utils_sd", tests_unitaires_utils_sd);
     test_unitaire_module("lecture_csv", tests_unitaires_lecture_csv);
     test_unitaire_module("utils_scrutin", tests_unitaires_utils_scrutin);
+    test_unitaire_module("condorcet_minimax", tests_unitaires_condorcet_minimax);
 
     return 0;
 }
