@@ -17,9 +17,9 @@ int condorcet_minimax(t_mat_int_dyn duels, t_candidats candidats) {
     int meilleur_pire_score = 101; // Comme ca le 1er score sera forcement le pire
     int meilleur_pire_score_id; // Donc cette variable sera obligatoirement initialisee pendant la boucle
     for (int candidat_i = 0; candidat_i < nb_candidats; candidat_i++) {
-        // On cherche le score minimum, on commence par partir du principe
-        // que c'est le 1er
-        int candidat_pire_score = duels.elems[candidat_i][0];
+        // On cherche le score minimum, on met au-dessus du % maximal pour
+        // etre sur d'avoir un pire score issu de la matrice a la fin
+        int candidat_pire_score = 101;
 
         // Puis on verifie s'il y en a des inferieurs pour chaque adversaire
         for (int adversaire_i = 0; adversaire_i < nb_candidats; adversaire_i++) {
