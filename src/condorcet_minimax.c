@@ -53,7 +53,7 @@ int condorcet_minimax(t_mat_int_dyn duels, t_candidats candidats) {
             // L'ID du nouveau candidat gagnant est assigne au gagnant departage
             meilleur_pire_score_id = departager_candidats(egalite);
 
-            detruire_t_candidats_dyn(&candidats);
+            detruire_t_candidats_dyn(&egalite);
             detruire_t_tab_int_dyn(&ids_egalite);
         }
     }
