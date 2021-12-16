@@ -89,11 +89,7 @@ int departager_candidats(t_candidats candidats) {
     return candidats.elems[vainqueur_i].id;
 }
 
-// Pour chaque ID dans ids, retrouve les infos du candidat ayant cet ID dans
-// candidats, et l'ajoute dans le tableau `filtres`
-// Il est important que `candidats` soit une BDD de candidats conforme au
-// programme, cad que l'indice ce chaque candidat soit == a son ID, donc dans l'ordre
-static void recuperer_infos_pour(t_candidats* filtres, t_candidats candidats, t_tab_int_dyn ids) {
+void recuperer_infos_pour(t_candidats* filtres, t_candidats candidats, t_tab_int_dyn ids) {
     filtres->elems = NULL; // 1er realloc = malloc, puis realloc quand on veut agrandir le tableau
     filtres->nb = 0;
 
