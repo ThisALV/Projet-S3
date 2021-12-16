@@ -77,8 +77,8 @@ void condorcet_minimax_vainqueur_minimax() {
 void condorcet_minimax_vainqueur_minimax_egalite() {
     int duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
         {  0, 70, 24, 50 }, // Pire score : 24
-        { 30,  0, 62, 70 }, // Pire score : 30 -- Age : 66 ans (S)
-        { 76, 38,  0, 55 }, // Pire score : 38
+        { 30,  0, 72, 70 }, // Pire score : 30 -- Age : 66 ans (S)
+        { 76, 28,  0, 55 }, // Pire score : 38
         { 50, 30, 45,  0 }  // Pire score : 30 -- Age : 70 ans (M)
     };
 
