@@ -31,20 +31,11 @@ void fermer_fichier_logging();
 /// \param[in] format Format du message a ecrire dans la sortie du logging
 /// Les parametres additionnels sont les donnees utilisees pour generer le message
 /// a partir du format.
-void log_sans_newline(char* module, char* format, ...);
-
-/// \brief Meme comportement que `log_sans_newline`, mais rajoute un \n
-/// apres le message.
-/// \param[in] module Module depuis lequel le message a ete emis
-/// \param[in] format Format du message a ecrire dans la sortie du logging
-/// Les parametres additionnels sont les donnees utilisees pour generer le message
-/// a partir du format.
 void log_ligne(char* module, char* format, ...);
 
 /// \brief Ecrit dans la sortie de logging le contenu du tableau d'entiers
 /// \param[in] tab Tableau d'entiers a ecrire
-/// \param[in] ligne `true` si un \n doit etre ajoute apres le logging
-void log_t_tab_int_dyn(t_tab_int_dyn tab, bool ligne);
+void log_t_tab_int_dyn(t_tab_int_dyn tab);
 
 /// \brief Ecrit dans la sortie de logging le contenu de la matrice d'entiers.
 /// Un \n sera ajoute a la fin de chaque ligne de la matrice.
