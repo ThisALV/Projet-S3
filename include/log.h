@@ -9,6 +9,10 @@
 #include <utils_sd.h>
 
 
+/// \brief Mets la sortie du logging a stdout (sortie par defaut). Doit etre
+/// appele au moins une fois au debut du programme si le logging est utilise.
+void sortie_logging_par_defaut();
+
 /// \brief Ouvre le fichier sous le chemin donne en entree, et redirige le
 /// logging vers celui-ci
 /// \param[in] chemin_fichier Chemin du fichier ou ecrire le logging
@@ -21,17 +25,21 @@ bool rediriger_logging_sur(char* chemin_fichier);
 void fermer_fichier_logging();
 
 /// \brief Ecrit un message de logging depuis le module donne en parametre.
-/// Si pour une raison ou une autre, le message n'a pas pu etre ecris, alors
+/// Si pour une raison ou une autre, le message n'a pas pu etre ecrit, alors
 /// on appel `fermer_fichier_logging()`.
 /// \param[in] module Module depuis lequel le message a ete emis
-/// \param[in] message Message a ecrire dans la sortie du logging
-void log_sans_newline(char* module, char* message);
+/// \param[in] format Format du message a ecrire dans la sortie du logging
+/// Les parametres additionnels sont les donnees utilisees pour generer le message
+/// a partir du format.
+void log_sans_newline(char* module, char* format, ...);
 
 /// \brief Meme comportement que `log_sans_newline`, mais rajoute un \n
 /// apres le message.
 /// \param[in] module Module depuis lequel le message a ete emis
-/// \param[in] message Message a ecrire dans la sortie du logging
-void log(char* module, char* message);
+/// \param[in] format Format du message a ecrire dans la sortie du logging
+/// Les parametres additionnels sont les donnees utilisees pour generer le message
+/// a partir du format.
+void log_ligne(char* module, char* format, ...);
 
 /// \brief Ecrit dans la sortie de logging le contenu du tableau d'entiers
 /// \param[in] tab Tableau d'entiers a ecrire
