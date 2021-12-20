@@ -7,7 +7,12 @@
 #define LOG_H
 
 #include <utils_sd.h>
+#include <stdio.h>
 
+
+/// \brief Obtient le fichier de sortie actuel du logging pour le programme.
+/// \return Le pointeur de fichier vers la sortie du logging
+FILE* sortie_logging_courante();
 
 /// \brief Mets la sortie du logging a stdout (sortie par defaut). Doit etre
 /// appele au moins une fois au debut du programme si le logging est utilise.

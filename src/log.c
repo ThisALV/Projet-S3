@@ -1,7 +1,5 @@
 #include <log.h>
 
-#include <stdio.h>
-
 // Verifie si l'appel a la fonction ecriture a ete execute avec succes,
 // ou s'il faut fermer le fichier de logging et arreter l'ecriture de la
 // ligne pour cause d'erreur
@@ -24,6 +22,10 @@
 // Garde en memoire la sortie du logging utilisee par le programme
 static FILE* sortie;
 
+
+FILE* sortie_logging_courante() {
+    return sortie;
+}
 
 void sortie_logging_par_defaut() {
     sortie = stdout;
