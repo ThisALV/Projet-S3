@@ -19,6 +19,10 @@
     test_integration();
 
 
+// Nom du module pour le logging
+static char* module = "integration_log";
+
+
 // Ferme le fichier de logging pour pouvoir lire ce qui a ete ecrit.
 // Ensuite, ouvre en lecture le fichier de test, copie ses lignes dans le tableau
 // de char* donne, puis ferme le ficher de test
@@ -104,9 +108,9 @@ void fermer_fichier_logging_fichier_ouvert() {
 
 void log_ligne_message_simple() {
     // On ecrit les messages dans le logging
-    log_ligne("integration_log", "1 message");
-    log_ligne("integration_log", "2 messages");
-    log_ligne("integration_log", "3 messages");
+    log_ligne(module, "1 message");
+    log_ligne(module, "2 messages");
+    log_ligne(module, "3 messages");
 
     // On lit ce qu'il y a dans le logging
     char lignes[3][LIGNE_MAX];
@@ -122,7 +126,7 @@ void log_ligne_message_avec_donnees() {
     // On ecrit les messages dans le logging
     char* message = "message(s)";
     for (int i = 0; i < 3; i++)
-        log_ligne("integration_log", "%d %s", i + 1, message);
+        log_ligne(module, "%d %s", i + 1, message);
 
     // On lit ce qu'il y a dans le logging
     char lignes[3][LIGNE_MAX];
@@ -147,8 +151,8 @@ void log_t_tab_int_dyn_ok() {
     t_tab_int_dyn tab2 = { elems2, DIM_SDD_TEST };
 
     // Ecriture des tableaux dans le logging
-    log_t_tab_int_dyn("integration_log", tab1);
-    log_t_tab_int_dyn("integration_log", tab2);
+    log_t_tab_int_dyn(module, tab1);
+    log_t_tab_int_dyn(module, tab2);
 
     // Verification des lignes ecrites dans la sortie du logging
     char lignes[2][LIGNE_MAX];
@@ -175,7 +179,7 @@ void log_t_mat_int_dyn_ok() {
     // la matrice
     t_mat_int_dyn mat = { pointeurs_lignes, DIM_SDD_TEST };
 
-    log_t_mat_int_dyn("integration_log", mat);
+    log_t_mat_int_dyn(module, mat);
 
     // Verification de la sortie
     char lignes[DIM_SDD_TEST][LIGNE_MAX];
