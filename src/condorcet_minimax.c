@@ -3,6 +3,28 @@
 #include <utils_scrutins.h>
 
 
+// Retourne le pire score effectue par ce candidat dans tous ses duels
+static int pire_score_candidat(t_mat_int_dyn duels, int candidat_id) {
+    // On cherche le score minimum, on met au-dessus du % maximal pour
+    // etre sur d'avoir un pire score issu de la matrice a la fin
+    int candidat_pire_score = 101;
+    // Une ligne/colonne par candidat
+    int nb_candidats = duels.dim;
+
+    // Puis on verifie s'il y en a des inferieurs pour chaque adversaire
+    for (int adversaire_i = 0; adversaire_i < nb_candidats; adversaire_i++) {
+        // Ignore la diagonale de la matrice (scores de 0)
+        if (adversaire_i == candidat_id)
+            continue;
+
+        int score = duels.elems[candidat_id][adversaire_i];
+        if (score < candidat_pire_score)
+            candidat_pire_score = score;
+    }
+
+    return candidat_pire_score;
+}
+
 int condorcet_minimax(t_mat_int_dyn duels, t_candidats candidats) {
     // On essaie de trouver un vainqueur de condorcet
     int vainqueur = vainqueur_condorcet(duels);
@@ -17,20 +39,7 @@ int condorcet_minimax(t_mat_int_dyn duels, t_candidats candidats) {
     int meilleur_pire_score = -1; // Comme ca le 1er pire score sera forcement le meilleur
     int meilleur_pire_score_id; // Donc cette variable sera obligatoirement initialisee pendant la boucle
     for (int candidat_i = 0; candidat_i < nb_candidats; candidat_i++) {
-        // On cherche le score minimum, on met au-dessus du % maximal pour
-        // etre sur d'avoir un pire score issu de la matrice a la fin
-        int candidat_pire_score = 101;
-
-        // Puis on verifie s'il y en a des inferieurs pour chaque adversaire
-        for (int adversaire_i = 0; adversaire_i < nb_candidats; adversaire_i++) {
-            // Ignore la diagonale de la matrice (scores de 0)
-            if (adversaire_i == candidat_i)
-                continue;
-
-            int score = duels.elems[candidat_i][adversaire_i];
-            if (score < candidat_pire_score)
-                candidat_pire_score = score;
-        }
+        int candidat_pire_score = pire_score_candidat(duels, candidat_i);
 
         // Enfin, on compare le pire score de ce candidat au pire score general
         if (candidat_pire_score > meilleur_pire_score) {
