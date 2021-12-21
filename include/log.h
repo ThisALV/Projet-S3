@@ -39,13 +39,15 @@ void fermer_fichier_logging();
 void log_ligne(char* module, char* format, ...);
 
 /// \brief Ecrit dans la sortie de logging le contenu du tableau d'entiers
+/// \param[in] module Module depuis lequel le message a ete emis
 /// \param[in] tab Tableau d'entiers a ecrire
-void log_t_tab_int_dyn(t_tab_int_dyn tab);
+void log_t_tab_int_dyn(char* module, t_tab_int_dyn tab);
 
 /// \brief Ecrit dans la sortie de logging le contenu de la matrice d'entiers.
 /// Un \n sera ajoute a la fin de chaque ligne de la matrice.
+/// \param[in] module Module depuis lequel le message a ete emis
 /// \param[in] mat Matrice d'entiers a ecrire
-void log_t_mat_int_dyn(t_mat_int_dyn mat);
+void log_t_mat_int_dyn(char* module, t_mat_int_dyn mat);
 
 
 #endif // LOG_H

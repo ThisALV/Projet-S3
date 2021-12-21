@@ -147,8 +147,8 @@ void log_t_tab_int_dyn_ok() {
     t_tab_int_dyn tab2 = { elems2, DIM_SDD_TEST };
 
     // Ecriture des tableaux dans le logging
-    log_t_tab_int_dyn(tab1);
-    log_t_tab_int_dyn(tab2);
+    log_t_tab_int_dyn("integration_log", tab1);
+    log_t_tab_int_dyn("integration_log", tab2);
 
     // Verification des lignes ecrites dans la sortie du logging
     char lignes[2][LIGNE_MAX];
@@ -175,7 +175,7 @@ void log_t_mat_int_dyn_ok() {
     // la matrice
     t_mat_int_dyn mat = { pointeurs_lignes, DIM_SDD_TEST };
 
-    log_t_mat_int_dyn(mat);
+    log_t_mat_int_dyn("integration_log", mat);
 
     // Verification de la sortie
     char lignes[DIM_SDD_TEST][LIGNE_MAX];

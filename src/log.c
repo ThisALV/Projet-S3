@@ -67,7 +67,10 @@ void log_ligne(char* module, char* format, ...) {
     va_end(donnees);
 }
 
-void log_t_tab_int_dyn(t_tab_int_dyn tab) {
+void log_t_tab_int_dyn(char* module, t_tab_int_dyn tab) {
+    // On commence par ecrire le nom du module
+    VERIFIER_ECRITURE(fprintf(sortie, "[%s] : ", module));
+
     // On ecrit element par element le tableau dans la sortie, en verifiant
     // a chaque fois qu'il se soit bien ecrit, et en les separant par " | "
     for (int elem_i = 0; elem_i < tab.taille; elem_i++)
@@ -77,12 +80,12 @@ void log_t_tab_int_dyn(t_tab_int_dyn tab) {
     VERIFIER_ECRITURE(fprintf(sortie, "\n"));
 }
 
-void log_t_mat_int_dyn(t_mat_int_dyn mat) {
+void log_t_mat_int_dyn(char* module, t_mat_int_dyn mat) {
     // On ecrit chaque ligne de la ligne comme etant un tableau d'elements
     for (int ligne_i = 0; ligne_i < mat.dim; ligne_i++) {
         // On creee STATIQUEMENT la SDD pour la ligne qui va etre affichee
         t_tab_int_dyn ligne = { mat.elems[ligne_i], mat.dim };
 
-        log_t_tab_int_dyn(ligne);
+        log_t_tab_int_dyn(module, ligne);
     }
 }
