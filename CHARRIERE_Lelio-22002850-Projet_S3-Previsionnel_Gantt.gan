@@ -83,7 +83,7 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
             </task>
             <task id="488" name="tetes_de_listes" color="#8cb6ce" meeting="false" start="2021-11-27" duration="3" complete="100" thirdDate="2021-11-15" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="98" name="utils_scrutins" color="#8cb6ce" meeting="false" start="2021-11-30" duration="6" complete="50" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="98" name="utils_scrutins" color="#8cb6ce" meeting="false" start="2021-11-30" duration="6" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <notes>
                 <![CDATA[- Doit implémenter les fonctions pour départager les joueurs entre eux en cas d'égalités dans les ballots, dans la matrice ou après avoir compté leurs voix. Retard de 5 jours pris sur le module suivant le temps d'implémenter cela.]]>
             </notes>
@@ -97,11 +97,20 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
             <task id="100" name="vainqueur_uninominale" color="#8cb6ce" meeting="false" start="2021-12-02" duration="1" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <depend id="106" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="106" name="vainqueur_condorcet" color="#8cb6ce" meeting="false" start="2021-12-03" duration="3" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+            <task id="106" name="vainqueur_condorcet" color="#8cb6ce" meeting="false" start="2021-12-03" duration="3" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- Il y a soit un vainqueur de condorcet, soit aucun, mais il ne peut pas y en avoir plusieurs, donc la fonction aura pour sortie un int.
+]]>
+                </notes>
+            </task>
         </task>
-        <task id="85" name="uninominales" color="#cccc00" meeting="false" start="2021-12-11" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="85" name="uninominales" color="#cccc00" meeting="false" start="2021-12-11" duration="2" complete="50" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <depend id="126" type="2" difference="0" hardness="Strong"/>
-            <task id="113" name="uninominale_un_tour" color="#8cb6ce" meeting="false" start="2021-12-11" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="113" name="uninominale_un_tour" color="#8cb6ce" meeting="false" start="2021-12-11" duration="1" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- Prends également la BDD des candidats -> pour leur âge pour déterminer qui gagne en cas d'égalité
+- L'algorithme fonctionne sur les ballots de votes et non les duels]]>
+                </notes>
                 <depend id="114" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="114" name="uninominale_deux_tours" color="#8cb6ce" meeting="false" start="2021-12-12" duration="1" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
