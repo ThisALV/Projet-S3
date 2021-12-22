@@ -1,11 +1,16 @@
 #include <utils_scrutins.h>
 
+#include <log.h>
 #include <stdlib.h>
 #include <string.h>
 #include <erreur.h>
 
 // Rang d'anciennetee pour les candidats dont on ne connait pas l'age
 #define RANG_AGE_NON_TROUVE -1
+
+
+// Nom du module, utilise pour le logging
+static char* module = "utils_scrutins";
 
 
 // En cas d'egalite, c'est le premier candidat present dans ce tableau qui
@@ -139,6 +144,8 @@ int comparer_voix_ballots(t_tab_int_dyn voix, t_candidats candidats) {
 
         // S'il y a une egalite entre le meilleur candidat et le candiat courant
         if (nb_voix_courant == nb_voix_vainqueur) {
+            log_ligne(module, "Egalite du > nb de voix pour les candidats %d et %d.", vainqueur_id, candidat_id);
+
             // On creer notre situation d'egalitee...
             t_candidats egalite;
             creer_t_candidats_dyn(&egalite, 2);
@@ -147,6 +154,7 @@ int comparer_voix_ballots(t_tab_int_dyn voix, t_candidats candidats) {
 
             // ...pour l'analyser afin de determiner qui est le candidat prioritaire
             vainqueur_id = departager_candidats(egalite);
+            log_ligne(module, "Le candidat retenu pour le > nb de voix est le %d", vainqueur_id);
 
             // On n'oublie de detruire notre situation d'egalitee
             detruire_t_candidats_dyn(&egalite);
@@ -168,6 +176,9 @@ int vainqueur_uninominale(t_candidats candidats, t_tab_int_dyn* tetes_de_listes,
     creer_t_tab_int_dyn(&voix, candidats.nb); // Toutes les voix commencent a 0
 
     compter_voix_ballots(&voix, candidats, tetes_de_listes, nb_ballots);
+    log_ligne(module, "Nb de voix par candidat, range par ID croissant du candidat :");
+    log_t_tab_int_dyn(module, voix);
+
     return comparer_voix_ballots(voix, candidats);
 }
 
