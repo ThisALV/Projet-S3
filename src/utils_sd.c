@@ -89,6 +89,12 @@ t_candidat* creer_tab_candidats(int dim) {
     return (t_candidat*) malloc(sizeof(t_candidat) * dim);
 }
 
+t_arc_p* creer_tab_arcs(int dim) {
+    VERIFIER_DIM(dim);
+
+    return (t_arc_p*) malloc(sizeof(t_arc_p) * dim);
+}
+
 bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
     tab->elems = creer_tab_int(dim);
     tab->taille = dim;
@@ -222,6 +228,24 @@ void mettre_t_candidats_erreur(t_candidats* tab) {
 
 bool est_t_candidats_erreur(t_candidats tab) {
     return tab.elems == NULL && tab.nb == -1;
+}
+
+bool creer_t_arcs_dyn(t_arcs* tab, int dim) {
+    // On procede comme pour la creation des autres tableaux dynamiques
+    
+    tab->elems = creer_tab_arcs(dim);
+    tab->nb = dim;
+
+    return tab->elems != NULL;
+}
+
+void detruire_t_arcs_dyn(t_arcs* tab) {
+    // On procede comme pour la destruction des autres tableaux dynamiques
+    
+    free(tab->elems);
+
+    tab->elems = NULL;
+    tab->nb = 0;
 }
 
 void creer_t_liste_simple_int(t_liste_simple_int* liste) {

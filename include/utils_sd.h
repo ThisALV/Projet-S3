@@ -42,6 +42,25 @@ struct s_mat_char_star_dyn {
     int colonnes;
 } typedef t_mat_char_star_dyn;
 
+/// \struct Arc pondere, defini par sa source, sa destination et son poids
+struct s_arc_p {
+    /// Source : ID du candidat ayant gagne le duel
+    int orig;
+    /// Destination : ID du candidant ayant perdu le duel
+    int dest;
+    /// Poids : nombre de voix pour le gagnant
+    int poids;
+} typedef t_arc_p;
+
+/// \struct Liste des arcs initialement presents a l'interieur d'un graphe et pouvant
+/// etre references ou non par les points de ce graphe
+struct s_arcs {
+    /// Tableau dynamique des arcs
+    t_arc_p* elems;
+    /// Nombre d'arcs
+    int nb;
+} typedef t_arcs;
+
 /// \struct Candidat pour lequel un electeur peut voter
 struct s_candidat {
     /// Nom dynamiquement alloue
@@ -106,10 +125,15 @@ char*** creer_mat_char_star(int lignes, int colonnes);
 /// \param[in] lignes Haute de la matrice
 void detruire_mat_char_star(char*** mat, int lignes);
 
-/// \fn Creer un tableau d'entiers dynamique
+/// \fn Creer un tableau de candidats dynamique
 /// \param[in] dim Taille du tableau cree
 /// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
 t_candidat* creer_tab_candidats(int dim);
+
+/// \fn Creer un tableau d'arcs ponderes dynamique
+/// \param[in] dim Taille du tableau cree
+/// \return Pointeur vers un tableau dynamique a la dimension dim ou NULL en cas d'erreur
+t_arc_p* creer_tab_arcs(int dim);
 
 /// \fn Creer un tableau d'entiers dynamique
 /// \param[out] tab Tableau a initialiser
@@ -206,6 +230,16 @@ void mettre_t_candidats_erreur(t_candidats* tab);
 /// \param[in] tab Tableau a verifier
 /// \return `true` si le tableau est en mode erreur
 bool est_t_candidats_erreur(t_candidats tab);
+
+/// \fn Creer un tableau d'arcs dynamique
+/// \param[in] dim Nombre d'arcs, la taille du tableau
+/// \param[out] tab Tableau a initialiser
+/// \return `true` si le tableau a bien ete initialise
+bool creer_t_arcs_dyn(t_arcs* tab, int dim);
+
+/// \fn Detruit proprement le tableau d'arcs en desallouant sa memoire
+/// \param[inout] tab Tableau a desallouer, la taille sera mise a 0 et le pointeur ira vers NULL
+void detruire_t_arcs_dyn(t_arcs* tab);
 
 /// \fn Creer une liste simplement chainee d'entiers
 /// \param[out] liste Liste a initialiser
