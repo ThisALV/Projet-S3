@@ -77,6 +77,25 @@ void mettre_t_candidats_erreur_test();
 void est_t_tab_int_dyn_erreur_ok();
 void est_t_tab_int_dyn_erreur_erreur();
 
+// creer_t_liste_simple_int
+void creer_t_liste_simple_int_test();
+
+// detruire_t_liste_simple_int
+void detruire_t_liste_simple_int_non_vide();
+void detruire_t_liste_simple_int_vide();
+
+// inserer_debut_t_liste_simple_int
+void inserer_debut_t_liste_simple_int_test();
+
+// supprimer_valeur_t_liste_simple_int
+void supprimer_valeur_t_liste_simple_int_non_trouve();
+void supprimer_valeur_t_liste_simple_int_trouve_debut();
+void supprimer_valeur_t_liste_simple_int_trouve_milieu();
+
+// retirer_premier_t_liste_simple_int
+void retirer_premier_t_liste_simple_int_plusieurs_elems();
+void retirer_premier_t_liste_simple_int_unique_elem();
+
 /// \fn Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_sd();
 

@@ -9,6 +9,32 @@
 #define TAILLE_INVALIDE -1
 
 
+// Verifier qu'une liste donnee contient les elements attendus dans le bon ordre
+static void verifier_elements_liste(t_liste_simple_int liste, t_tab_int_dyn attendus) {
+    assert(liste.taille == attendus.taille); // On verifie le nb d'elements
+
+    // On verifie les elements eux-memes, cellule d'element par cellule d'element
+    t_cellule_simple_int* cell_courante = liste.elems;
+    for (int i = 0; i < liste.taille; i++) { // Tant que toute la liste n'a pas ete parcourue
+        // On verifie que l'element a cette position contient le meme element que le
+        // tab des elements attendus au meme endroit
+        assert(cell_courante->val == attendus.elems[i]);
+
+        cell_courante = cell_courante->suiv; // On passe a la cellule suivante
+    }
+}
+
+// Creer une liste non vide contenant les elements [5, 4, 3, 2, 1] pour effectuer
+// des tests dessus
+static void remplir_elements_liste(t_liste_simple_int* liste) {
+    creer_t_liste_simple_int(liste); // Creation d'une liste vide
+
+    // Remplissage en inserant au debut 1, 2, 3, 4, 5 a chaque fois
+    for (int i = 1; i <= 5; i++)
+        inserer_debut_t_liste_simple_int(liste, i);
+}
+
+
 //
 // creer_tab_int
 //
@@ -473,6 +499,151 @@ void est_t_tab_int_dyn_erreur_erreur() {
 }
 
 
+//
+// creer_t_liste_simple_int
+//
+
+void creer_t_liste_simple_int_test() {
+    t_liste_simple_int liste;
+    creer_t_liste_simple_int(&liste);
+
+    // Aucune cellule a la creation de la liste
+    assert(liste.elems == NULL);
+    assert(liste.taille == 0);
+}
+
+
+//
+// detruire_t_liste_simple_int
+//
+
+// On essaie de detruire la liste passee en parametre, et on regarde si
+// les metadonnes (taille et 1ere cellule) ont bien ete reinitialises
+// pour representer une liste vide
+static void tester_detruire_t_liste_simple_int(t_liste_simple_int a_detruire) {
+    detruire_t_liste_simple_int(&a_detruire);
+
+    // Aucune cellule dans la liste
+    assert(a_detruire.elems == NULL);
+    assert(a_detruire.taille == 0);
+}
+
+void detruire_t_liste_simple_int_non_vide() {
+    t_liste_simple_int liste;
+    remplir_elements_liste(&liste);
+
+    // Les ressources du test seront liberees quand la liste sera detruite
+    // a l'interieur de cette fonction utilitaire
+    tester_detruire_t_liste_simple_int(liste);
+}
+
+void detruire_t_liste_simple_int_vide() {
+    t_liste_simple_int liste_vide;
+    creer_t_liste_simple_int(&liste_vide);
+
+    tester_detruire_t_liste_simple_int(liste_vide);
+}
+
+
+//
+// inserer_debut_t_liste_simple_int
+//
+
+void inserer_debut_t_liste_simple_int_test() {
+    t_liste_simple_int liste;
+    // Cette fonction appelle inserer_debut_t_liste_simple_int() que l'on souhaite
+    // tester
+    remplir_elements_liste(&liste);
+
+    // On s'attend donc a finalement avoir ces elements dans cet ordre
+    int elems_attendus[] = { 5, 4, 3, 2, 1 };
+    t_tab_int_dyn tab_attendus = { elems_attendus, 5 };
+
+    verifier_elements_liste(liste, tab_attendus);
+    detruire_t_liste_simple_int(&liste); // On n'oublie pas la liberation des ressources du test
+}
+
+
+//
+// supprimer_valeur_t_liste_simple_int
+//
+
+void supprimer_valeur_t_liste_simple_int_non_trouve() {
+    t_liste_simple_int liste;
+    remplir_elements_liste(&liste);
+
+    // On s'attend a ne pas pouvoir trouver 6 dans la liste
+    assert(!supprimer_valeur_t_liste_simple_int(&liste, 6));
+    // Liste qui sera donc toujours la meme
+    int elems_attendus[] = { 5, 4, 3, 2, 1 };
+    t_tab_int_dyn tab_attendus = { elems_attendus, 5 }; // Tab des elems attendus dans la liste
+    verifier_elements_liste(liste, tab_attendus);
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+void supprimer_valeur_t_liste_simple_int_trouve_debut() {
+    t_liste_simple_int liste;
+    remplir_elements_liste(&liste);
+
+    // On s'attend a trouver 5 au debut de la liste
+    assert(supprimer_valeur_t_liste_simple_int(&liste, 5));
+    // Liste qui sera donc raccourcie a partir de 4
+    int elems_attendus[] = { 4, 3, 2, 1 };
+    t_tab_int_dyn tab_attendus = { elems_attendus, 4 };
+    verifier_elements_liste(liste, tab_attendus);
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+void supprimer_valeur_t_liste_simple_int_trouve_milieu() {
+    t_liste_simple_int liste;
+    remplir_elements_liste(&liste);
+
+    // On s'attend a trouver 3 au milieu de la liste
+    assert(supprimer_valeur_t_liste_simple_int(&liste, 3));
+    // Liste qui sera donc tronquee de la valeur 3
+    int elems_attendus[] = { 5, 4, 2, 1 };
+    t_tab_int_dyn tab_attendus = { elems_attendus, 4 };
+    verifier_elements_liste(liste, tab_attendus);
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+
+//
+// retirer_premier_t_liste_simple_int
+//
+
+void retirer_premier_t_liste_simple_int_plusieurs_elems() {
+    t_liste_simple_int liste;
+    remplir_elements_liste(&liste); // On a 5 elements dans la liste
+
+    assert(retirer_premier_t_liste_simple_int(&liste) == 5); // On a retire 5
+    // On n'a plus que 4 elements dans la liste
+    int elems_attendus[] = { 4, 3, 2, 1 };
+    t_tab_int_dyn tab_attendus = { elems_attendus, 4 };
+    verifier_elements_liste(liste, tab_attendus);
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+void retirer_premier_t_liste_simple_int_unique_elem() {
+    t_liste_simple_int liste;
+    // Cette liste n'a qu'un seul element
+    creer_t_liste_simple_int(&liste);
+    inserer_debut_t_liste_simple_int(&liste, 1);
+
+    assert(retirer_premier_t_liste_simple_int(&liste) == 1); // On a retire 1
+    // Maintenant, la liste est vide
+    int elems_attendus[0] = {};
+    t_tab_int_dyn tab_attendus = { elems_attendus, 0 };
+    verifier_elements_liste(liste, tab_attendus);
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+
 // Scripts des tests appelle par main_utilitaires.c
 void tests_unitaires_utils_sd() {
     creer_tab_int_dim_ok();
@@ -525,4 +696,18 @@ void tests_unitaires_utils_sd() {
     est_t_tab_int_dyn_erreur_erreur();
 
     detruire_t_candidats_dyn_test();
+
+    creer_t_liste_simple_int_test();
+    
+    detruire_t_liste_simple_int_non_vide();
+    detruire_t_liste_simple_int_vide();
+    
+    inserer_debut_t_liste_simple_int_test();
+    
+    supprimer_valeur_t_liste_simple_int_non_trouve();
+    supprimer_valeur_t_liste_simple_int_trouve_debut();
+    supprimer_valeur_t_liste_simple_int_trouve_milieu();
+    
+    retirer_premier_t_liste_simple_int_plusieurs_elems();
+    retirer_premier_t_liste_simple_int_unique_elem();
 }
