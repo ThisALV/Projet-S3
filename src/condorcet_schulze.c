@@ -83,20 +83,20 @@ static void creer_arc_pour_duel(
 
 // Initialise la partie "arcs ponderes" d'un t_graphe a partir d'une matrice de duels
 static void initialiser_arcs_graphe(t_candidats candidats, t_mat_int_dyn mat_duels, t_graphe* graphe_duels) {
-    // Chaque candidat affrontant tous les candidats sauf lui-meme, donc il chaque
-    // candidat affronte nb_candidats - 1 adversaires.
-    // Sachant qu'il y a nb_candidats candidtas : on a finalement
-    // nb_candidats * (nb_candidats - 1) duels a stocker en memoire.
-    int nb_duels = candidats.nb * (candidats.nb - 1);
+    // Chaque candidat affrontant tous les candidats sauf lui-meme, il affronte
+    // (nb_candidats - 1) candidats.
+    // Applique a chaque candidat de la matrice, on a
+    // nb_duels = nb_candidats * (nb_candidats - 1)
+    // Cependant, pour eviter d'evalue 2 fois les memes duels (avec 0 vs 1 puis 1 vs 0
+    // par exemple), on ne va traiter que la partie inferieure a la diagonale de la matrice.
+    // On ne va donc traiter que la moitie des duels
+    int nb_duels = (candidats.nb * (candidats.nb - 1)) / 2;
     creer_t_arcs_dyn(&(graphe_duels->arcs_initiaux), nb_duels);
 
     // Pour chaque candidat
     for (int candidat_id = 0; candidat_id < candidats.nb; candidat_id++) {
-        // Pour chaque duel qu'il a fait
-        for (int adversaire_id = 0; adversaire_id < candidats.nb; adversaire_id++) {
-            if (candidat_id == adversaire_id)
-                continue; // On ignore les cas ou le candidat est l'adversaire lui-meme
-
+        // Pour chaque duel qu'il a fait, EN-DESSOUS DE LA DIAGONALE DE LA MATRICE
+        for (int adversaire_id = 0; adversaire_id < candidat_id; adversaire_id++) {
             // L'index (ou ID) de l'arc dans lequel on va stocker les infos du prochain duel
             int arc_id = graphe_duels->arcs_initiaux.nb;
             // Arc dans lequel on va stocker les infos
