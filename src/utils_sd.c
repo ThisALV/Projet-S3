@@ -13,7 +13,10 @@
 int* creer_tab_int(int dim) {
     VERIFIER_DIM(dim);
 
-    return (int*) calloc(dim, sizeof(int));
+    int* tab = (int*) calloc(dim, sizeof(int));
+    verifier_alloc(tab, "Allocation tableau d'entiers");
+
+    return tab;
 }
 
 int** creer_mat_int(int dim) {
@@ -26,7 +29,7 @@ int** creer_mat_int(int dim) {
 
     // On initialise chacune de ces lignes avec un tableau de taille dim
     for (int i = 0; i < dim; i++) {
-        int* ligne =  creer_tab_int(dim);
+        int* ligne = creer_tab_int(dim);
         // On verifie que chaque ligne soit allouee correctement
         verifier_alloc(ligne, "Allocation ligne entiers");
 
@@ -49,7 +52,10 @@ void detruire_mat_int(int** mat, int dim) {
 char** creer_tab_char_star(int dim) {
     VERIFIER_DIM(dim);
 
-    return (char**) malloc(sizeof(char*) * dim);
+    char** tab = (char**) malloc(sizeof(char*) * dim);
+    verifier_alloc(tab, "Allocation tableau de chaines de caracteres");
+
+    return tab;
 }
 
 char*** creer_mat_char_star(int lignes, int colonnes) {
@@ -86,13 +92,19 @@ void detruire_mat_char_star(char*** mat, int lignes) {
 t_candidat* creer_tab_candidats(int dim) {
     VERIFIER_DIM(dim);
 
-    return (t_candidat*) malloc(sizeof(t_candidat) * dim);
+    t_candidat* tab =  (t_candidat*) malloc(sizeof(t_candidat) * dim);
+    verifier_alloc(tab, "Allocation tableau de candidats");
+
+    return tab;
 }
 
 t_arc_p* creer_tab_arcs(int dim) {
     VERIFIER_DIM(dim);
 
-    return (t_arc_p*) malloc(sizeof(t_arc_p) * dim);
+    t_arc_p* tab = (t_arc_p*) malloc(sizeof(t_arc_p) * dim);
+    verifier_alloc(tab, "Allocation tableau d'arcs ponderes");
+
+    return tab;
 }
 
 bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
