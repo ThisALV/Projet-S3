@@ -42,16 +42,6 @@ struct s_mat_char_star_dyn {
     int colonnes;
 } typedef t_mat_char_star_dyn;
 
-/// \struct Arc pondere, defini par sa source, sa destination et son poids
-struct s_arc_p {
-    /// Source : ID du candidat ayant gagne le duel
-    int orig;
-    /// Destination : ID du candidant ayant perdu le duel
-    int dest;
-    /// Poids : nombre de voix pour le gagnant
-    int poids;
-} typedef t_arc_p;
-
 /// \struct Candidat pour lequel un electeur peut voter
 struct s_candidat {
     /// Nom dynamiquement alloue
@@ -67,6 +57,22 @@ struct s_candidats {
     /// Nombre de candidats participant a l'election
     int nb;
 } typedef t_candidats;
+
+/// \struct Cellule contenant un element de `t_liste_simple_int` et l'element suviant dans la liste
+struct s_cellule_simple_int {
+    /// Valeur de cet element de la liste
+    int val;
+    /// Pointeur vers l'element suivant dans la liste, ou NULL dans le cas d'une fin de liste
+    struct s_cellule_simple_int* suiv;
+} typedef t_cellule_simple_int;
+
+/// \struct Liste simplement chainee d'entiers a usage generaliste
+struct s_liste_simple_int {
+    /// Pointeur vers le premier element de la liste, NULL si la liste est vide
+    t_cellule_simple_int* elems;
+    /// Nb de cellules (d'elements) contenus dans la liste
+    int taille;
+} typedef t_liste_simple_int;
 
 
 /// \fn Creer un tableau d'entiers dynamique
@@ -200,6 +206,34 @@ void mettre_t_candidats_erreur(t_candidats* tab);
 /// \param[in] tab Tableau a verifier
 /// \return `true` si le tableau est en mode erreur
 bool est_t_candidats_erreur(t_candidats tab);
+
+/// \fn Creer une liste simplement chainee d'entiers
+/// \param[out] liste Liste a initialiser
+void creer_t_liste_simple_int(t_liste_simple_int* liste);
+
+/// \fn Detruit proprement la liste en desallouant la memoire de chaque cellule
+/// \param[inout] liste Liste a desaouller, la taille sera mise a 0 et le pointeur ira vers NULLL
+void detruire_t_liste_simple_int(t_liste_simple_int* liste);
+
+/// \fn Insere un entier dans une cellule qui sera le nouveau debut de la liste
+/// \param[inout] liste Liste a laquelle sera ajoute le nouvel element. En sortie,
+/// `elems` sera ajuste au nouveau debut de liste et `taille` sera incremente.
+/// \param[in] val Valeur entiere dans la nouvelle cellule inseree
+void inserer_debut_t_liste_simple_int(t_liste_simple_int* liste, int val);
+
+/// \fn Supprime de la l'element contenant la valeur donnee
+/// \param[inout] liste Liste a laquelle supprimer un element. En sortie, le
+/// pointeur sur le 1er element et la taille seront ajustes a la nouvelle liste.
+/// \param[in] val Valeur entiere contenue par la cellule (ou l'element) a supprimer
+/// \return `true` si val etait dans la liste et qu'un element a bien ete supprime,
+/// sinon `false`.
+bool supprimer_valeur_t_liste_simple_int(t_liste_simple_int* liste, int val);
+
+/// \fn Retire et obtient le 1er element de la liste. Effectuer cette operation sur
+/// une liste vide mene a une erreur fatale du programme.
+/// \param[inout] liste Liste a laquelle on va supprimer le premier element.
+/// \return La valeur contenu dans l'element supprime
+int retirer_premier_t_liste_simple_int(t_liste_simple_int* liste);
 
 
 #endif // UTILS_SD_H
