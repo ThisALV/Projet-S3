@@ -650,7 +650,7 @@ void tests_unitaires_utils_sd() {
     creer_tab_int_dim_negative();
 
     creer_mat_int_dim_ok();
-    creer_tab_int_dim_negative();
+    creer_mat_int_dim_negative();
 
     creer_tab_char_star_dim_ok();
     creer_tab_char_star_dim_negative();
