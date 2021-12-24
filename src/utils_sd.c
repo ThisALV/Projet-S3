@@ -298,6 +298,10 @@ bool supprimer_valeur_t_liste_simple_int(t_liste_simple_int* liste, int val) {
 }
 
 int retirer_premier_t_liste_simple_int(t_liste_simple_int* liste) {
+    // Aucun element a retirer/retourner si la liste est vide
+    if (liste->taille == 0)
+        erreur_fatale(2, "Depiler liste vide");
+
     t_cellule_simple_int* premiere_cell = liste->elems;
 
     int valeur_retiree = premiere_cell->val; // On sauvegarde la valeur qu'on va suppr
