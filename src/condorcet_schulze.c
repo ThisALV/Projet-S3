@@ -130,3 +130,15 @@ void creer_graphe_duels(t_candidats candidats, t_mat_int_dyn mat_duels, t_graphe
     initialiser_arcs_graphe(candidats, mat_duels, graphe_duels);
     relier_points_graphe(graphe_duels);
 }
+
+void detruire_graphe_duels(t_graphe* graphe) {
+    // On detruit le tableau des arcs
+    detruire_t_arcs_dyn(&(graphe->arcs_initiaux));
+    
+    // On detruit les listes a l'interieur des points
+    for (int pt_i = 0; pt_i < graphe->nb_points; pt_i++)
+        detruire_t_liste_simple_int(&(graphe->points[pt_i].defaites_contre));
+
+    // Enfin on detruit le tableau des points
+    free(graphe->points);
+}

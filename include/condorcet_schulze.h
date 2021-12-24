@@ -43,5 +43,9 @@ struct s_graphe {
 /// des duels
 void creer_graphe_duels(t_candidats candidats, t_mat_int_dyn mat_duels, t_graphe* graphe_duels);
 
+/// \fn Detruit proprement le graphe donnee en desallouant la memoire qui lui est necessaire
+/// \param[inout] graphe Graphe a desallouer en memoire
+void detruire_graphe_duels(t_graphe* graphe);
+
 
 #endif // CONDORCET_SCHULZE
