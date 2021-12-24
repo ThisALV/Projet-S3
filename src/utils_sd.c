@@ -89,6 +89,12 @@ t_candidat* creer_tab_candidats(int dim) {
     return (t_candidat*) malloc(sizeof(t_candidat) * dim);
 }
 
+t_arc_p* creer_tab_arcs(int dim) {
+    VERIFIER_DIM(dim);
+
+    return (t_arc_p*) malloc(sizeof(t_arc_p) * dim);
+}
+
 bool creer_t_tab_int_dyn(t_tab_int_dyn* tab, int dim) {
     tab->elems = creer_tab_int(dim);
     tab->taille = dim;
@@ -222,4 +228,108 @@ void mettre_t_candidats_erreur(t_candidats* tab) {
 
 bool est_t_candidats_erreur(t_candidats tab) {
     return tab.elems == NULL && tab.nb == -1;
+}
+
+bool creer_t_arcs_dyn(t_arcs* tab, int dim) {
+    // On procede comme pour la creation des autres tableaux dynamiques
+    
+    tab->elems = creer_tab_arcs(dim);
+    tab->nb = dim;
+
+    return tab->elems != NULL;
+}
+
+void detruire_t_arcs_dyn(t_arcs* tab) {
+    // On procede comme pour la destruction des autres tableaux dynamiques
+    
+    free(tab->elems);
+
+    tab->elems = NULL;
+    tab->nb = 0;
+}
+
+void creer_t_liste_simple_int(t_liste_simple_int* liste) {
+    liste->elems = NULL; // Aucun 1er element, liste initialisee vide
+    liste->taille = 0;
+}
+
+// Permet de desallouer recursivement toutes les cellules contenues dans une liste
+static void detruire_cellules_liste_simple_int(t_cellule_simple_int* premier_elem) {
+    // Terminaison ; On s'arrete apres la derniere cellule de la liste
+    if (premier_elem == NULL)
+        return;
+
+    // On desalloue le reste de la liste
+    detruire_cellules_liste_simple_int(premier_elem->suiv);
+
+    free(premier_elem); // Puis on desalloue la cellule courante
+}
+
+void detruire_t_liste_simple_int(t_liste_simple_int* liste) {
+    // On desalloue la memoire des cellues
+    detruire_cellules_liste_simple_int(liste->elems);
+
+    // On remet la liste a l'etat initial (vide)
+    creer_t_liste_simple_int(liste);
+}
+
+void inserer_debut_t_liste_simple_int(t_liste_simple_int* liste, int val) {
+    // On creer la nouvelle cellule
+    t_cellule_simple_int* nouv = (t_cellule_simple_int*) malloc(sizeof(t_cellule_simple_int));
+    verifier_alloc(nouv, "Allocation nouvelle cellule");
+    nouv->suiv = liste->elems; // Cette cellule precede la liste courante
+    nouv->val = val;
+
+    liste->taille++; // Une cellule vient d'etre ajoutee
+    liste->elems = nouv; // Le debut de la liste a change
+}
+
+// Desalloue la cellule en memoire et fait le lien entre prec et suppr->suiv.
+// Si prec vaut NULL, alors c'est qu'on est au debut de la liste.
+// Cette fonction s'occupe aussi de mettre a jour les metadonnees de la liste.
+static void supprimer_cellule_liste_simple_int(t_liste_simple_int* liste, t_cellule_simple_int* prec, t_cellule_simple_int* suppr) {    
+    // Un element va etre supprime de la liste
+    liste->taille--;
+
+    t_cellule_simple_int* suiv = suppr->suiv; // Cell qui va etre connectee a prec
+    // Si on n'est pas au debut de la liste, on raccorde les cells prec et suiv
+    if (prec != NULL)
+        prec->suiv = suiv;
+    else // Si on est au debut de la liste, la 1ere cell doit etre mise a jour
+        liste->elems = suiv;
+
+    free(suppr); // On desalloue la memoire de la cell courante
+}
+
+bool supprimer_valeur_t_liste_simple_int(t_liste_simple_int* liste, int val) {
+    t_cellule_simple_int* premiere_cell = liste->elems;
+
+    // Cell precendent la cell courante, vaudra NULL si cell courante est la 1ere
+    t_cellule_simple_int* precedente = NULL;
+    // Pour chaque cellule de la liste
+    for (t_cellule_simple_int* cell = premiere_cell; cell != NULL; cell = cell->suiv) {
+        // On cherche une cellule contenant la valeur passee entre parametres
+        if (cell->val == val) {
+            supprimer_cellule_liste_simple_int(liste, precedente, cell);
+            return true; // On a effectivement supprime un element de la liste
+        }
+
+        // La cellule precedente de la prochaine iteration est la cellule courante
+        precedente = cell;
+    }
+
+    return false; // On a parcouru toute la liste sans supprimer d'element
+}
+
+int retirer_premier_t_liste_simple_int(t_liste_simple_int* liste) {
+    // Aucun element a retirer/retourner si la liste est vide
+    if (liste->taille == 0)
+        erreur_fatale(2, "Depiler liste vide");
+
+    t_cellule_simple_int* premiere_cell = liste->elems;
+
+    int valeur_retiree = premiere_cell->val; // On sauvegarde la valeur qu'on va suppr
+    supprimer_cellule_liste_simple_int(liste, NULL, premiere_cell); // Suppr 1ere valeur de la liste
+
+    return valeur_retiree; // On retourne la 1ere premiere valeur, qui a ete suppr
 }
