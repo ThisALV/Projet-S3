@@ -644,6 +644,33 @@ void retirer_premier_t_liste_simple_int_unique_elem() {
 }
 
 
+//
+// valeur_existe_t_liste_simple_int
+//
+
+void valeur_existe_t_liste_simple_int_trouvee() {
+    t_liste_simple_int liste;
+    // Cette liste contient [5, 4, 3, 2, 1]
+    remplir_elements_liste(&liste);
+
+    // Donc elle contient 4
+    assert(valeur_existe_t_liste_simple_int(liste, 4));
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+void valeur_existe_t_liste_simple_int_non_trouvee() {
+    t_liste_simple_int liste;
+    // Cette liste contient [5, 4, 3, 2, 1]
+    remplir_elements_liste(&liste);
+
+    // Donc elle ne contient pas 0
+    assert(!valeur_existe_t_liste_simple_int(liste, 0));
+
+    detruire_t_liste_simple_int(&liste);
+}
+
+
 // Scripts des tests appelle par main_utilitaires.c
 void tests_unitaires_utils_sd() {
     creer_tab_int_dim_ok();
@@ -710,4 +737,7 @@ void tests_unitaires_utils_sd() {
     
     retirer_premier_t_liste_simple_int_plusieurs_elems();
     retirer_premier_t_liste_simple_int_unique_elem();
+
+    valeur_existe_t_liste_simple_int_trouvee();
+    valeur_existe_t_liste_simple_int_non_trouvee();
 }

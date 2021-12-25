@@ -345,3 +345,19 @@ int retirer_premier_t_liste_simple_int(t_liste_simple_int* liste) {
 
     return valeur_retiree; // On retourne la 1ere premiere valeur, qui a ete suppr
 }
+
+// Verifie recursivement si on trouve la valeur cherchee dans cette cellule ou
+// dans une cellule suivante de la liste
+static bool valeur_existe_cellule_simple_int(t_cellule_simple_int* cell, int val) {
+     // Si on est a la fin de la liste, on ne trouvera pas la valeur
+    if (cell == NULL)
+        return false;
+
+    // Sinon, on compare avec la valeur courante et si on n'a toujours pas trouvee,
+    // on cherche a partir de la cellule suivante
+    return cell->val == val || valeur_existe_cellule_simple_int(cell->suiv, val);
+}
+
+bool valeur_existe_t_liste_simple_int(t_liste_simple_int liste, int val) {
+    return valeur_existe_cellule_simple_int(liste.elems, val);
+}

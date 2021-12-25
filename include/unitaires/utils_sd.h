@@ -96,6 +96,10 @@ void supprimer_valeur_t_liste_simple_int_trouve_milieu();
 void retirer_premier_t_liste_simple_int_plusieurs_elems();
 void retirer_premier_t_liste_simple_int_unique_elem();
 
+// valeur_existe_t_liste_simple_int
+void valeur_existe_t_liste_simple_int_trouvee();
+void valeur_existe_t_liste_simple_int_non_trouvee();
+
 /// \fn Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_sd();
 
