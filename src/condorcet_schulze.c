@@ -93,14 +93,14 @@ static void initialiser_arcs_graphe(t_candidats candidats, t_mat_int_dyn mat_due
     int nb_duels = (candidats.nb * (candidats.nb - 1)) / 2;
     creer_t_arcs_dyn(&(graphe_duels->arcs_initiaux), nb_duels);
 
+    // L'index (ou ID) de l'arc dans lequel on va stocker les infos du prochain duel
+    int arc_id = 0;
     // Pour chaque candidat
     for (int candidat_id = 0; candidat_id < candidats.nb; candidat_id++) {
         // Pour chaque duel qu'il a fait, EN-DESSOUS DE LA DIAGONALE DE LA MATRICE
         for (int adversaire_id = 0; adversaire_id < candidat_id; adversaire_id++) {
-            // L'index (ou ID) de l'arc dans lequel on va stocker les infos du prochain duel
-            int arc_id = graphe_duels->arcs_initiaux.nb;
             // Arc dans lequel on va stocker les infos
-            t_arc_p* arc_courant = &(graphe_duels->arcs_initiaux.elems[arc_id]);
+            t_arc_p* arc_courant = &(graphe_duels->arcs_initiaux.elems[arc_id++]);
 
             // On assigne a l'arc les donnees du duel entre les 2 candidats
             creer_arc_pour_duel(candidats, mat_duels, candidat_id, adversaire_id, arc_courant);
