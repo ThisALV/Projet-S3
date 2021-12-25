@@ -55,10 +55,10 @@ static void verifier_elements_liste(t_liste_simple_int liste, t_tab_int_dyn atte
 void creer_graphe_duels_test() {
     // Creation de la matrice de duels qui sera fournie en entree
     int elems_mat_duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
-        {  0, 87, 33, 42 },
-        { 13,  0,  1, 50 },
-        { 67, 99,  0, 25 },
-        { 58, 50, 75,  0 }
+        {  0, 87, 33, 42 },     // ID des arcs   {  ,  ,  ,  }
+        { 13,  0,  1, 50 },     // contenant les { 0,  ,  ,  }
+        { 67, 99,  0, 25 },     // infos de      { 1, 2,  ,  }
+        { 58, 50, 75,  0 }      // chaque duel : { 3, 4, 5,  }
     };
     t_mat_int_dyn mat_duels;
     creer_mat_duels_compatible(elems_mat_duels, &mat_duels);
@@ -76,29 +76,30 @@ void creer_graphe_duels_test() {
     for (int candidat_id = 0; candidat_id < NB_CANDIDATS_TESTS; candidat_id++)
         assert(graphe_duels.points[candidat_id].candidat_id == candidat_id);
 
-    // Le candidat 0 a perdu les 2eme et 3eme duels dans la matrice de duels, donc
-    // ses arcs perdants auront les ID respectifs 1 et 2 dans le tableau des arcs
-    // initiaux du graphe
-    int elems_defaites_de_0[2] = { 1, 2 };
+    // Le candidat 0 a perdu les 4eme et 2eme duels dans la matrice de duels, donc
+    // ses arcs perdants auront les ID respectifs 3 et 1 dans le tableau des arcs
+    // initiaux du graphe (on rappel que 3 vient avant 1 car les elements sont inseres
+    // en debut de liste)
+    int elems_defaites_de_0[2] = { 3, 1 };
     t_tab_int_dyn defaites_de_0 = { elems_defaites_de_0, 2 };
     // On verifie que les defaites du candidat 0 sont bien les 2eme et 3eme duels
     // dans la matrice
     verifier_elements_liste(graphe_duels.points[0].defaites_contre, defaites_de_0);
 
-    // Le candidat 1 a perdu les 4eme et 5eme duels, il est plus age que le
-    // candidat 3 car H est plus age que L, donc il gagne le 6eme duel avec
+    // Le candidat 1 a perdu les duels 2 et 0, il est plus age que le
+    // candidat 3 car H est plus age que L, donc il gagne le duel 4 avec
     // un score de 50 %
-    int elems_defaites_de_1[2] = { 3, 4 };
+    int elems_defaites_de_1[2] = { 2, 0 };
     t_tab_int_dyn defaites_de_1 = { elems_defaites_de_1, 2 };
     verifier_elements_liste(graphe_duels.points[1].defaites_contre, defaites_de_1);
 
-    // Le candidat 2 a perdu le 9eme duel
-    int elems_defaites_de_2[1] = { 8 };
+    // Le candidat 2 a perdu le duel 5
+    int elems_defaites_de_2[1] = { 5 };
     t_tab_int_dyn defaites_de_2 = { elems_defaites_de_2, 1 };
     verifier_elements_liste(graphe_duels.points[2].defaites_contre, defaites_de_2);
 
-    // Le candidat 3 a perdu le 11eme duel
-    int elems_defaites_de_3[1] = { 10 };
+    // Le candidat 3 a perdu le duel 4
+    int elems_defaites_de_3[1] = { 4 };
     t_tab_int_dyn defaites_de_3 = { elems_defaites_de_3, 1 };
     verifier_elements_liste(graphe_duels.points[3].defaites_contre, defaites_de_3);
 
