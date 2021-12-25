@@ -191,6 +191,23 @@ void log_t_mat_int_dyn_ok() {
     assert(strcmp("[integration_log] :  | 5 | 4 | 3 | 2 | 1", lignes[4]) == 0);
 }
 
+void log_t_liste_simple_int_ok() {
+    // Alloue dynamique une liste et la remplie de sorte qu'elle contienne
+    // [5, 4, 3, 2, 1]
+    t_liste_simple_int liste;
+    creer_t_liste_simple_int(&liste);
+    for (int i = 1; i <= 5; i++)
+        inserer_debut_t_liste_simple_int(&liste, i);
+
+    log_t_liste_simple_int(module, liste); // On ecrit la liste dans la sortie
+    detruire_t_liste_simple_int(&liste); // On detruit la liste une fois ecrite
+
+    // Verification de la sortie
+    char lignes[1][LIGNE_MAX];
+    lire_lignes_logging(1, lignes); // Une liste ecrite = 1 ligne
+    assert(strcmp("[integration_log] :  | 5 | 4 | 3 | 2 | 1", lignes[0]) == 0);
+}
+
 
 // Script des tests du module
 void tests_integration_log() {
@@ -209,4 +226,5 @@ void tests_integration_log() {
     AVEC_FICHIER_LOGGING(log_ligne_message_avec_donnees);
     AVEC_FICHIER_LOGGING(log_t_tab_int_dyn_ok);
     AVEC_FICHIER_LOGGING(log_t_mat_int_dyn_ok);
+    AVEC_FICHIER_LOGGING(log_t_liste_simple_int_ok);
 }
