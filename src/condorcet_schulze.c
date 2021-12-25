@@ -7,7 +7,7 @@
 
 
 // Nom du module, utilise pour le logging
-static char* module = "condorcet_minimax";
+static char* module = "condorcet_schulze";
 
 
 // Initialise la partie "points" d'un t_graphe a partir d'une matrice de duels
