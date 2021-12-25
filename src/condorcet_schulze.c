@@ -72,7 +72,7 @@ static void creer_arc_pour_duel(
         poids = voix_adversaire - voix_candidat;
     }
 
-    log_ligne(module, "Ajout d'un arc allant de %d a %d avant un poids de %d",
+    log_ligne(module, "Ajout d'un arc allant de %d a %d avec un poids de %d",
               gagnant_id, perdant_id, poids);
 
     // L'arc va du gagnant au perdant
