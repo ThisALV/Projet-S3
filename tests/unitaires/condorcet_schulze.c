@@ -130,7 +130,7 @@ void creer_graphe_duels_test() {
 
     // On desalloue les ressources du test
     detruire_graphe_duels(&graphe_duels);
-    // TODO: Detruie mat duels
+    detruire_t_mat_int_dyn(&mat_duels);
 }
 
 
