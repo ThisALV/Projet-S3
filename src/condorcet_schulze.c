@@ -10,6 +10,9 @@
 #define FIN_GROUPE_DE_TETE -1
 // ID candidat pour un point ne faisant plus partie du graphe
 #define POINT_SUPPRIME -1
+// ID utilise pour signifier qu'aucun candidat n'a encore ete designe vainqueur
+// par la methode de Schulze
+#define SCHULZE_AUCUN_VAINQUEUR -1
 
 
 // Nom du module, utilise pour le logging
@@ -340,6 +343,81 @@ static void arcs_poids_minimal_du_graphe(t_graphe* duels, t_liste_simple_int* ar
 }
 
 
+// Fais une iteration de l'algorithme de Schulze sur le graphe, cad garde seulement
+// le groupe de tete minimal et renvoi l'ID du vainqueur OU supprime les arcs de
+// plus faible ponderation et renvoi que l'algorithme n'est pas fini.
+static int iteration_schulze_graphe(t_graphe* duels) {
+    // On aura autant de groupes de tete que de points depuis lesquels on part
+    t_liste_simple_int* groupes_de_tete = (t_liste_simple_int*)
+        malloc(duels->nb_points * sizeof(t_liste_simple_int));
+
+    // Pour chaque point duquel on part, on va determiner un groupe de tete
+    // du graphe
+    for (int point_i = 0; point_i < duels->nb_points; point_i++) {
+        // Groupe de tete determine en partant du pt courant
+        t_liste_simple_int* groupe_de_tete_i = &(groupes_de_tete[point_i]);
+        // Point depuis lequel on part
+        t_point* pt_courant = &(duels->points[point_i]);
+
+        // On commence par creer un groupe de tete initial vide
+        creer_t_liste_simple_int(groupe_de_tete_i);
+        // Puis on le rempli on parcourant recursivement le graphe
+        groupe_de_tete(duels, groupe_de_tete_i, pt_courant);
+    }
+
+    // L'ensemble de Schwartz qui va etre conserver pour la prochaine iteration
+    // de l'algorithme
+    t_liste_simple_int* ensemble_schwartz = groupe_de_tete_minimal(groupes_de_tete, duels->nb_points);
+    // Pour stocker les arcs associes aux pts qui vont etre supprimes
+    t_liste_simple_int arcs_perimes;
+    // On supprime tous les points ne figurant pas dans l'ensemble de Schwartz
+    supprimer_points_graphe(duels, *ensemble_schwartz, &arcs_perimes);
+    // On supprime les arcs relies aux pts supprimes
+    supprimer_refs_arc_dans_graphe(duels, arcs_perimes);
+
+    // On fait la liste des arcs toujours dans le graphe apres sa modification
+    t_liste_simple_int arcs_encore_presents;
+    arcs_encore_references_du_graphe(duels, &arcs_encore_presents);
+    // S'il n'y en a plus, alors le point restant determine notre vainqueur
+    // de Schulze
+    int vainqueur;
+    if (arcs_encore_presents.taille == 0) {
+        // Notre vainqueur est donc le candidat represente par le 1er, seul pt
+        // restant du graphe
+        vainqueur = duels->points[0].candidat_id;
+    } else {
+        // On ne sait toujours pas qui est le vainqueur
+        vainqueur = SCHULZE_AUCUN_VAINQUEUR;
+
+        // Pour assurer la terminaison de notre algorithme et garantir un groupe
+        // de tete plus petit a la prochaine iteration, on detruit les defaites
+        // la plus serrees de graphe
+        t_liste_simple_int ids_arcs_poids_minimal;
+        arcs_poids_minimal_du_graphe(duels, &ids_arcs_poids_minimal);
+
+        // On supprime les defaites les plus serres pour reduire le prochain
+        // groupe de tete minimal
+        supprimer_refs_arc_dans_graphe(duels, ids_arcs_poids_minimal);
+
+        // On detruit les ressources alloues a cette recherche des poids minimaux
+        detruire_t_liste_simple_int(&ids_arcs_poids_minimal);
+    }
+
+    // On desalloue en memoire chaque groupe de tete
+    for (int groupe_i = 0; groupe_i < duels->nb_points; groupe_i++)
+        detruire_t_liste_simple_int(&(groupes_de_tete[groupe_i]));
+
+    // On desalloue en memoire le tableau des groupes de tete
+    free(groupes_de_tete);
+    // On desalloue toutes les ressources utilisees temporairement pour cette
+    // iteraation de l'algo
+    detruire_t_liste_simple_int(&arcs_perimes);
+    detruire_t_liste_simple_int(&arcs_encore_presents);
+
+    return vainqueur;
+}
+
+
 void creer_graphe_duels(t_candidats candidats, t_mat_int_dyn mat_duels, t_graphe* graphe_duels) {
     initialiser_points_graphe(mat_duels, graphe_duels);
     initialiser_arcs_graphe(candidats, mat_duels, graphe_duels);
@@ -356,4 +434,35 @@ void detruire_graphe_duels(t_graphe* graphe) {
 
     // Enfin on detruit le tableau des points
     free(graphe->points);
+}
+
+int condorcet_schulze(t_mat_int_dyn mat_duels, t_candidats candidats) {
+    log_ligne(module, "Methode de condorcet, departagee avec schulze sur :");
+    log_t_mat_int_dyn(module, mat_duels);
+
+    // On essaie de trouver un vainqueur de condorcet
+    int vainqueur = vainqueur_condorcet(mat_duels);
+
+    // S'il y en a un, inutile d'utiliser minimax pour departager les
+    // candidats
+    if (vainqueur != CONDORCET_AUCUN_VAINQUEUR) {
+        log_ligne(module, "Vainqueur de condorcet : %d", vainqueur);
+        return vainqueur;
+    }
+
+    // Si on n'a pas de vainqueur de condorcet, on doit utiliser la methode de Schulze
+    // On va donc devoir creer un graphe pour representer les duels
+    t_graphe graphe_duels;
+    creer_graphe_duels(candidats, mat_duels, &graphe_duels);
+
+    // Pour l'instant, Schulze n'a pas fini de s'executer sur ce graphe
+    vainqueur = SCHULZE_AUCUN_VAINQUEUR;
+    // Tant que le graphe n'a pas ete completement traite
+    while (vainqueur == SCHULZE_AUCUN_VAINQUEUR)
+        vainqueur = iteration_schulze_graphe(&graphe_duels);
+    // On detruit le graphe quand on a termine le traitement de Schulze
+    detruire_graphe_duels(&graphe_duels);
+
+    // Enfin, on donne le vainqueur determine par Schulze
+    return vainqueur;
 }

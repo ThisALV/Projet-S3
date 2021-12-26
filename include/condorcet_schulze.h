@@ -47,5 +47,15 @@ void creer_graphe_duels(t_candidats candidats, t_mat_int_dyn mat_duels, t_graphe
 /// \param[inout] graphe Graphe a desallouer en memoire
 void detruire_graphe_duels(t_graphe* graphe);
 
+/// \brief Determine le vaiqueur de condorcet et, s'il n'y en a pas, departage avec
+/// la methode de Schulze
+/// \param[in] mat_duels Matrice des duels utilisee pour verifier s'il y a un
+/// vainqueur de condorcet et, si ce n'est pas le cas, creer un graphe permettant
+/// de determiner la vainqueur de Schulze
+/// \param[in] candidats BDD des candidats utilisee pour fournir les infos
+/// qui les departageront en cas de 50/50 sur un duel
+/// \return L'ID du candidat vainqueur selon cette methode
+int condorcet_schulze(t_mat_int_dyn mat_duels, t_candidats candidats);
+
 
 #endif // CONDORCET_SCHULZE
