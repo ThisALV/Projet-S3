@@ -168,31 +168,43 @@ static void groupe_de_tete(t_graphe* duels, t_liste_simple_int* groupe_parcouru,
     groupe_de_tete(duels, groupe_parcouru, point_suviant); // On continue le parcour depuis le prochain pt
 }
 
-// Determine le groupe de tete minimal d'un graphe parmis ses differents groupes
-// de tete
-static t_liste_simple_int* groupe_de_tete_minimal(t_liste_simple_int* groupes_de_tete, int nb_groupes_de_tete) {
-    // On commence par partir du principe que le 1er groupe de tete est le minimal
-    t_liste_simple_int* minimal = groupes_de_tete;
-    int taille_minimale = minimal->taille;
+// Determine le point depuis lequel on a trouve le plus petit groupe de tete pour un graphe donne,
+// en utilisant le tableau des groupes de tetes obtenu depuis respectivement chaque point du graphe
+static int groupe_de_tete_minimal(t_graphe* graphe, t_liste_simple_int* groupes_de_tete) {
+    // Pour l'instant, on n'a pas encore de groupe de tete minimal
+    int minimal_i;
+    // On choisi une taille minimale volontairement impossible a atteindre, comme ca le 1er point
+    // non supprime sera forcement designe pour le nouveau groupe de tete minimal
+    int taille_minimale = graphe->nb_points + 1;
 
-    // Puis on verifie pour chaque groupe de tete s'il ne serait pas plus petit
-    for (int groupe_i = 1; groupe_i < nb_groupes_de_tete; groupe_i++) {
-        log_ligne(module, "Groupe de tete en partant du point %d :", groupe_i);
-        log_t_liste_simple_int(module, groupes_de_tete[groupe_i]);
+    log_ligne(module, "Groupe de tete en partant du point 0 :");
+    log_t_liste_simple_int(module, groupes_de_tete[0]);
+
+    // On verifie pour chaque point si son groupe de tete ne serait pas plus petit
+    for (int point_i = 0; point_i < graphe->nb_points; point_i++) {
+        // Si le point a ete supprime, alors aucun groupe de tete ne lui a ete assigne
+        // On doit donc l'ignorer
+        if (graphe->points[point_i].candidat_id == POINT_SUPPRIME)
+            continue;
+
+        log_ligne(module, "Groupe de tete en partant du point %d :", point_i);
+        log_t_liste_simple_int(module, groupes_de_tete[point_i]);
 
         // Taille du groupe courant
-        int taille_groupe_i = groupes_de_tete[groupe_i].taille;
+        int taille_groupe_i = groupes_de_tete[point_i].taille;
         
+        // Sera forcement vrai la 1ere fois puisque la taille maximal d'un group de tete
+        // est nb_points
         if (taille_groupe_i < taille_minimale) { // On a un nouveau groupe minimal
-            minimal = &(groupes_de_tete[groupe_i]);
+            minimal_i = point_i;
             taille_minimale = taille_groupe_i;
         }
     }
 
-    log_ligne(module, "Groupe de tete minimal :");
-    log_t_liste_simple_int(module, *minimal);
+    log_ligne(module, "Groupe de tete minimal, obtenu en partant du point %d :", minimal_i);
+    log_t_liste_simple_int(module, groupes_de_tete[minimal_i]);
 
-    return minimal; // On retourne le groupe de tete qui a ete designe comme le plus petit
+    return minimal_i;
 }
 
 // Supprime dans chaque point du graphe les references aux arcs avec les IDs donnees
@@ -362,6 +374,11 @@ static int iteration_schulze_graphe(t_graphe* duels) {
         // Point depuis lequel on part
         t_point* pt_courant = &(duels->points[point_i]);
 
+        // On ignore les points supprimes du graphe, en signalant qu'il faut aussi les ignorer
+        // lorsqu'on recherchera le groupe de tete minimal
+        if (pt_courant->candidat_id == POINT_SUPPRIME)
+            continue;
+
         log_ligne(module, "Parcours du graphe depuis le point %d du candidat %d",
                   point_i, pt_courant->candidat_id);
 
@@ -374,12 +391,12 @@ static int iteration_schulze_graphe(t_graphe* duels) {
     // L'ensemble de Schwartz qui va etre conserver pour la prochaine iteration
     // de l'algorithme
     log_ligne(module, "Recherche de l'ensemble de Schwartz...");
-    t_liste_simple_int* ensemble_schwartz = groupe_de_tete_minimal(groupes_de_tete, duels->nb_points);
+    int ensemble_schwartz_i = groupe_de_tete_minimal(duels, groupes_de_tete);
     // Pour stocker les arcs associes aux pts qui vont etre supprimes
     t_liste_simple_int arcs_perimes;
     // On supprime tous les points ne figurant pas dans l'ensemble de Schwartz
     log_ligne(module, "Suppression des points hors de l'ensemble de Schwartz...");
-    supprimer_points_graphe(duels, *ensemble_schwartz, &arcs_perimes);
+    supprimer_points_graphe(duels, groupes_de_tete[ensemble_schwartz_i], &arcs_perimes);
     // On supprime les arcs relies aux pts supprimes
     log_ligne(module, "Suppression des arcs relies aux points hors de l'ensemble de Schwartz...");
     supprimer_refs_arc_dans_graphe(duels, arcs_perimes);
