@@ -358,6 +358,21 @@ static void arcs_poids_minimal_du_graphe(t_graphe* duels, t_liste_simple_int* ar
 }
 
 
+// Retourne l'ID du candidat associe au dernier point encore dans le graphe
+static int dernier_candidat_dans_graphe(t_graphe* duels) {
+    // Pour chaque point de candidat du graphe
+    for (int candidat_id = 0; candidat_id < duels->nb_points; candidat_id++) {
+        t_point* pt_courant = &(duels->points[candidat_id]);
+
+        // Si le candidat n'a pas ete elimine par Schulze
+        if (pt_courant->candidat_id != POINT_SUPPRIME)
+            return candidat_id; // Alors on le designe vainqueur
+    }
+
+    // Signifie qu'il n'y a plus de pts dans le graphe, ne devrait pas arriver
+    return -1;
+}
+
 // Fais une iteration de l'algorithme de Schulze sur le graphe, cad garde seulement
 // le groupe de tete minimal et renvoi l'ID du vainqueur OU supprime les arcs de
 // plus faible ponderation et renvoi que l'algorithme n'est pas fini.
@@ -410,9 +425,8 @@ static int iteration_schulze_graphe(t_graphe* duels) {
     int vainqueur;
     if (arcs_encore_presents.taille == 0) {
         log_ligne(module, "Plus aucun arc dans le graphe, methode de Schulze terminee.");
-        // Notre vainqueur est donc le candidat represente par le 1er, seul pt
-        // restant du graphe
-        vainqueur = duels->points[0].candidat_id;
+        // Notre vainqueur est donc le candidat represente seul point restant du graphe
+        vainqueur = dernier_candidat_dans_graphe(duels);
     } else {
         log_ligne(module, "Pas encore de vainqueur de Schulze, la methode continue.");
         // On ne sait toujours pas qui est le vainqueur
