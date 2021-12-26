@@ -177,9 +177,6 @@ static int groupe_de_tete_minimal(t_graphe* graphe, t_liste_simple_int* groupes_
     // non supprime sera forcement designe pour le nouveau groupe de tete minimal
     int taille_minimale = graphe->nb_points + 1;
 
-    log_ligne(module, "Groupe de tete en partant du point 0 :");
-    log_t_liste_simple_int(module, groupes_de_tete[0]);
-
     // On verifie pour chaque point si son groupe de tete ne serait pas plus petit
     for (int point_i = 0; point_i < graphe->nb_points; point_i++) {
         // Si le point a ete supprime, alors aucun groupe de tete ne lui a ete assigne
