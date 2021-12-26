@@ -130,10 +130,73 @@ void creer_graphe_duels_test() {
 
     // On desalloue les ressources du test
     detruire_graphe_duels(&graphe_duels);
+    // TODO: Detruie mat duels
+}
+
+
+//
+// condorcet_schulze
+//
+
+// Un candidat gagne tous ses duels
+void condorcet_schulze_vainqueur_condorcet() {
+    int elems_duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
+        {  0, 13, 54, 68 },
+        { 87,  0, 63, 50 }, // Candidat 1 = H qui est plus age que...
+        { 46, 37,  0,  1 },
+        { 32, 50, 99,  0 }  // ...candidat 3 = L, donc candidat H l'emporte
+    };
+    // On creer notre matrice de duels ou le candidat 1 gagne tous ses duels
+    t_mat_int_dyn duels;
+    creer_mat_duels_compatible(elems_duels, &duels);
+
+    // On a un vainqueur de condorcet 1
+    assert(condorcet_schulze(duels, candidats) == 1);
+
+    detruire_t_mat_int_dyn(&duels);
+}
+
+// Aucun candidat ne gagne tous ses duels, on applique la methode de Schulze
+void condorcet_schulze_vainqueur_schulze() {
+    int elems_duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
+        // B,  H,  S,  L
+        {  0, 78, 50, 39 }, // Candidat 0 = B, B est plus age que S, B l'emporte
+        { 12,  0, 51, 54 }, // Candidat 1 = H
+        { 50, 49,  0,  1 }, // Candidat 2 = S
+        { 61, 46, 99,  0 }  // Candidat 3 = L
+    };
+    // On creer notre matrice de duels
+    t_mat_int_dyn duels;
+    creer_mat_duels_compatible(elems_duels, &duels);
+
+    // Avec notre matrice duels, on va obtenir le graphe compose des arc :
+    // B --64--> H
+    // H ---8--> L
+    // L --22--> B
+    // B ---0--> S
+    // H ---2--> S
+    // L --98--> S
+    //
+    // Aucun des pts L, B, ou H n'est pas battu par autre chose que L, B ou H
+    // On trouve notre ensemble de Schwartz = { L, B, H }
+    // 
+    // On supprime l'arc de + faible ponderation H --8--> L
+    // On se retrouve avec un pt L vers lequel aucun arc ne mene, il constitue
+    // alors le singleton { L } qui est le nouvel ensemble de Schwartz.
+    //
+    // On a notre vainqueur de Schulze L, represente par le candidat 3
+
+    // On a un vainqueur de condorcet 1
+    assert(condorcet_schulze(duels, candidats) == 3);
+
+    detruire_t_mat_int_dyn(&duels);
 }
 
 
 // Script principal executant tous les tests de ce module
 void tests_unitaires_condorcet_schulze() {
     creer_graphe_duels_test();
+
+    condorcet_schulze_vainqueur_condorcet();
+    condorcet_schulze_vainqueur_schulze();
 }
