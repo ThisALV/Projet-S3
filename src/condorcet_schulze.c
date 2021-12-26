@@ -263,6 +263,9 @@ static void supprimer_points_graphe(
 // Mets en sortie la liste des IDs des arcs encore references par au moins un
 // point dans le graphe
 static void arcs_encore_references_du_graphe(t_graphe* duels, t_liste_simple_int* arcs_encore_references) {
+    // On initialise la liste vide des arcs pour y ajouter les arcs encore presents par la suite
+    creer_t_liste_simple_int(arcs_encore_references);
+
     // Pour chaque point du graphe
     for (int point_i = 0; point_i < duels->nb_points; point_i++) {
         t_point* pt_courant = &(duels->points[point_i]);
