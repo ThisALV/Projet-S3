@@ -46,7 +46,7 @@ void traiter_parametres(int argc, char** argv, t_parametres* params) {
     params->format_entree = ENTREE_AUCUNE_OPTION;
     params->option_entree = NULL;
     params->option_logging = NULL;
-    params->option_methode = METHODE_TOUTES;
+    params->option_methode = METHODE_NON_ASSIGNEE;
 
     // Une option est une paire d'arguments balise + valeur, donc sachant qu'on
     // a un 1er argument qui est le nom de l'executable, on devrait avoir
