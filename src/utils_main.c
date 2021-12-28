@@ -86,7 +86,13 @@ void traiter_parametres(int argc, char** argv, t_parametres* params) {
         }
     }
 
+    // Si apres avoir verifie tous les arguments, on n'a toujours aucun fichier
+    // d'entree, alors c'est une erreur
+    if (params->option_entree == ENTREE_AUCUNE_OPTION)
+        erreur_fatale(1, "Veuillez donner un fichier d'entree avec -i ou -d");
+
     // Si apres avoir verifie tous les arguments, aucune methode de scrutin n'a ete
     // specifie, alors on les execute toutes car la methode par defaut est "all"
-    params->option_methode = METHODE_TOUTES;
+    if (params->option_methode == METHODE_NON_ASSIGNEE)
+        params->option_methode = METHODE_TOUTES;
 }
