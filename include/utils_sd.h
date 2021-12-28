@@ -269,5 +269,11 @@ bool supprimer_valeur_t_liste_simple_int(t_liste_simple_int* liste, int val);
 /// \return La valeur contenu dans l'element supprime
 int retirer_premier_t_liste_simple_int(t_liste_simple_int* liste);
 
+/// \fn Verifie si la valeur donnee existe dans la liste
+/// \param[in] liste Liste dans laquelle on va chercher la valeur
+/// \param[in] val Valeur a chercher dans les cellules de la liste
+/// \return `true` si la valeur a ete trouvee, `false` sinon
+bool valeur_existe_t_liste_simple_int(t_liste_simple_int liste, int val);
+
 
 #endif // UTILS_SD_H

@@ -17,9 +17,10 @@ void fermer_fichier_logging_fichier_ouvert();
 void log_ligne_message_simple();
 void log_ligne_message_avec_donnees();
 
-// log_t_tab_int_dyn et log_t_mat_int_dyn
+// log_t_*
 void log_t_tab_int_dyn_ok();
 void log_t_mat_int_dyn_ok();
+void log_t_liste_simple_int_ok();
 
 
 // Execute les tests de ce module, tout en veillant a l'ouverture et

@@ -49,5 +49,10 @@ void log_t_tab_int_dyn(char* module, t_tab_int_dyn tab);
 /// \param[in] mat Matrice d'entiers a ecrire
 void log_t_mat_int_dyn(char* module, t_mat_int_dyn mat);
 
+/// \brief Ecrit dans la sortie de logging le contenu de la liste d'entiers.
+/// \param[in] module Module depuis lequel le message a ete emis
+/// \param[in] liste Liste d'entiers a ecrire
+void log_t_liste_simple_int(char* module, t_liste_simple_int liste);
+
 
 #endif // LOG_H

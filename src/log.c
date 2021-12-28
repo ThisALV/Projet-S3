@@ -89,3 +89,16 @@ void log_t_mat_int_dyn(char* module, t_mat_int_dyn mat) {
         log_t_tab_int_dyn(module, ligne);
     }
 }
+
+void log_t_liste_simple_int(char* module, t_liste_simple_int liste) {
+    // On commence par ecrire le nom du module
+    VERIFIER_ECRITURE(fprintf(sortie, "[%s] : ", module));
+
+    // On ecrit cellule par cellule le contenu de chaque cellule jusqu'a la fin
+    // de la liste
+    for (t_cellule_simple_int* cell = liste.elems; cell != NULL; cell = cell->suiv)
+        VERIFIER_ECRITURE(fprintf(sortie, " | %d", cell->val));
+
+    // Fin de la ligne apres la liste
+    VERIFIER_ECRITURE(fprintf(sortie, "\n"));
+}
