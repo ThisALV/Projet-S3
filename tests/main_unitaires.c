@@ -4,6 +4,7 @@
 #include <unitaires/utils_scrutins.h>
 #include <unitaires/condorcet_minimax.h>
 #include <unitaires/condorcet_schulze.h>
+#include <unitaires/utils_main.h>
 #include <stdio.h>
 
 
@@ -21,6 +22,7 @@ int main() {
     test_unitaire_module("utils_scrutin", tests_unitaires_utils_scrutin);
     test_unitaire_module("condorcet_minimax", tests_unitaires_condorcet_minimax);
     test_unitaire_module("condorcet_schulze", tests_unitaires_condorcet_schulze);
+    test_unitaire_module("utils_main", tests_unitaires_utils_main);
 
     return 0;
 }
