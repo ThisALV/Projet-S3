@@ -42,7 +42,9 @@ bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
 
 
 void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dyn* mots) {
-    char ligne[LIGNE_MAX_TAILLE];
+    // Doit etre remplie de 0 pour s'assurer qu'il n'y ai pas de separateur de la partie
+    // inutilisee de la ligne
+    char ligne[LIGNE_MAX_TAILLE] = { 0 };
 
     mots->lignes = 0;
     bool nb_colonnes_connu = false;
