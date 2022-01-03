@@ -15,7 +15,7 @@
 
 // Fonction privee utilitaire permettant d'obtenir une copie de chaine de caractere
 // allouee a la bonne taille en memoire
-char* allouer_copie_char_star(char* source, char* message_si_erreur) {
+static char* allouer_copie_char_star(char* source, char* message_si_erreur) {
     // On evalue la taille de la chaine pour allouer la place necessaire en memoire
     int taille_nom = strlen(source);
     // +1 pour le 0 de terminaison
@@ -30,7 +30,7 @@ char* allouer_copie_char_star(char* source, char* message_si_erreur) {
 // Fonction privee qui verifie la presence d'au moins une ligne dans une matrice CSV.
 // S'il n'y a aucune ligne alors le tableau de candidats passe en mode erreur.
 // `true` est retourne si une en-tete etait bien presente
-bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
+static bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
     bool entete_presente = mots_csv.lignes > 0; // La premiere ligne est l'en-tete
 
     if (!entete_presente)
@@ -38,6 +38,26 @@ bool verifier_entete(t_mat_char_star_dyn mots_csv, t_candidats* candidats) {
 
     // On informe l'appelant si l'en-tete etait bien presente
     return entete_presente;
+}
+
+// Ajoute a la ligne ligne_i, contenant deja nb_colonnes colonnnes,
+// de la matrice mat une colonne contenant la chaine allouee dynamiquement mot.
+// Retourne le nombre de colonnes apres l'operation (nb_colonnes + 1).
+static int ajouter_colonne(t_mat_char_star_dyn* mat, int ligne_i, int nb_colonnes, char* mot) {
+    // On incremente le compteur de colonne et on retient l'indice de celle
+    // sur laquelle on travaille
+    int colonne_i = nb_colonnes++;
+
+    // On alloue la memoire pour une nouvelle colonne de cette ligne
+    mat->elems[ligne_i] = (char**) realloc(mat->elems[ligne_i], nb_colonnes * sizeof(char*));
+    char** ligne_mat = mat->elems[ligne_i];
+    verifier_alloc(ligne_mat, "Allocation ligne CSV");
+
+    // On alloue dans cette dans colonne un tableau de caracteres suffisament grand
+    // pour contenir le prochain mot de la ligne ET un caractere de terminaison \0
+    ligne_mat[colonne_i] = mot;
+
+    return nb_colonnes; // Une colonne a ete ajoutee par l'operation
 }
 
 
@@ -74,31 +94,32 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
         int colonnes = 0;
         // Pour chaque mot dans la ligne
         while (mot != NULL) {
-            // On incremente le compteur de colonne et on retient l'indice de celle
-            // sur laquelle on travaille
-            int colonne_i = colonnes++;
+            // Le mot de la colonne est dans un buffer, il doit donc etre copie
+            // pour etre sauvegarde
+            char* copie_mot = allouer_copie_char_star(mot, "Copie mot colonne CSV");
 
-            // On alloue la memoire pour une nouvelle colonne de cette ligne
-            mots->elems[ligne_i] = (char**) realloc(mots->elems[ligne_i], colonnes * sizeof(char*));
-            char** ligne_mat = mots->elems[ligne_i];
-            verifier_alloc(ligne_mat, "Allocation ligne CSV");
+            colonnes = ajouter_colonne(mots, ligne_i, colonnes, copie_mot);
 
-            // On alloue dans cette dans colonne un tableau de caracteres suffisament grand
-            // pour contenir le prochain mot de la ligne ET un caractere de terminaison \0
-            ligne_mat[colonne_i] = (char*) malloc((strlen(mot) + 1) * sizeof(char));
-            verifier_alloc(ligne_mat[colonne_i], "Allocation mot CSV");
-
-            // Et on copie le mot dans la matrice
-            strcpy(ligne_mat[colonne_i], mot);
-
-            // Enfin, passe au mot suivant
+            // Enfin, on passe au mot suivant
             mot = strtok(NULL, separateurs);
         }
 
         if (nb_colonnes_connu) {
             // On verifie qu'il y a le mm nb de colonnes dans chaque ligne
-            if (colonnes != mots->colonnes)
+
+            // S'il y a trop de colonnes, alors on ne peut pas regler le probleme
+            if (colonnes > mots->colonnes)
                 erreur_fatale(2, "Nombre de colonnes non persistent dans CSV");
+
+            // En revanche s'il manque des colonnes, on peut en ajouter des "-1"
+            // qui seront ignores pour pallier a ca et avoir une matrice de mots valide
+            while (colonnes < mots->colonnes) {
+                // Chaque colonne doit avoir sa chaine en memoire pour la free() a la destruction
+                // de la matrice
+                char* copie_mot_remplissage = allouer_copie_char_star("-1", "Copie mot colonne CSV");
+
+                colonnes = ajouter_colonne(mots, ligne_i, colonnes, copie_mot_remplissage);;
+            }
         } else { 
             mots->colonnes = colonnes;
             nb_colonnes_connu = true;
