@@ -84,8 +84,8 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
             verifier_alloc(ligne_mat, "Allocation ligne CSV");
 
             // On alloue dans cette dans colonne un tableau de caracteres suffisament grand
-            // pour contenir le prochainn mot de la ligne
-            ligne_mat[colonne_i] = (char*) malloc(strlen(mot) * sizeof(char));
+            // pour contenir le prochain mot de la ligne ET un caractere de terminaison \0
+            ligne_mat[colonne_i] = (char*) malloc((strlen(mot) + 1) * sizeof(char));
             verifier_alloc(ligne_mat[colonne_i], "Allocation mot CSV");
 
             // Et on copie le mot dans la matrice
