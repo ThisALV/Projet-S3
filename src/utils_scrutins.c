@@ -117,6 +117,11 @@ void compter_voix_ballots(t_tab_int_dyn* voix, t_candidats candidats, t_tab_int_
         t_tab_int_dyn preferes = tetes_de_listes[ballot_i];
         int vainqueur_ballot_id;
 
+        // S'il n'y a eu aucun gagnant dans ce ballot (car tous les scores du ballot etaient invalides),
+        // alors on ignore ce ballot dans le comptage des voix
+        if (preferes.taille == 0)
+            continue;
+
         // S'il y a une egalite dans ce ballot de votes
         if (preferes.taille != 1) { // Alors on departage
             t_candidats infos_preferes;
