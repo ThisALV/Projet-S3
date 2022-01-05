@@ -121,12 +121,12 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
         <task id="127" name="condorcet_shulze" color="#ffff00" meeting="false" start="2021-12-16" duration="7" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <depend id="151" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="151" name="main" color="#000000" meeting="false" start="2021-12-23" duration="5" complete="60" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
+        <task id="151" name="main" color="#000000" meeting="false" start="2021-12-23" duration="5" complete="100" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
             <depend id="158" type="2" difference="0" hardness="Strong"/>
             <task id="152" name="traiter_parametres" color="#8cb6ce" meeting="false" start="2021-12-23" duration="3" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
                 <depend id="153" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="153" name="main (script principal)" color="#8cb6ce" meeting="false" start="2021-12-28" duration="2" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
+            <task id="153" name="main (script principal)" color="#8cb6ce" meeting="false" start="2021-12-28" duration="2" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-30" duration="12" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <task id="480" name="generer_cle_privee" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
