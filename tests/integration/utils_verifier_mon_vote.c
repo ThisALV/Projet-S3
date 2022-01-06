@@ -5,9 +5,32 @@
 #include <erreur.h>
 #include <string.h>
 
-#define TAILLE_MAX_LIGNE_CSV 50
+#define LIGNE_MAX 200
 #define NB_LIGNES_CSV_TEST 3
 
+
+// Lit dans le fichier ouvert en lecture donne et verifie le nb et le contenu des lignes
+static void verifier_contenu_fichier(FILE* fichier,
+    int nb_lignes_attendues, char* lignes_attendues[nb_lignes_attendues])
+{
+    // On lit chaque ligne du fichier jusqu'a la fin
+    int nb_lignes_lues = 0; // en gardant une trace de nb de lignes deja lues
+    char ligne_courante[LIGNE_MAX];
+    char fin_de_ligne; // Utilise pour vider le \n du scan
+    while (fscanf(fichier, "%[^\n]%c", ligne_courante, &fin_de_ligne) != EOF) {
+        // On verifie qu'on a pas deja lu toutes les lignes attendus, sinon cette ligne
+        // est en trop
+        assert(nb_lignes_lues < nb_lignes_attendues);
+
+        // Index de la ligne courante, et on compabilise une nouvelle ligne lue
+        int ligne_courante_i = nb_lignes_lues++;
+        // On s'assure que la ligne lue est celle attendue par le test
+        assert(strcmp(ligne_courante, lignes_attendues[ligne_courante_i]) == 0);
+    }
+
+    // On verifie que le fichier n'a pas moins de lignes que le nb attendu
+    assert(nb_lignes_lues == nb_lignes_attendues);
+}
 
 // Fonction privee utilitaire qui transforme une matrice constante de la
 // forme char*[N][]M en matrice de la t_mat_char_star_dyn
@@ -59,24 +82,8 @@ void ecriture_fichier_votes_test() {
         "0123,aaa,bbb,ccc",
         "4567,ddd,eee,fff"
     };
-    
-    // On lit chaque ligne du fichier jusqu'a la fin
-    int nb_lignes_lues = 0; // en gardant une trace de nb de lignes deja lues
-    char ligne_courante[TAILLE_MAX_LIGNE_CSV];
-    char fin_de_ligne; // Utilise pour vider le \n du scan
-    while (fscanf(fichier_csv, "%[^\n]%c", ligne_courante, &fin_de_ligne) != EOF) {
-        // On verifie qu'on a pas deja lu toutes les lignes attendus, sinon cette ligne
-        // est en trop
-        assert(nb_lignes_lues < NB_LIGNES_CSV_TEST);
-
-        // Index de la ligne courante, et on compabilise une nouvelle ligne lue
-        int ligne_courante_i = nb_lignes_lues++;
-        // On s'assure que la ligne lue est celle attendue par le test
-        assert(strcmp(ligne_courante, lignes_attendues[ligne_courante_i]) == 0);
-    }
-
-    // On verifie que le fichier n'a pas moins de lignes que le nb attendu
-    assert(nb_lignes_lues == NB_LIGNES_CSV_TEST);
+    // On verifie que ces lignes sont bien celles ecrtires dans le CSV
+    verifier_contenu_fichier(fichier_csv, NB_LIGNES_CSV_TEST, lignes_attendues);
 
     // Liberation des ressources utilisees par le test
     fclose(fichier_csv);
