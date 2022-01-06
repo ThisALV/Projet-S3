@@ -6,6 +6,12 @@
 #include <string.h>
 #include <sha256_utils.h>
 
+// Est appelee pour verifier si une operation d'ecriture s'est terminee
+// avec succes, et lever une erreur fatale si ce n'est pas le cas
+#define VERIFIER_ECRITURE_CSV(operation_ecriture)\
+    if (operation_ecriture < 0)\
+        erreur_fatale(2, "Ecriture fichier CSV");
+
 // Nombre de caracteres differents disponibles pour une cle
 // 26 lettres * 2 pour les min/majuscules + 10 chiffres = 62
 #define CARACTERES_DISPONIBLES 62
@@ -53,4 +59,27 @@ void hash_electeur(char* nom_electeur, char* cle_privee, char hash_electeur[TAIL
 
     // On n'oublie pas de detruire la chaine temporaire a la fin de l'operation
     free(nom_et_cle);
+}
+
+void ecrire_fichier_votes(FILE* fichier_csv, char separateur, t_mat_char_star_dyn mots_csv) {
+    for (int ligne_i = 0; ligne_i < mots_csv.lignes; ligne_i++) {
+        bool premier_mot = true; // Sera mis a false des qu'on aura ecrit un mot CSV
+
+        for (int colonne_i = 0; colonne_i < mots_csv.colonnes; colonne_i++) {
+            // Si ce n'est pas le 1er mot de la ligne, il doit etre precede d'un
+            // separateur
+            if (!premier_mot)
+                VERIFIER_ECRITURE_CSV(fprintf(fichier_csv, "%c", separateur));
+
+            // On ecrit le mot dans la ligne courante
+            char* mot = mots_csv.elems[ligne_i][colonne_i];
+            VERIFIER_ECRITURE_CSV(fprintf(fichier_csv, "%s", mot));
+
+            // On sait qu'on a ecrit au moins 1 mot dans cette ligne
+            premier_mot = false;
+        }
+
+        // On passe a la ligne suivante
+        VERIFIER_ECRITURE_CSV(fprintf(fichier_csv, "\n"));
+    }
 }

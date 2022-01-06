@@ -6,6 +6,9 @@
 #ifndef UTILS_VERIFIER_MON_VOTE_H
 #define UTILS_VERIFIER_MON_VOTE_H
 
+#include <stdio.h>
+#include <utils_sd.h>
+
 /// \def Taille de la chaine de caractere contenant la cle privee, \0 exclu
 #define TAILLE_CLE_PRIVEE 80
 /// \def Taille d'un hash d'electeur present dans un fichier de ballots, \0 exclu.
@@ -24,6 +27,13 @@ void generer_cle_privee(char cle_privee[TAILLE_CLE_PRIVEE + 1]);
 /// \param[in] cle_privee Cle utilisee par l'electeur pour acceder a ses votes
 /// \param[out] hash_electeur Hash qui sera utilise pour cet electeur dans le fichier
 void hash_electeur(char* nom_electeur, char* cle_privee, char hash_electeur[TAILLE_HASH_ELECTEUR + 1]);
+
+/// \fn Ecrit la matrice de mots CSV dans le fichier ouvert en ecriture, en separant
+/// chaque mot d'une ligne par le separateur donne.
+/// \param[in] fichier_csv Pointeur de fichier vers le CSV ouvert en ecriture
+/// \param[in] separateur Caractere qui va etre insere entre les mots d'une meme ligne
+/// \param[in] mots_csv Mots a ecrire dans le fichier CSV
+void ecrire_fichier_votes(FILE* fichier_csv, char separateur, t_mat_char_star_dyn mots_csv);
 
 
 #endif // UTILS_VERIFIER_MON_VOTE_H
