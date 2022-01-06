@@ -3,6 +3,8 @@
 #include <erreur.h>
 #include <sys/random.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sha256_utils.h>
 
 // Nombre de caracteres differents disponibles pour une cle
 // 26 lettres * 2 pour les min/majuscules + 10 chiffres = 62
@@ -35,4 +37,20 @@ void generer_cle_privee(char cle_privee[TAILLE_CLE_PRIVEE + 1]) {
 
     // On n'oublie pas d'ajouter la terminaison \0 en plus de la cle
     cle_privee[TAILLE_CLE_PRIVEE] = '\0';
+}
+
+void hash_electeur(char* nom_electeur, char* cle_privee, char hash_electeur[TAILLE_HASH_ELECTEUR + 1]) {
+    // On alloue une chaine qui contiendra le nom, la cle et \0
+    char* nom_et_cle = (char*) malloc(strlen(nom_electeur) + strlen(cle_privee) + 1);
+    verifier_alloc(nom_et_cle, "Concatenation nom et cle privee");
+    // On copie le nom dans cette chaine
+    strcpy(nom_et_cle, nom_electeur);
+    // On y ajoute la cle
+    strcat(nom_et_cle, cle_privee);
+
+    // On genere le hash dans le tableau de sortie
+    sha256ofString((BYTE*) nom_et_cle, hash_electeur);
+
+    // On n'oublie pas de detruire la chaine temporaire a la fin de l'operation
+    free(nom_et_cle);
 }
