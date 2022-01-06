@@ -35,5 +35,15 @@ void hash_electeur(char* nom_electeur, char* cle_privee, char hash_electeur[TAIL
 /// \param[in] mots_csv Mots a ecrire dans le fichier CSV
 void ecrire_fichier_votes(FILE* fichier_csv, char separateur, t_mat_char_star_dyn mots_csv);
 
+/// \fn Dans la matrice de mots CSV donnee, chiffre les noms des electeurs et ecrit
+/// leurs cles privees associees aux noms dans un fichier de sortie
+/// \param[inout] mots_csv Matrice de mots CSV contenu une liste de ballots conforme a
+/// ce qui peut etre lu dans le module lecture_csv
+/// \param[in] cles_privees Tableau des cles privees, chaque index du tableau possede une
+/// cle associee a l'electeur de meme index dans les ballots de votes
+/// \param[in] sortie_cles Fichier de sorties dans lequel on ecrit des lignes sous la forme
+/// nom_electeur:cle_privee
+void chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, FILE* sortie_cles);
+
 
 #endif // UTILS_VERIFIER_MON_VOTE_H

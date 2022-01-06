@@ -16,6 +16,10 @@
 // 26 lettres * 2 pour les min/majuscules + 10 chiffres = 62
 #define CARACTERES_DISPONIBLES 62
 
+// Le nom de l'electeur se trouve a la 4eme colonne d'une ligne CSV dans un fichier
+// de ballots
+#define NOM_ELECTEUR_COLONNE_I 3
+
 
 // Tableau des caracteres alphanumeriques disponibles pour la
 // generation de la cle privee
@@ -81,5 +85,38 @@ void ecrire_fichier_votes(FILE* fichier_csv, char separateur, t_mat_char_star_dy
 
         // On passe a la ligne suivante
         VERIFIER_ECRITURE_CSV(fprintf(fichier_csv, "\n"));
+    }
+}
+
+void chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, FILE* sortie_cles) {
+    // Pour chaque ballot de votes (sachant que la 1er ligne CSV est l'en-tete)
+    for (int ligne_i = 1; ligne_i < mots_csv.lignes; ligne_i++) {
+        char** ligne_courante = mots_csv.elems[ligne_i];
+
+        // On obtient le nom de l'electeur a la 4eme colonne
+        char* nom_electeur = ligne_courante[NOM_ELECTEUR_COLONNE_I];
+        // On obtient la cle privee qui lui est associee
+        char* cle_privee = cles_privees[ligne_i];
+
+        // On affiche la cle privee pour que l'utilisateur pour s'authentifier
+        // avec par la suite
+        if (fprintf(sortie_cles, "%s:%s\n", nom_electeur, cle_privee) < 0) {
+            // En verifiant que l'ecriture dans le fichier de sortie a reussi
+            fclose(sortie_cles);
+            erreur_fatale(2, "Ecriture nom electeur et cle privee");
+        }
+
+        //
+        // On remplace le nom par le hash obtenu dans la matrice de mots CSV
+        //
+
+        // On commence par generer le hash qui est alloue dynamiquement pour
+        // rester disponible en memoire jusqu'a l'ecriture dans le fichier CSV
+        char* hash = (char*) malloc((TAILLE_HASH_ELECTEUR + 1) * sizeof(char));
+        hash_electeur(nom_electeur, cle_privee, hash);
+        // Le nom etait alloue dynamiquement en memoire, il faudra donc le liberer
+        free(nom_electeur);
+        // Enfin, on peut affecter le hash a la colonne CSV correspondante
+        ligne_courante[NOM_ELECTEUR_COLONNE_I] = hash;
     }
 }
