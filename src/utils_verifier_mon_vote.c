@@ -94,14 +94,18 @@ bool chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, F
     if (mots_csv.colonnes < NOM_ELECTEUR_COLONNE_I + 1)
         return false;
 
-    // Pour chaque ballot de votes (sachant que la 1er ligne CSV est l'en-tete)
-    for (int ligne_i = 1; ligne_i < mots_csv.lignes; ligne_i++) {
+    // Sachant que la 1ere ligne est l'en-tete, donc pas un ballot de votes
+    int nb_electeurs = mots_csv.lignes - 1;
+
+    // Pour chaque ballot de votes
+    for (int electeur_i = 0; electeur_i < nb_electeurs; electeur_i++) {
+        int ligne_i = electeur_i + 1; // On a saute l'en-tete du CSV
         char** ligne_courante = mots_csv.elems[ligne_i];
 
         // On obtient le nom de l'electeur a la 4eme colonne
         char* nom_electeur = ligne_courante[NOM_ELECTEUR_COLONNE_I];
         // On obtient la cle privee qui lui est associee
-        char* cle_privee = cles_privees[ligne_i];
+        char* cle_privee = cles_privees[electeur_i];
 
         // On affiche la cle privee pour que l'utilisateur pour s'authentifier
         // avec par la suite
