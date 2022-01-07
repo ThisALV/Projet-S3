@@ -43,7 +43,8 @@ void ecrire_fichier_votes(FILE* fichier_csv, char separateur, t_mat_char_star_dy
 /// cle associee a l'electeur de meme index dans les ballots de votes
 /// \param[in] sortie_cles Fichier de sorties dans lequel on ecrit des lignes sous la forme
 /// nom_electeur:cle_privee
-void chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, FILE* sortie_cles);
+/// \return `true` si l'operation a entierement reussie, `false` sinon
+bool chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, FILE* sortie_cles);
 
 
 #endif // UTILS_VERIFIER_MON_VOTE_H

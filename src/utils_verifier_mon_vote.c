@@ -88,16 +88,11 @@ void ecrire_fichier_votes(FILE* fichier_csv, char separateur, t_mat_char_star_dy
     }
 }
 
-void chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, FILE* sortie_cles) {
+bool chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, FILE* sortie_cles) {
     // On verifie qu'il y a bien suffisament de colonnes pour contenu un nom d'electeur
-    if (mots_csv.colonnes < NOM_ELECTEUR_COLONNE_I + 1) {
-        // Si ce n'est pas le cas on libere la memoire de la matrice et on l'utilise
-        // pour signaler une erreur
-        detruire_t_mat_char_star_dyn(&mots_csv);
-        mettre_t_mat_char_star_dyn_erreur(&mots_csv);
-
-        return;
-    }
+    // Si ce n'est pas le cas, on retourne que l'operation a echoue
+    if (mots_csv.colonnes < NOM_ELECTEUR_COLONNE_I + 1)
+        return false;
 
     // Pour chaque ballot de votes (sachant que la 1er ligne CSV est l'en-tete)
     for (int ligne_i = 1; ligne_i < mots_csv.lignes; ligne_i++) {
@@ -129,4 +124,6 @@ void chiffrer_ballots_votes(t_mat_char_star_dyn mots_csv, char** cles_privees, F
         // Enfin, on peut affecter le hash a la colonne CSV correspondante
         ligne_courante[NOM_ELECTEUR_COLONNE_I] = hash;
     }
+
+    return true; // L'operation s'est fini sans erreur
 }
