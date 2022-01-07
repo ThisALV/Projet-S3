@@ -13,20 +13,6 @@
 #define BALLOTS_COLS_PREFIXE 4
 
 
-// Fonction privee utilitaire permettant d'obtenir une copie de chaine de caractere
-// allouee a la bonne taille en memoire
-static char* allouer_copie_char_star(char* source, char* message_si_erreur) {
-    // On evalue la taille de la chaine pour allouer la place necessaire en memoire
-    int taille_nom = strlen(source);
-    // +1 pour le 0 de terminaison
-    char* copie = (char*) malloc(sizeof(char) * (taille_nom + 1));
-    verifier_alloc(copie, message_si_erreur);
-
-    // On effectue la copie puis on renvoie le resultat
-    strcpy(copie, source);
-    return copie;
-}
-
 // Fonction privee qui verifie la presence d'au moins une ligne dans une matrice CSV.
 // S'il n'y a aucune ligne alors le tableau de candidats passe en mode erreur.
 // `true` est retourne si une en-tete etait bien presente
@@ -60,6 +46,18 @@ static int ajouter_colonne(t_mat_char_star_dyn* mat, int ligne_i, int nb_colonne
     return nb_colonnes; // Une colonne a ete ajoutee par l'operation
 }
 
+
+char* allouer_copie_char_star(char* source, char* message_si_erreur) {
+    // On evalue la taille de la chaine pour allouer la place necessaire en memoire
+    int taille_nom = strlen(source);
+    // +1 pour le 0 de terminaison
+    char* copie = (char*) malloc(sizeof(char) * (taille_nom + 1));
+    verifier_alloc(copie, message_si_erreur);
+
+    // On effectue la copie puis on renvoie le resultat
+    strcpy(copie, source);
+    return copie;
+}
 
 void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dyn* mots) {
     // Doit etre remplie de 0 pour s'assurer qu'il n'y ai pas de separateur de la partie

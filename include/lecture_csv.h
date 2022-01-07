@@ -10,6 +10,12 @@
 #include <utils_sd.h>
 
 
+/// \fn Alloue dynamiquement une copie de la chaine donnee
+/// \param[in] source Chaine a copier
+/// \param[in] message_si_erreur Message a afficher si l'allocation en memoire echoue
+/// \return Le pointeur vers la copie allouee dynamiquement en memoire
+char* allouer_copie_char_star(char* source, char* message_si_erreur);
+
 /// \fn Lis le fichier donne au format CSV et stocke les lignes et les mots, en-tete comprise, dans les cases de la matrice
 /// \param[in] fichier_csv Pointeur vers le fichier CSV ouvert
 /// \param[in] separateurs Liste des caracteres utilisees pour separer les mots au sein d'une meme ligne
