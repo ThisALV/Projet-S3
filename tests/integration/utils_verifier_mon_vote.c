@@ -4,9 +4,11 @@
 #include <assert.h>
 #include <erreur.h>
 #include <string.h>
+#include <lecture_csv.h>
 
 #define LIGNE_MAX 200
 #define NB_LIGNES_CSV_TEST 3
+#define NB_ELECTEURS_TEST (NB_LIGNES_CSV_TEST - 1)
 
 
 // Lit dans le fichier ouvert en lecture donne et verifie le nb et le contenu des lignes
@@ -40,10 +42,11 @@ static void convertir_mat_compatible(int lignes, int colonnes, char* src[lignes]
     assert(creer_t_mat_char_star_dyn(dest, lignes, colonnes));
 
     // Puis on copie les char* de la matrice source vers la matric destination,
-    // case par case
+    // case par case, on allouant dynamiquement une nouvelle chaine puisque
+    // c'est requis par les fonctions que nous allons tester
     for (int l = 0; l < lignes; l++)
         for (int c = 0; c < colonnes; c++)
-            dest->elems[l][c] = src[l][c];
+            dest->elems[l][c] = allouer_copie_char_star(src[l][c], "Copie mat compatible");
 }
 
 
@@ -91,8 +94,91 @@ void ecriture_fichier_votes_test() {
 }
 
 
+//
+// chiffrer_ballots_votes
+//
+
+void chiffrer_ballots_votes_nb_colonnes_invalide() {
+    // Cette matrice n'a pas assez de colonnes pour contenir les noms des electeurs
+    char* mots_elems[NB_LIGNES_CSV_TEST][3] = {
+        { "", "", "" }, // On se fiche du contenu des colonnes, c'est leur nb qui
+        { "", "", "" }, // va declencher l'erreur
+        { "", "", "" }
+    };
+    t_mat_char_star_dyn mots;
+    convertir_mat_compatible(NB_LIGNES_CSV_TEST, 3, mots_elems, &mots);
+
+    // On s'assure que l'operation echoue, on lui donnant pour sortie stdout
+    // et aucune cle privee puisque de toutes manieres rien ne va etre
+    assert(!chiffrer_ballots_votes(mots, NULL, stdout));
+}
+
+void chiffrer_ballots_votes_ok() {
+    // Cette matrice contient assez de colonnes pour avoir des noms a chiffrer
+    char* mots_elems[NB_LIGNES_CSV_TEST][4] = {
+        { "", "", "", "" }, // En-tete, le contenu n'a aucun importance
+        { "", "", "", "abcd" }, // Seul le contenu de la colonne du nom nous interesse
+        { "", "", "", "efgh" }
+    };
+    t_mat_char_star_dyn mots;
+    convertir_mat_compatible(NB_LIGNES_CSV_TEST, 4, mots_elems, &mots);
+
+    // On creer/tronque un fichier pour y stocker les noms et les cles, on
+    // verifiera plus tard ce que la fonction a ecrit dedans
+    FILE* fichier_cles = fopen("votes/cles_test.csv", "w+");
+    // Chaque cle de 80 caracteres, donc 2 cles puisque 2 ballots => 2 electeurs
+    char* cles_prives[NB_ELECTEURS_TEST] = {
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    };
+
+    // On s'assure que l'operation a reussi
+    assert(chiffrer_ballots_votes(mots, cles_prives, fichier_cles));
+
+    // On verifie que notre fichier de sortie contient bien les 2 associations
+    // nom_electeur:cle_privee
+    rewind(fichier_cles); // On revient au debut du fichier pour le lire
+    char* lignes_attendues[NB_ELECTEURS_TEST] = {
+        "abcd:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "efgh:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    };
+    // Verification du contenu
+    verifier_contenu_fichier(fichier_cles, NB_ELECTEURS_TEST, lignes_attendues);
+
+    fclose(fichier_cles); // On a fini de verifier l'utilisation du fichier
+
+    //
+    // Enfin, on verifie le contenu de la matrice apres chiffrement
+    //
+
+    // Les dimensions n'ont pas du etre changees
+    assert(mots.lignes == NB_LIGNES_CSV_TEST);
+    assert(mots.colonnes == 4);
+
+    char* mots_attendus[NB_LIGNES_CSV_TEST][4] = {
+        { "", "", "", "" }, // En-tete, non modifiee
+        { "", "", "", "bc8f0aa116ac590450cdd321ea26bb4c8cbc4c23d5419f09311635a676e5b33e" },
+        { "", "", "", "fa567d0e1780a4abe479325ed65bd92819deb26a586c8011caad9d27241cf9aa" }
+    };
+    // On teste ligne par ligne, colonne par colonne, si le mot CSV est correct
+    for (int ligne_i = 0; ligne_i < NB_LIGNES_CSV_TEST; ligne_i++) {
+        for (int colonne_i = 0; colonne_i < 4; colonne_i++) {
+            char* mot_obtenu = mots.elems[ligne_i][colonne_i];
+            char* mot_attendu = mots_attendus[ligne_i][colonne_i];
+
+            assert(strcmp(mot_obtenu, mot_attendu) == 0);
+        }
+    }
+
+    detruire_t_mat_char_star_dyn(&mots);
+}
+
+
 // Script principale pour les tests
 
 void tests_integration_utils_verifier_mon_vote() {
     ecriture_fichier_votes_test();
+
+    chiffrer_ballots_votes_nb_colonnes_invalide();
+    chiffrer_ballots_votes_ok();
 }
