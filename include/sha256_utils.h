@@ -7,7 +7,7 @@
 
 #ifndef sha256_utils_h
 #define sha256_utils_h
-#include "sha256.h"
+#include <sha256.h>
 void sha256ofString(BYTE * str,char hashRes[SHA256_BLOCK_SIZE*2 + 1]);
 
 #endif /* sha256_utils_h */
