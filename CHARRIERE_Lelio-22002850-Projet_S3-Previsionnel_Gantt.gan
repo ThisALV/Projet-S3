@@ -124,27 +124,37 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
         <task id="151" name="main" color="#000000" meeting="false" start="2021-12-23" duration="5" complete="100" thirdDate="2021-11-08" thirdDate-constraint="0" expand="true">
             <depend id="158" type="2" difference="0" hardness="Strong"/>
             <task id="152" name="traiter_parametres" color="#8cb6ce" meeting="false" start="2021-12-23" duration="3" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- Finalement on utilisera getopt.h :
+ - Le cross platform ne sera pas possible pour la génération sécurisée de nombres aléatoires dans utils_verifier_mon_vote
+ - Le sujet l'autorise (à ne pas être cross-platform)
+]]>
+                </notes>
                 <depend id="153" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="153" name="main (script principal)" color="#8cb6ce" meeting="false" start="2021-12-28" duration="2" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-30" duration="12" complete="0" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
-            <task id="480" name="generer_cle_privee" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
-                <depend id="482" type="2" difference="0" hardness="Strong"/>
+        <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-30" duration="12" complete="75" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+            <task id="480" name="generer_cle_privee" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- Le programme peut ne pas être cross-platform, on va donc utiliser le syscall getrandom() de Linux pour avoir des valeurs aléatoires sécurisées
+]]>
+                </notes>
             </task>
-            <task id="435" name="hash_electeur" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="0" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
-                <depend id="482" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="482" name="chiffrer_ballot_vote" color="#8cb6ce" meeting="false" start="2022-01-01" duration="1" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+            <task id="435" name="hash_electeur" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="100" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- Toutes les manipulations de hash se font sous format textuel, donc inutile de les passer sous format binaire, convertir_binaire ne sert donc plus à rien
+]]>
+                </notes>
                 <depend id="483" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="483" name="ecrire_fichier_votes" color="#8cb6ce" meeting="false" start="2022-01-02" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
-                <depend id="424" type="2" difference="0" hardness="Strong"/>
+            <task id="483" name="ecrire_fichier_votes" color="#8cb6ce" meeting="false" start="2022-01-01" duration="2" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+                <depend id="482" type="2" difference="2" hardness="Strong"/>
             </task>
-            <task id="424" name="convertir_binaire" color="#8cb6ce" meeting="false" start="2022-01-04" duration="2" complete="0" thirdDate="2021-12-26" thirdDate-constraint="0" expand="true">
+            <task id="482" name="chiffrer_ballots_votes" color="#8cb6ce" meeting="false" start="2022-01-05" duration="1" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="451" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="451" name="chercher_electeur" color="#8cb6ce" meeting="false" start="2022-01-06" duration="2" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+            <task id="451" name="chercher_electeur" color="#8cb6ce" meeting="false" start="2022-01-06" duration="2" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="457" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="457" name="main (Script principal)" color="#8cb6ce" meeting="false" start="2022-01-08" duration="3" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true"/>
