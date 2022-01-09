@@ -69,8 +69,8 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
     // Vaut NULL au debut, donc le premier realloc fera un malloc
     mots->elems = NULL;
     // On lit ligne par ligne le fichier CSV en les stockant tour a tour
-    // dans le buffer
-    while (fgets(ligne, LIGNE_MAX_TAILLE, fichier_csv) != NULL) {
+    // dans le buffer, jusqu'a ce qu'on ne puisse plus lire une ligne complete
+    while (fscanf(fichier_csv, "%[^\n]%*c", ligne) == 1) {
         // On incremente le compteur de lignes et on retient la ligne
         // courante
         int ligne_i = mots->lignes++;
@@ -116,17 +116,12 @@ void lire_fichier_votes(FILE* fichier_csv, char* separateurs, t_mat_char_star_dy
                 // de la matrice
                 char* copie_mot_remplissage = allouer_copie_char_star("-1", "Copie mot colonne CSV");
 
-                colonnes = ajouter_colonne(mots, ligne_i, colonnes, copie_mot_remplissage);;
+                colonnes = ajouter_colonne(mots, ligne_i, colonnes, copie_mot_remplissage);
             }
         } else { 
             mots->colonnes = colonnes;
             nb_colonnes_connu = true;
         }
-
-        char* dernier_mot = mots->elems[ligne_i][mots->colonnes - 1];
-        // On remplace supprime le saut de ligne \n en avancant la fin de la chaine
-        // de caracteres
-        dernier_mot[strlen(dernier_mot) - 1] = '\0';
     }
 }
 

@@ -18,7 +18,7 @@ void lire_fichier_votes_test() {
     char* contenu_attendu[NB_LIGNES_TEST][NB_COLONNES_TEST] = {
         { "A", "B", "C", "D", "E", "Fin" },
         { "0", "1", "2", "3", "4", "AAA" },
-        { "5", "6", "7", "8", "9", "BBB" },
+        { "5", "6", "7", "8", "-1", "-1" }, // Il manque 2 cols ici dans le csv, qui prendront la valeur -1
         { "10", "11", "12", "13", "14", "CCC" }
     };
 
