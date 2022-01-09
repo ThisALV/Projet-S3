@@ -445,9 +445,10 @@ static int iteration_schulze_graphe(t_graphe* duels) {
         detruire_t_liste_simple_int(&ids_arcs_poids_minimal);
     }
 
-    // On desalloue en memoire chaque groupe de tete
+    // On desalloue en memoire chaque groupe de tete ayant ete initialise
     for (int groupe_i = 0; groupe_i < duels->nb_points; groupe_i++)
-        detruire_t_liste_simple_int(&(groupes_de_tete[groupe_i]));
+        if (duels->points[groupe_i].candidat_id != POINT_SUPPRIME)
+            detruire_t_liste_simple_int(&(groupes_de_tete[groupe_i]));
 
     // On desalloue en memoire le tableau des groupes de tete
     free(groupes_de_tete);
