@@ -205,14 +205,15 @@ void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candid
 }
 
 void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs) {
-    // On calcul le nombre d'electeur pour savoir quand s'arreter pour calculer
+    // On calcul le nombre d'electeur pour savoir quand s'arreter et pour calculer
     // les % de voix plus tard
     *nb_electeurs = mots_csv.lignes - 1;
     // On calcul le nombre de colonnes reservees aux candidats
     int nb_candidats = mots_csv.colonnes - BALLOTS_COLS_PREFIXE;
 
     for (int electeur_i = 0; electeur_i < *nb_electeurs; electeur_i++) {
-        // On travaille en bas de la diagonale
+        // On travaille en bas de la diagonale pour eviter d'evaluer 2 fois les
+        // memes duels
         for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
             int rang_candidat1 = atoi(
                 mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat1_id]);
@@ -222,8 +223,6 @@ void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
             if (rang_candidat1 <= 0)
                 continue;
 
-            // Ainsi on evite d'evaluer 2 fois les memes duels ou d'evaluer les duels
-            // entre un seul candidat (diagonale)
             for (int candidat2_id = 0; candidat2_id < candidat1_id; candidat2_id++) {
                 int rang_candidat2 = atoi(
                     mots_csv.elems[1 + electeur_i][BALLOTS_COLS_PREFIXE + candidat2_id]);
@@ -234,24 +233,25 @@ void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
                     // voit son compteur de votes etre incremente dans la matrice des duels
                     if (rang_candidat1 < rang_candidat2)
                         duels->elems[candidat1_id][candidat2_id]++;
+                    else if (rang_candidat2 < rang_candidat1)
+                        duels->elems[candidat2_id][candidat1_id]++;
                 }
             }
         }
     }
 }
 
-void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs) {
+void convertir_mat_duels_relative(t_mat_int_dyn* duels, int nb_electeurs) {
     // Il y a autant de ligne/colonne que de candidats
     int nb_candidats = duels->dim;
 
     for (int candidat1_id = 0; candidat1_id < nb_candidats; candidat1_id++) {
-        for (int candidat2_id = 0; candidat2_id < candidat1_id; candidat2_id++) {
-            int pourcentage_voix =
-                ((double) duels->elems[candidat1_id][candidat2_id])
-                / nb_electeurs * 100;
+        for (int candidat2_id = 0; candidat2_id < nb_candidats; candidat2_id++) {
+            int nb_victoires = duels->elems[candidat1_id][candidat2_id];
+            // Chaque duel a lieu 1 fois par ballot/par electeur
+            int pourcentage_voix = ((double) nb_victoires) / nb_electeurs * 100;
 
             duels->elems[candidat1_id][candidat2_id] = pourcentage_voix;
-            duels->elems[candidat2_id][candidat1_id] = 100 - pourcentage_voix;
         }
     }
 }
@@ -275,7 +275,7 @@ void creer_mat_duels(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels) {
     // On lit les ballots de vote
     creer_mat_duels_absolue(mots_csv, duels, &nb_electeurs);
     // On calcul l'integralite des pourcentages de voix
-    completer_mat_duels(duels, nb_electeurs);
+    convertir_mat_duels_relative(duels, nb_electeurs);
 }
 
 void premiers_de_ballot(t_tab_int_dyn ballot, t_tab_int_dyn* tetes) {
