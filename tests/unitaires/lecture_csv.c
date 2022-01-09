@@ -292,9 +292,9 @@ static void tester_creer_mat_duels_absolue(
 void creer_mat_duels_absolue_erreurs_ballots() {
     // On s'attend a obtenir cette matrice de duels intermediaire
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        { 0, 0, 0 },
-        { 1, 0, 0 },
-        { 2, 2, 0 }
+        { 0, 0, 1 },
+        { 2, 0, 1 },
+        { 0, 1, 0 }
     };
 
     // On simule avoir lu ce fichier CSV
@@ -302,8 +302,8 @@ void creer_mat_duels_absolue_erreurs_ballots() {
         { "", "", "", "abcd", "A", "B", "C"  }, // En-tete
         { "", "", "", "efgh", "1", "",  "2"  }, // Valeur CSV vide : atoi erreur
         { "", "", "", "ijkl", "3", "2", "-1" }, // Score negatif : erreur
-        { "", "", "", "mnop", "1", "2", "3"  },
-        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+        { "", "", "", "mnop", "3", "2", "3"  },
+        { "", "", "", "qrst", "a", "3", "1" }, // Pas un entier : atoi erreur
     };
     
     tester_creer_mat_duels_absolue(contenu_csv, duels_attendu);
@@ -313,9 +313,9 @@ void creer_mat_duels_absolue_erreurs_ballots() {
 void creer_mat_duels_absolue_csv_bon() {
     // On s'attend a obtenir cette matrice de duels intermediaire
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        { 0, 0, 0 },
-        { 2, 0, 0 },
-        { 3, 2, 0 }
+        { 0, 2, 3 },
+        { 2, 0, 2 },
+        { 1, 2, 0 }
     };
 
     // On simule avoir lu ce fichier CSV
@@ -332,20 +332,20 @@ void creer_mat_duels_absolue_csv_bon() {
 
 
 //
-// completer_mat_duels
+// convertir_mat_duels_relative
 //
 
-void completer_mat_duels_test() {
+void convertir_mat_duels_relative_test() {
     // C'est la matrice de duels intermediaire fournie a la fonction
     int duels_absolus[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        { 0, 0, 0 },
-        { 2, 0, 0 },
+        { 0, 1, 1 }, // Que 3 duels qui ont eu un resultat dans A vs B
+        { 2, 0, 2 },
         { 3, 2, 0 }
     };
 
     // C'est la matrice de duels avec les pourcentages attendus
     int duels_attendus[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        {  0, 50, 25 }, // Tout est passe en % pour 4 electeurs
+        {  0, 25, 25 }, // Tout est passe en % pour 4 electeurs
         { 50,  0, 50 },
         { 75, 50,  0 }
     };
@@ -357,7 +357,7 @@ void completer_mat_duels_test() {
         for (int j = 0; j < NB_CANDIDATS_TEST; j++)
             duels.elems[i][j] = duels_absolus[i][j];
 
-    completer_mat_duels(&duels, 4); // 4 electeurs
+    convertir_mat_duels_relative(&duels, 4); // 4 electeurs
 
     // ...puis on verifie son contenu de sortie
     for (int i = 0; i < NB_CANDIDATS_TEST; i++)
@@ -405,11 +405,11 @@ void creer_mat_duels_nb_colonnes_invalide() {
 // Avec une matrice CSV contenant des ballots CSV valides, avec certains
 // scores illisbles et des egalites
 void creer_mat_duels_ok() {
-    // On s'attend a se resultat pour la matrice de duels
+    // On s'attend a ce resultat pour la matrice de duels
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        {  0, 75, 75 },
-        { 25,  0, 50 },
-        { 25, 50,  0 }
+        {  0, 25, 25 },
+        { 25,  0, 25 },
+        {  0, 50,  0 }
     };
 
     // On simule avoir lu ce fichier CSV
@@ -418,7 +418,7 @@ void creer_mat_duels_ok() {
         { "", "", "", "efgh", "1", "",  "2" }, // Valeur CSV vide : atoi erreur
         { "", "", "", "ijkl", "1", "2", "1" },
         { "", "", "", "mnop", "3", "2", "3" },
-        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+        { "", "", "", "qrst", "a", "3", "2" }, // Pas un entier : atoi erreur
     };
     t_mat_char_star_dyn mots;
     convertir_mat_compatible(5, 4 + NB_CANDIDATS_TEST, contenu_csv, &mots);
@@ -637,7 +637,7 @@ void tests_unitaires_lecture_csv() {
     creer_mat_duels_absolue_erreurs_ballots();
     creer_mat_duels_absolue_csv_bon();
 
-    completer_mat_duels_test();
+    convertir_mat_duels_relative_test();
 
     creer_mat_duels_csv_vide();
     creer_mat_duels_aucun_electeur();

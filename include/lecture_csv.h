@@ -37,16 +37,20 @@ void obtenir_candidats_duels(t_mat_char_star_dyn mots_csv, t_candidats* candidat
 /// \param[out] candidats Liste des candidats participant a l'election contenue dans le fichier CSV. Pointeur NULL et taille -1 en cas d'erreur recuperable
 void obtenir_candidats_ballots(t_mat_char_star_dyn mots_csv, t_candidats* candidats);
 
-/// \fn Obtient une matrice de duels, remplie pour les cases en bas de la diagonale, avec les scores sous forme de nb de voix
+/// \fn Obtient une matrice de duels, contenant dans chaque case le nombre de
+/// duels qu'a gagne le candidat de la ligne contre le candidat de la colonne
 /// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
-/// \param[out] duels Matrice de duels contenant des entiers representant les scores en nb de voix
+/// \param[out] duels Matrice de duels contenant des entiers representant les
+/// scores en nb de victoires de duels
 /// \param[out] nb_electeurs Nombre d'electeurs analyses dans la matrice CSV
 void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels, int* nb_electeurs);
 
-/// \fn Pour chaque duel deja evalue, on passe le score final en % de voix, et on assigne au duel oppose, lui en haut de la diagonale, le % approprie. Exemple : ScoreDe(B vs A) = 100 - ScoreDe(A vs B)
+/// \fn Pour chaque duel case de la matrice, on transforme le nb de victoires
+/// absolue en nb de victoires relatif aux nb de duels <=> nb d'electeurs, puisque
+/// dans chaque ballot il y a un duel pour chaque paire de candidats
 /// \param[inout] duels Matrice de duels contenant les scores absolus, contiendra les scores relatifs en % apres l'appel
 /// \param[in] nb_electeurs Nb de ballots de vote lus dans le fichier CSV
-void completer_mat_duels(t_mat_int_dyn* duels, int nb_electeurs);
+void convertir_mat_duels_relative(t_mat_int_dyn* duels, int nb_electeurs);
 
 /// \fn Obtient une matrice de duels depuis une matrice de ballots CSV (ou liste de ballots)
 /// \param[in] mots_csv Ballots de vote au format CSV lus dans le fichier
