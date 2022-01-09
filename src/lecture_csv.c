@@ -230,9 +230,9 @@ void creer_mat_duels_absolue(t_mat_char_star_dyn mots_csv, t_mat_int_dyn* duels,
 
                 // Meme verification que pour rang_candidat1
                 if (rang_candidat2 > 0) {
-                    // Le candidat ayant le plus gros rang (le candidat prefere a l'autre)
+                    // Le candidat ayant le plus petit rang (le candidat prefere a l'autre)
                     // voit son compteur de votes etre incremente dans la matrice des duels
-                    if (rang_candidat1 > rang_candidat2)
+                    if (rang_candidat1 < rang_candidat2)
                         duels->elems[candidat1_id][candidat2_id]++;
                 }
             }

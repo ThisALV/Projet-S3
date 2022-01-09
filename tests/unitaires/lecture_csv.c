@@ -293,8 +293,8 @@ void creer_mat_duels_absolue_erreurs_ballots() {
     // On s'attend a obtenir cette matrice de duels intermediaire
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
         { 0, 0, 0 },
-        { 1, 0, 0 },
-        { 2, 2, 0 }
+        { 2, 0, 0 },
+        { 0, 1, 0 }
     };
 
     // On simule avoir lu ce fichier CSV
@@ -302,8 +302,8 @@ void creer_mat_duels_absolue_erreurs_ballots() {
         { "", "", "", "abcd", "A", "B", "C"  }, // En-tete
         { "", "", "", "efgh", "1", "",  "2"  }, // Valeur CSV vide : atoi erreur
         { "", "", "", "ijkl", "3", "2", "-1" }, // Score negatif : erreur
-        { "", "", "", "mnop", "1", "2", "3"  },
-        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+        { "", "", "", "mnop", "3", "2", "3"  },
+        { "", "", "", "qrst", "a", "3", "1" }, // Pas un entier : atoi erreur
     };
     
     tester_creer_mat_duels_absolue(contenu_csv, duels_attendu);
@@ -315,7 +315,7 @@ void creer_mat_duels_absolue_csv_bon() {
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
         { 0, 0, 0 },
         { 2, 0, 0 },
-        { 3, 2, 0 }
+        { 1, 2, 0 }
     };
 
     // On simule avoir lu ce fichier CSV
@@ -405,11 +405,11 @@ void creer_mat_duels_nb_colonnes_invalide() {
 // Avec une matrice CSV contenant des ballots CSV valides, avec certains
 // scores illisbles et des egalites
 void creer_mat_duels_ok() {
-    // On s'attend a se resultat pour la matrice de duels
+    // On s'attend a ce resultat pour la matrice de duels
     int duels_attendu[NB_CANDIDATS_TEST][NB_CANDIDATS_TEST] = {
-        {  0, 75, 75 },
-        { 25,  0, 50 },
-        { 25, 50,  0 }
+        {  0, 75, 100 },
+        { 25,  0,  50 },
+        {  0, 50,   0 }
     };
 
     // On simule avoir lu ce fichier CSV
@@ -418,7 +418,7 @@ void creer_mat_duels_ok() {
         { "", "", "", "efgh", "1", "",  "2" }, // Valeur CSV vide : atoi erreur
         { "", "", "", "ijkl", "1", "2", "1" },
         { "", "", "", "mnop", "3", "2", "3" },
-        { "", "", "", "qrst", "a", "1", "3" }, // Pas un entier : atoi erreur
+        { "", "", "", "qrst", "a", "3", "2" }, // Pas un entier : atoi erreur
     };
     t_mat_char_star_dyn mots;
     convertir_mat_compatible(5, 4 + NB_CANDIDATS_TEST, contenu_csv, &mots);
