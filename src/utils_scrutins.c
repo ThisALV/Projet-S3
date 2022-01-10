@@ -16,6 +16,19 @@ static char* module = "utils_scrutins";
 // En cas d'egalite, c'est le premier candidat present dans ce tableau qui
 // gagne
 char* plus_au_moins_age[] = {
+    // Personnages de One Piece
+    "Q00_Vote roi des pirates->Mihawk Dracule",    // 43 ans
+    "Q00_Vote roi des pirates->Shanks le roux",    // 39 ans, 9 mars
+    "Q00_Vote roi des pirates->Baggy le clown",    // 39 ans, 8 aout
+    "Q00_Vote roi des pirates->Boa Hancock",       // 31 ans
+    "Q00_Vote roi des pirates->Trafalgar Law",     // 26 ans
+    "Q00_Vote roi des pirates->Jewelry Bonney",    // 24 ans
+    "Q00_Vote roi des pirates->Sabo dragon claws", // 22 ans
+    "Q00_Vote roi des pirates->Portgas D Ace",     // 20 ans
+    "Q00_Vote roi des pirates->Vivi",              // 18 ans
+    "Q00_Vote roi des pirates->Monkey D Lufy",     // 17 ans
+
+    // Candidats a la presidentielle
     "B", // 70 ans, le 25 mai
     "M", // 70 ans, le 19 aout
     "S", // 66 ans
