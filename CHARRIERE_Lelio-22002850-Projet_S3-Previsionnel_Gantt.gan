@@ -134,7 +134,7 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
             </task>
             <task id="153" name="main (script principal)" color="#8cb6ce" meeting="false" start="2021-12-28" duration="2" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-30" duration="12" complete="75" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
+        <task id="158" name="verifier_mon_vote" color="#ff9933" meeting="false" start="2021-12-30" duration="12" complete="100" thirdDate="2021-11-01" thirdDate-constraint="0" expand="true">
             <task id="480" name="generer_cle_privee" color="#8cb6ce" meeting="false" start="2021-12-30" duration="2" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <notes>
                     <![CDATA[- Le programme peut ne pas être cross-platform, on va donc utiliser le syscall getrandom() de Linux pour avoir des valeurs aléatoires sécurisées
@@ -157,7 +157,12 @@ Tuteur : DUGAT Vincent, vincent.dugat@univ-tlse3.fr]]>
             <task id="451" name="chercher_electeur" color="#8cb6ce" meeting="false" start="2022-01-06" duration="2" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
                 <depend id="457" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="457" name="main (Script principal)" color="#8cb6ce" meeting="false" start="2022-01-08" duration="3" complete="0" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true"/>
+            <task id="457" name="main (Script principal)" color="#8cb6ce" meeting="false" start="2022-01-08" duration="3" complete="100" thirdDate="2021-12-23" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[- Doit supporter un mode chiffrement où l'on se contente de chiffrer les noms du fichier d'entrée.
+]]>
+                </notes>
+            </task>
         </task>
     </tasks>
     <resources>
