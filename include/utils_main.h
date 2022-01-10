@@ -1,4 +1,5 @@
-/// \file Contient les fonctions utilisees dans le script principal du programme,
+/// \file
+/// \brief Contient les fonctions utilisees dans le script principal du programme,
 /// mises dans un module a part afin de pouvoir les tester.
 /// \author Lelio CHARRIERE
 /// \date 28/12/2021
@@ -6,29 +7,29 @@
 #ifndef UTILS_MAIN_H
 #define UTILS_MAIN_H
 
-/// \def Aucune option -d ou -i n'a ete rencontree
+/// \brief Aucune option -d ou -i n'a ete rencontree
 #define ENTREE_AUCUNE_OPTION 0
-/// \def Option -i rencontree
+/// \brief Option -i rencontree
 #define ENTREE_LISTE_BALLOTS 1
-/// \def Option -d rencontree
+/// \brief Option -d rencontree
 #define ENTREE_MATRICE_DUELS 2
 
-/// \def Pas encore d'option rencontree, utilise en interne par le module mais
+/// \brief Pas encore d'option rencontree, utilise en interne par le module mais
 /// ne devrait pas arriver a l'utilisateur
 #define METHODE_NON_ASSIGNEE -1
-/// \def Option all, par defaut
+/// \brief Option all, par defaut
 #define METHODE_TOUTES 0
-/// \def Option uni1
+/// \brief Option uni1
 #define METHODE_UNINOMINALE_UN_TOUR 1
-/// \def Option uni2
+/// \brief Option uni2
 #define METHODE_UNINOMINALE_DEUX_TOURS 2
-/// \def Option cm
+/// \brief Option cm
 #define METHODE_CONDORCET_MINIMAX 3
-/// \def Option cs
+/// \brief Option cs
 #define METHODE_CONDROCET_SCHULZE 4
 
 
-/// \struct Decrit les options donnees au programme interpretees par les foncitons
+/// \brief Decrit les options donnees au programme interpretees par les foncitons
 /// de ce module.
 struct s_parametres {
     /// Option d'entree rencontree (voir les constantes ENTREE_*)

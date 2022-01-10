@@ -1,4 +1,5 @@
-/// \file Fonctions pour exploiter la fonctionnalite de logging dans un fichier
+/// \file
+/// \brief Fonctions pour exploiter la fonctionnalite de logging dans un fichier
 /// de sortie defini a l'echelle du programme. La sortie par defaut est `stdout`.
 /// \author Lelio CHARRIERE
 /// \date 20/12/2021

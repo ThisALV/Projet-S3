@@ -1,3 +1,5 @@
+/// \file
+
 #ifndef UTILS_MAIN_UNITAIRES_H
 #define UTILS_MAIN_UNITAIRES_H
 
@@ -10,7 +12,7 @@ void traiter_parametres_duels();
 void traiter_parametres_duels_fichier_et_methode();
 
 
-/// \fn Execute les tests unitaires pour le module utils_main
+/// \brief Execute les tests unitaires pour le module utils_main
 void tests_unitaires_utils_main();
 
 

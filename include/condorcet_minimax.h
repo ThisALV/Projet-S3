@@ -1,4 +1,6 @@
-/// \file Applique la methode de condorcet, utilise la methode des minimax s'il n'y a aucun vainqueur de Condorcet
+/// \file
+/// \brief Applique la methode de condorcet, utilise la methode des minimax
+/// s'il n'y a aucun vainqueur de Condorcet
 /// \author Lelio CHARRIERE
 /// \date 14/12/2021
 
@@ -8,7 +10,8 @@
 #include <utils_sd.h>
 
 
-/// \brief Determine le vaiqueur de condorcet et, s'il n'y en a pas, departage avec minimax
+/// \brief Determine le vaiqueur de condorcet et, s'il n'y en a pas, departage
+/// avec minimax
 /// \param[in] duels Matrice des duels utilisee pour verifier s'il y a un
 /// vainqueur de condorcet et, si ce n'est pas le cas, quel est le candidat
 /// qui a la moins pire des pires defaites de chaque candidat

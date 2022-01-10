@@ -1,3 +1,5 @@
+/// \file
+
 #ifndef UTILS_SCRUTINS_UNITAIRES_H
 #define UTILS_SCRUTINS_UNITAIRES_H
 
@@ -24,7 +26,7 @@ void vainqueur_condorcet_gagnant();
 void vainqueur_condorcet_aucun_gagnant();
 void vainqueur_condorcet_gagnant_moins_50();
 
-/// \fn Execute toutes les series de tests unitaires pour ce module
+/// \brief Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_scrutin();
 
 

@@ -1,10 +1,15 @@
+/// \file
+/// \brief Fonctions pour faire appel aux methodes de scrutin uninominales.
+/// \date 12/12/2021
+/// \author Lelio CHARRIERE
+
 #ifndef UNINOMINALES_H
 #define UNINOMINALES_H
 
 #include <utils_sd.h>
 
 
-/// \fn Scrutin uninominale a un tour, le candidats prefere de chaque ballot
+/// \brief Scrutin uninominale a un tour, le candidats prefere de chaque ballot
 /// est utilise pour determine qui est choisi par un electeur
 /// \param[in] candidats BDD des candidats, pour acceder a leur infos qui
 /// permettent de les departager en cas d'egalite

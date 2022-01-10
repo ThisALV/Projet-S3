@@ -1,3 +1,5 @@
+/// \file
+
 #ifndef UTILS_VERIFIER_MON_VOTE_INTEGRATION_H
 #define UTILS_VERIFIER_MON_VOTE_INTEGRATION_H
 
@@ -10,7 +12,7 @@ void chiffrer_ballots_votes_nb_colonnes_invalide();
 void chiffrer_ballots_votes_ok();
 
 
-/// \fn Execute les tests d'integration pour le module utils_verifier_mon_vote
+/// \brief Execute les tests d'integration pour le module utils_verifier_mon_vote
 void tests_integration_utils_verifier_mon_vote();
 
 

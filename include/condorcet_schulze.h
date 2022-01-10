@@ -1,5 +1,5 @@
-/// \file Applique la methode de condorcet, utilise la methode de Schulze s'il n'y a aucun vainqueur de Condorcet.
-/// Contient les outils pour construire le graphe necessaire a l'algorithme de la methode de Schulze
+/// \file 
+/// \brief Applique la methode de condorcet, utilise la methode de Schulze s'il n'y a aucun vainqueur de Condorcet. Contient les outils pour construire le graphe necessaire a l'algorithme de la methode de Schulze
 /// \author Lelio CHARRIERE
 /// \date 22/12/2021
 
@@ -9,7 +9,7 @@
 #include <utils_sd.h>
 
 
-/// \struct Point dans un graphe de duels, represente un candidat et les duels qu'il
+/// \brief Point dans un graphe de duels, represente un candidat et les duels qu'il
 /// a perdu
 struct s_point {
     /// ID du candidat represente
@@ -19,7 +19,7 @@ struct s_point {
     t_liste_simple_int defaites_contre;
 } typedef t_point;
 
-/// \struct Graphe des candidats et de leurs duels, chaque point represente un candidat
+/// \brief Graphe des candidats et de leurs duels, chaque point represente un candidat
 /// et chaque arc va d'un candidat gagnant a un candidat perdant pour representer un
 /// duel. La ponderation de l'arc est la difference du % de votes entre les 2 candidats.
 struct s_graphe {
@@ -35,7 +35,7 @@ struct s_graphe {
 } typedef t_graphe;
 
 
-/// \fn Creer un graphe de duels a partir d'une matrice de duels
+/// \brief Creer un graphe de duels a partir d'une matrice de duels
 /// \param[in] candidats Infos sur les candidats utilisees pour les departager en cas
 /// d'egalite sur un duel
 /// \param[in] mat_duels Matrice contenant tous les duels
@@ -43,7 +43,8 @@ struct s_graphe {
 /// des duels
 void creer_graphe_duels(t_candidats candidats, t_mat_int_dyn mat_duels, t_graphe* graphe_duels);
 
-/// \fn Detruit proprement le graphe donnee en desallouant la memoire qui lui est necessaire
+/// \brief Detruit proprement le graphe donnee en desallouant la memoire qui lui
+/// est necessaire
 /// \param[inout] graphe Graphe a desallouer en memoire
 void detruire_graphe_duels(t_graphe* graphe);
 

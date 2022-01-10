@@ -1,4 +1,5 @@
-/// \file Tests unitaires pour le module utils_sd
+/// \file
+/// \brief Tests unitaires pour le module utils_sd
 /// \author CHARRIERE Lelio
 /// \date 21/11/2021
 
@@ -100,7 +101,7 @@ void retirer_premier_t_liste_simple_int_unique_elem();
 void valeur_existe_t_liste_simple_int_trouvee();
 void valeur_existe_t_liste_simple_int_non_trouvee();
 
-/// \fn Execute toutes les series de tests unitaires pour ce module
+/// \brief Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_sd();
 
 

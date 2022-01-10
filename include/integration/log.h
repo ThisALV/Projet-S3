@@ -1,3 +1,5 @@
+/// \file
+
 #ifndef LOG_INTEGRATION_H
 #define LOG_INTEGRATION_H
 
