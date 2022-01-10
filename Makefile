@@ -1,5 +1,5 @@
 # Les fichiers d'en-têtes .h sont rangés dans un répertoire à part "include"
-CFLAGS := -std=c99 -Wall -Wextra -Iinclude/
+CFLAGS := -std=c99 -Wall -Wextra -Iinclude/ -g
 
 # Fonction appelée pour compiler l'exécutable de la target courante et afficher
 # un message à l'utilisateur
@@ -60,6 +60,7 @@ $(executables): %: $(REP_BINAIRES)/%
 # Programme principal : script main.c utilisant les modules
 $(REP_BINAIRES)/scrutin: $(REP_SOURCES)/main.c $(MODULES)
 	$(generer_executable)
+	ln -s $(REP_BINAIRES)/scrutin scrutin
 # Consulation de son ballot de vote : script verifier_mon_vote.c qui utilise
 # des fonctions déjà codées dans les modules programmés
 $(REP_BINAIRES)/verifier_mon_vote: $(REP_SOURCES)/verifier_mon_vote.c $(MODULES)
@@ -88,7 +89,7 @@ $(TESTS_INTEGRATION): $(REP_BINAIRES_INTE)/%.o: $(REP_INTEGRATION)/%.c
 
 # Nettoyer les binaires générés (.o et exécutables)
 clean:
-	rm -rf build/
+	rm -rf build/ scrutin
 # clean est une tâche à effectuer de nouveau à chaque fois que l'utilisateur le
 # demande
 .PHONY: clean
