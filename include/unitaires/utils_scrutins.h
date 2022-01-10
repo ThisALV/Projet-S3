@@ -22,6 +22,7 @@ void vainqueur_uninominale_avec_egalites();
 // vainqueur_condorcet
 void vainqueur_condorcet_gagnant();
 void vainqueur_condorcet_aucun_gagnant();
+void vainqueur_condorcet_gagnant_moins_50();
 
 /// \fn Execute toutes les series de tests unitaires pour ce module
 void tests_unitaires_utils_scrutin();
