@@ -8,6 +8,23 @@
 #include <stdlib.h>
 
 
+// Verifie qu'un tableau des tetes de listes a bien ete construit et sinon,
+// affiche un message expliquant l'erreur qui s'est produite
+void verifier_tetes_de_listes(t_tab_int_dyn* vainqueurs_ballots) {
+    if (vainqueurs_ballots == NULL)
+        erreur_fatale(2, "Il doit y avoir au moins 1 candidat et 1 electeur dans"
+            " la liste des ballots");
+}
+
+// Verifei qu'une matrice des duels a bien ete construite et sinon,
+// affiche un message expliquant l'erreur qui s'est produite
+void verifier_matrice_des_duels(t_mat_int_dyn mat_duels) {
+    if (est_t_mat_int_dyn_erreur(mat_duels))
+        erreur_fatale(2, "Il doit y avori au moins 1 candidat et 1 electeur pour"
+            " construire une matrice des duels");
+}
+
+
 // Detruit proprement un tableau dynamique de t_tab_int_dyn, en detruisant chaque
 // element avec detruire_t_tab_int_dyn() puis en appelant free() sur le tableau
 void detruire_vainqueurs_ballots(t_tab_int_dyn* vainqueurs_ballots, int nb_ballots) {
@@ -48,6 +65,11 @@ void executer_tous_scrutins(t_mat_char_star_dyn mots_csv, t_candidats bdd_candid
     // On construit ces 2 SDD depuis la liste de ballots CSV
     creer_mat_duels(mots_csv, &mat_duels);
     vainqueurs_ballots = tetes_de_listes(mots_csv);
+    
+    // On verifie qu'elles ont bien ete construites, que le fichier CSV n'etait
+    // pas malforme
+    verifier_matrice_des_duels(mat_duels);
+    verifier_tetes_de_listes(vainqueurs_ballots);
 
     int vainqueur_id;
     // On execute toutes les methodes de scrutin, sachant qu'on connait le nb
@@ -72,9 +94,9 @@ void executer_tous_scrutins(t_mat_char_star_dyn mots_csv, t_candidats bdd_candid
 void executer_scrutin_uninominale(t_mat_char_star_dyn mots_csv, t_candidats bdd_candidats, int methode_scrutin) {
     // Les methodes uninominales ont besoin des premiers de chaque ballots
     t_tab_int_dyn* vainqueurs_ballots = tetes_de_listes(mots_csv);
-    // On verifie qu'il n'y ait pas eu d'erreur a la lecture des ballots CSV
-    if (vainqueurs_ballots == NULL)
-        erreur_fatale(2, "Lecture des ballots CSV");
+    // On verifie que le fichier CSV soit bien forme
+    verifier_tetes_de_listes(vainqueurs_ballots);
+
     // Il y a autant de ballots que de ligne -1 puisqu'il faut ignorer l'en-tete
     int nb_ballots = mots_csv.lignes - 1;
 
@@ -115,6 +137,9 @@ void executer_scrutin_condorcet(t_mat_char_star_dyn mots_csv, t_candidats bdd_ca
         nb_votants = mots_csv.lignes - 1; // Autant de votants que de ballots
     }
 
+    // On verifie que le fichier CSV etait conforme au format d'entree demande
+    verifier_matrice_des_duels(mat_duels);
+
     int vainqueur_id;
     char* nom_methode;
     // On execute la methode de scrutin choisie, qui sera condorcet minimax ou Schulze
@@ -145,7 +170,8 @@ int main(int argc, char** argv) {
 
     // Redirection du logging si cela est specifie dans les options du programme
     if (params_scrutin.option_logging != NULL)
-        rediriger_logging_sur(params_scrutin.option_logging);
+        if (!rediriger_logging_sur(params_scrutin.option_logging))
+            fprintf(stderr, "Le logging n'a pas pu etre redirige vers le fichier avec -o\n");
 
     // Est-ce qu'une methode uninominale devra etre executee ?
     bool methode_uninominale =
@@ -175,6 +201,13 @@ int main(int argc, char** argv) {
         obtenir_candidats_ballots(mots_csv, &bdd_candidats);
     else
         obtenir_candidats_duels(mots_csv, &bdd_candidats);
+
+    // Si on a pas pu lire la liste des candidats dans l'en-tete, alors le fichier
+    // CSV est mal forme
+    if (est_t_candidats_erreur(bdd_candidats))
+        erreur_fatale(2, "Impossible de lister les candidats, verifier la presence"
+            " d'une en-tete, contenant suffisamment de colonnes si c'est une"
+            " liste de ballots.");
 
     // Execution de la methode choisie et interpretation du fichier CSV en fonction
     // (ou des methodes si on choisit d'executer toutes les methodes)
