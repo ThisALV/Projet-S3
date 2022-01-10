@@ -233,6 +233,19 @@ void vainqueur_condorcet_gagnant() {
     tester_vainqueur_condorcet(duels, 1);
 }
 
+// Un des candidats gagne tous ses duels mais avec un score parfois < a 50 %
+// car il y a eu des duels que personne n'a gagne
+void vainqueur_condorcet_gagnant_moins_50() {
+    int duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
+        {  0, 20, 59,  1 },
+        { 80,  0, 50, 45 }, // Le 2eme candidat, avec ID=1, gagne tous ses duels
+        { 41, 50,  0, 33 },
+        { 58, 40, 67,  0 }
+    };
+
+    tester_vainqueur_condorcet(duels, 1);
+}
+
 // Aucun des candidats ne gagne tous ses duels
 void vainqueur_condorcet_aucun_gagnant() {
     int duels[NB_CANDIDATS_TESTS][NB_CANDIDATS_TESTS] = {
@@ -264,4 +277,5 @@ void tests_unitaires_utils_scrutin() {
 
     vainqueur_condorcet_gagnant();
     vainqueur_condorcet_aucun_gagnant();
+    vainqueur_condorcet_gagnant_moins_50();
 }

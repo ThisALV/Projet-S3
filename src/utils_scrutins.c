@@ -202,8 +202,10 @@ int vainqueur_uninominale(t_candidats candidats, t_tab_int_dyn* tetes_de_listes,
 
 // Verifie si un candidat a gagne contre un adversaire dans la matrice de duels donnee
 static bool a_gagne_contre(t_mat_int_dyn duels, int candidat_id, int adversaire_id) {
-    // Au moins 50 % des voix contre ce candidat pour respecter le critere de condorcet
-    return duels.elems[candidat_id][adversaire_id] >= 50;
+    int victoires_candidat = duels.elems[candidat_id][adversaire_id];
+    int victoires_adversaire = duels.elems[adversaire_id][candidat_id];
+
+    return victoires_candidat >= victoires_adversaire;
 }
 
 int vainqueur_condorcet(t_mat_int_dyn duels) {
